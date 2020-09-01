@@ -10,6 +10,11 @@ variable "vpc_id" {
   description = "The id of the VPC to create the DB in"
 }
 
+
+variable "password_secret_suffix" {
+  description = "Suffix to add to the secret that will be generated containing the database credentials"
+}
+
 variable "allowed_security_group_id" {
   description = "The security group to allow access"
 }

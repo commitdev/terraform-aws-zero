@@ -26,11 +26,11 @@ module "eks" {
 
   worker_groups = [
     {
-      instance_type         = var.worker_instance_type
-      asg_min_size          = var.worker_asg_min_size
-      asg_desired_capacity  = var.worker_asg_min_size
-      asg_max_size          = var.worker_asg_max_size
-      ami_id                = var.worker_ami
+      instance_type        = var.worker_instance_type
+      asg_min_size         = var.worker_asg_min_size
+      asg_desired_capacity = var.worker_asg_min_size
+      asg_max_size         = var.worker_asg_max_size
+      ami_id               = var.worker_ami
       tags = [
         {
           key                 = "environment"
@@ -54,18 +54,18 @@ module "eks" {
 
   map_roles = [
     {
-      rolearn  = "arn:aws:iam::${var.iam_account_id}:role/<% .Name %>-kubernetes-admin-${var.environment}"
-      username = "<% .Name %>-kubernetes-admin"
+      rolearn  = "arn:aws:iam::${var.iam_account_id}:role/${var.project}-kubernetes-admin-${var.environment}"
+      username = "${var.project}-kubernetes-admin"
       groups   = ["system:masters"]
     },
   ]
   cluster_iam_role_name = "k8s-${var.cluster_name}-cluster"
-  workers_role_name = "k8s-${var.cluster_name}-workers"
+  workers_role_name     = "k8s-${var.cluster_name}-workers"
 
   # Unfortunately fluentd doesn't yet support oidc auth so we need to grant it to the worker nodes
   workers_additional_policies = ["arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"]
 
-  write_kubeconfig      = false
+  write_kubeconfig = false
 
   tags = {
     environment = var.environment

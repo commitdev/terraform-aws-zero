@@ -22,8 +22,8 @@ resource "aws_acm_certificate" "cert" {
   count    = length(var.domain_names)
   provider = aws.custom
 
-  domain_name             = var.domain_names[count.index]
-  validation_method       = "DNS"
+  domain_name       = var.domain_names[count.index]
+  validation_method = "DNS"
 }
 
 # Route53 record to validate the certificate

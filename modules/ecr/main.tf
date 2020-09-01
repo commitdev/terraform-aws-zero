@@ -1,6 +1,6 @@
 resource "aws_ecr_repository" "ecr_repository" {
   for_each = var.ecr_repositories
-  name  = each.value
+  name     = each.value
 
   tags = {
     environment = var.environment
@@ -36,8 +36,8 @@ data "aws_iam_policy_document" "ecr_fullaccess" {
 }
 
 resource "aws_ecr_repository_policy" "default" {
-  for_each    = var.ecr_repositories
-  repository  = each.value
-  policy      = data.aws_iam_policy_document.ecr_fullaccess.json
-  depends_on  = [aws_ecr_repository.ecr_repository]
+  for_each   = var.ecr_repositories
+  repository = each.value
+  policy     = data.aws_iam_policy_document.ecr_fullaccess.json
+  depends_on = [aws_ecr_repository.ecr_repository]
 }

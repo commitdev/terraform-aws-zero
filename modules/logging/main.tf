@@ -15,7 +15,7 @@ module "elasticsearch" {
   instance_type           = var.instance_type
   instance_count          = var.instance_count
   ebs_volume_size         = var.ebs_volume_size_in_gb
-  encrypt_at_rest_enabled = !can(regex("(?i)^(M3|R3|T2)", var.instance_type)) # These previous-generation instance types can't support encryption at rest
+  encrypt_at_rest_enabled = ! can(regex("(?i)^(M3|R3|T2)", var.instance_type)) # These previous-generation instance types can't support encryption at rest
   iam_actions             = ["es:*"]
   iam_role_arns           = ["*"]
 

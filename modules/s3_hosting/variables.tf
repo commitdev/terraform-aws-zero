@@ -8,15 +8,15 @@ variable "environment" {
 
 variable "buckets" {
   description = "S3 hosting buckets"
-  type = set(string)
+  type        = set(string)
 }
 
 variable "certificate_arns" {
   description = "ARN of the certificate we created for the assets domain, keyed by domain"
-  type = map
+  type        = map
 }
 
 variable "route53_zone_id" {
   description = "ID of the Route53 zone to create a record in"
-  type = string
+  type        = string
 }

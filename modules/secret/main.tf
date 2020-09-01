@@ -27,11 +27,11 @@ resource "random_password" "random" {
   keepers = {
     aws_secret = var.name
   }
-  count             = var.type == "random" ? 1 : 0
-  length            = var.random_length
-  special           = true
-  override_special  = "_-+."
-  min_special       = 2
-  min_numeric       = 2
-  min_upper         = 2
+  count            = var.type == "random" ? 1 : 0
+  length           = var.random_length
+  special          = true
+  override_special = "_-+."
+  min_special      = 2
+  min_numeric      = 2
+  min_upper        = 2
 }

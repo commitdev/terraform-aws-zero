@@ -1,7 +1,7 @@
 
 module "rds_security_group" {
-  source      = "terraform-aws-modules/security-group/aws"
-  version     = "3.2.0"
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "3.2.0"
 
   name        = "${var.project}-${var.environment}-rds-sg"
   description = "Security group for RDS DB"
@@ -10,24 +10,24 @@ module "rds_security_group" {
   number_of_computed_ingress_with_source_security_group_id = 1
   computed_ingress_with_source_security_group_id = [
     var.database_engine == "postgres" ? {
-      from_port   = 5432
-      to_port     = 5432
-      protocol    = "tcp"
-      description = "PostgreSQL from EKS"
+      from_port                = 5432
+      to_port                  = 5432
+      protocol                 = "tcp"
+      description              = "PostgreSQL from EKS"
       source_security_group_id = "${var.allowed_security_group_id}"
-    }:{
-      from_port   = 3306
-      to_port     = 3306
-      protocol    = "tcp"
-      description = "MYSQL from EKS"
+      } : {
+      from_port                = 3306
+      to_port                  = 3306
+      protocol                 = "tcp"
+      description              = "MYSQL from EKS"
       source_security_group_id = "${var.allowed_security_group_id}"
     }
   ]
 
-  egress_rules        = ["all-all"]
+  egress_rules = ["all-all"]
 
   tags = {
-    Env  = "${var.environment}"
+    Env = "${var.environment}"
   }
 }
 
@@ -37,7 +37,7 @@ data "aws_caller_identity" "current" {
 # secret declared so secret version waits for rds-secret to be ready
 # or else we often see a AWSDEFAULT VERSION secret not found error
 data "aws_secretsmanager_secret" "rds_master_secret" {
-  name = "${var.project}-${var.environment}-rds-<% index .Params `randomSeed` %>"
+  name = "${var.project}-${var.environment}-rds-${var.password_secret_suffix}"
 }
 
 # RDS does not support secret-manager, have to provide the actual string
@@ -46,7 +46,7 @@ data "aws_secretsmanager_secret_version" "rds_master_secret" {
 }
 
 module "rds_postgres" {
-  count = var.database_engine == "postgres" ? 1 : 0
+  count   = var.database_engine == "postgres" ? 1 : 0
   source  = "terraform-aws-modules/rds/aws"
   version = "2.17.0"
 
@@ -73,20 +73,20 @@ module "rds_postgres" {
 
   # Subnet is created by the vpc module
   create_db_subnet_group = false
-  db_subnet_group_name = "${var.project}-${var.environment}-vpc"
+  db_subnet_group_name   = "${var.project}-${var.environment}-vpc"
 
   # DB parameter and option group
-  family = "postgres11"
+  family               = "postgres11"
   major_engine_version = "11"
 
   final_snapshot_identifier = "final-snapshot"
-  deletion_protection = true
+  deletion_protection       = true
 
   # Enhanced monitoring
   performance_insights_enabled = true
-  create_monitoring_role = true
-  monitoring_role_name = "${var.project}-${var.environment}-rds-postgres-monitoring-role"
-  monitoring_interval = "30"
+  create_monitoring_role       = true
+  monitoring_role_name         = "${var.project}-${var.environment}-rds-postgres-monitoring-role"
+  monitoring_interval          = "30"
 
   tags = {
     Name = "${var.project}-${var.environment}-rds-postgres"
@@ -96,7 +96,7 @@ module "rds_postgres" {
 }
 
 module "rds_mysql" {
-  count = var.database_engine == "mysql" ? 1 : 0
+  count   = var.database_engine == "mysql" ? 1 : 0
   source  = "terraform-aws-modules/rds/aws"
   version = "2.17.0"
 
@@ -123,14 +123,14 @@ module "rds_mysql" {
 
   # Subnet is created by the vpc module
   create_db_subnet_group = false
-  db_subnet_group_name = "${var.project}-${var.environment}-vpc"
+  db_subnet_group_name   = "${var.project}-${var.environment}-vpc"
 
   # DB parameter and option group
-  family = "mysql5.7"
+  family               = "mysql5.7"
   major_engine_version = "5.7"
 
   final_snapshot_identifier = "final-snapshot"
-  deletion_protection = true
+  deletion_protection       = true
 
   # Enhanced monitoring
   # Seems like mysql doesnt have performance insight on this instance size
@@ -141,9 +141,9 @@ module "rds_mysql" {
   # db.t2.micro, db.t2.small, db.t3.micro, db.t3.small,
   # all db.m6g instance classes, and all db.r6g instance classes.
   performance_insights_enabled = false
-  create_monitoring_role = true
-  monitoring_role_name = "${var.project}-${var.environment}-rds-mysql-monitoring-role"
-  monitoring_interval = "30"
+  create_monitoring_role       = true
+  monitoring_role_name         = "${var.project}-${var.environment}-rds-mysql-monitoring-role"
+  monitoring_interval          = "30"
 
   tags = {
     Name = "${var.project}-${var.environment}-rds-postgres"

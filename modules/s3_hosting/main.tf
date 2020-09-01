@@ -65,19 +65,19 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
 
   // origin is where CloudFront gets its content from.
   origin {
-      domain_name = aws_s3_bucket.client_assets[each.value].bucket_domain_name
-      origin_id   = local.assets_access_identity
-      s3_origin_config {
-        origin_access_identity = aws_cloudfront_origin_access_identity.client_assets.cloudfront_access_identity_path
-      }
+    domain_name = aws_s3_bucket.client_assets[each.value].bucket_domain_name
+    origin_id   = local.assets_access_identity
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.client_assets.cloudfront_access_identity_path
     }
+  }
 
   // for single page applications, we need to respond with the index if file is missing
   custom_error_response {
-    error_code = 404
-    response_code = 200
+    error_code            = 404
+    response_code         = 200
     error_caching_min_ttl = 0
-    response_page_path = "/index.html"
+    response_page_path    = "/index.html"
   }
 
   enabled             = true
@@ -115,23 +115,23 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
 
   # Use our cert
   viewer_certificate {
-      acm_certificate_arn      = var.certificate_arns[each.value]
-      minimum_protocol_version = "TLSv1"
-      ssl_support_method       = "sni-only"
-    }
+    acm_certificate_arn      = var.certificate_arns[each.value]
+    minimum_protocol_version = "TLSv1"
+    ssl_support_method       = "sni-only"
+  }
 }
 
 locals {
   # Find buckets that are the domain apex. These need to have A ALIAS records.
   rootDomainBuckets = [
-    for bucket in var.buckets:
-      bucket if length(regexall("\\.", bucket)) == 1
+    for bucket in var.buckets :
+    bucket if length(regexall("\\.", bucket)) == 1
   ]
 
   # Find buckets that are subdomains. These can have CNAME records.
   subDomainBuckets = [
-    for bucket in var.buckets:
-      bucket if length(regexall("\\.", bucket)) > 1
+    for bucket in var.buckets :
+    bucket if length(regexall("\\.", bucket)) > 1
   ]
 
 }
