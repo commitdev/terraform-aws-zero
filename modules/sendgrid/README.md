@@ -1,13 +1,13 @@
 # Sendgrid
 
-Authenticates domain with sendgrid, assumes CNAME required are provided in variables
+Authenticates your domain with sendgrid, assumes Sendgrid API key is available in secret-manager
 
 ## Notes
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
-Assumes domain is already awaiting authentication, this created the route53 entries
-then POSTs to verify domain via sendgrid api.
+Api key to be stored in AWS secret manager
+HostedZone to be properly configured as root of domain in Route53
 
 ## Providers
 
@@ -19,10 +19,8 @@ then POSTs to verify domain via sendgrid api.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| sendgrid_api_key_secret_name | Sendgrid API Key stored in secret manager  | `string` | n/a | yes |
 | zone_name | Route53 zone name | `string` | n/a | yes |
-| cnames |  | `list(tuple([string, string]))` [record name, value] | `[]` | yes |
-| domain_id | The environment (dev/staging/prod) | `string` | n/a | yes |
+| sendgrid_api_key_secret_name | Sendgrid API Key stored in secret manager  | `string` | n/a | yes |
 
 ## Outputs
 
