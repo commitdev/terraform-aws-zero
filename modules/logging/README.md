@@ -33,6 +33,9 @@ No requirements.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| elasticsearch\_endpoint | The internal hostname used to connect to Elasticsearch |
+| kibana\_endpoint | The URL used to connect to kibana (not including the https scheme) |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -7,9 +7,7 @@ Create a VPC for a specific environment, all other resources will be created ins
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| terraform | >= 0.13 |
+No requirements.
 
 ## Providers
 

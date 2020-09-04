@@ -7,9 +7,7 @@ Create an S3 bucket and Cloudfront distribution for holding frontend application
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| terraform | >= 0.13 |
+No requirements.
 
 ## Providers
 

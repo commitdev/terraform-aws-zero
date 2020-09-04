@@ -7,9 +7,7 @@ Create an RDS database.
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| terraform | >= 0.13 |
+No requirements.
 
 ## Providers
 
@@ -32,6 +30,8 @@ Create an RDS database.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| database\_endpoint | The internal hostname used to connect to the database |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
