@@ -31,7 +31,7 @@ data "external" "sendgrid_route53_cnames" {
   program = ["sh", "${path.module}/sendgrid-external-datasource.sh"]
   query = {
     sendgrid_api_key = data.aws_secretsmanager_secret_version.sendgrid_api_key_secret.secret_string
-    sendgrid_domain = "${var.sendgrid_domain_prefix}${var.zone_name}"
+    sendgrid_domain  = "${var.sendgrid_domain_prefix}${var.zone_name}"
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_route53_record" "dns" {
   ttl             = 300
 }
 
-resource "null_resource" "domain_verification"{
+resource "null_resource" "domain_verification" {
   triggers = {
     domain_id = data.external.sendgrid_route53_cnames.result.domain_id
   }

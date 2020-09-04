@@ -1,14 +1,14 @@
 variable "zone_name" {
   description = "route53 zone for CNAME records to be created"
-  type = string
+  type        = string
 }
 
 variable "sendgrid_api_key_secret_name" {
-  description = "api_key for sendgrid api, used to authenticate domain once route53 records are created"
+  description = "name of the secret in AWS secret manager that contains the sendgrid API key"
 }
 
 variable "sendgrid_domain_prefix" {
   description = "prefix for mailing domain used by sendgrid"
-  type = string
-  default = "mail."
+  type        = string
+  default     = "mail."
 }
