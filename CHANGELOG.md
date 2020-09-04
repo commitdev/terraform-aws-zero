@@ -2,6 +2,10 @@
 <a name="v0.0.2"></a>
 ## [v0.0.2](https://github.com/commitdev/terraform-aws-zero/compare/v0.0.1...v0.0.2) (2020-09-04)
 
+### Enhancements
+
+* Auto changelog management, add documentation and contribution guidelines ([#3](https://github.com/commitdev/terraform-aws-zero/issues/3))
+
 
 <a name="v0.0.1"></a>
 ## v0.0.1 (2020-08-31)
