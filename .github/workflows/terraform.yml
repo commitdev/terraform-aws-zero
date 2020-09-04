@@ -23,7 +23,7 @@ jobs:
       id: init
       run: |
         for dir in modules/* ; do
-          cd $dir && terraform init -backend=false && cd ../..
+          pushd $dir && terraform init -backend=false && popd
         done
 
     - name: Terraform Validate
@@ -32,7 +32,7 @@ jobs:
         # Not used, but necessary as some sub-modules reference it.
         export AWS_REGION=us-east-1
         for dir in modules/* ; do
-          pushd $dir && terraform validate -no-color && cd ../..
+          pushd $dir && terraform validate -no-color && popd
         done
 
 
