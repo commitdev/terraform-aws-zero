@@ -7,8 +7,10 @@ This implementation relies on a bash-script to fetch the CNAMEs required for sen
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
-
-No requirements.
+- jq
+- curl	No requirements.
+- Api key to be stored in AWS secret manager
+- HostedZone to be properly configured as root of domain in Route53
 
 ## Providers
 
