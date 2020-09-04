@@ -7,7 +7,9 @@ Create an Elasticsearch cluster using AWS Elasticsearch for storing log data.
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| terraform | >= 0.13 |
 
 ## Providers
 

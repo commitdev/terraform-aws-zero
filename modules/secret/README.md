@@ -7,7 +7,9 @@ Create a secret using AWS Secret Manager.
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| terraform | >= 0.13 |
 
 ## Providers
 
