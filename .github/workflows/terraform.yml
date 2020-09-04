@@ -6,10 +6,6 @@ on:
     - master
   pull_request:
 
-defaults:
-  run:
-    working-directory: .
-
 jobs:
   terraform:
     name: 'Terraform'
@@ -26,19 +22,15 @@ jobs:
     - name: Terraform Init
       id: init
       run: |
-        ls
-        pwd
         for dir in modules/* ; do
-          terraform init -backend=false $d
+          terraform init -backend=false $dir
         done
 
     - name: Terraform Validate
       id: validate
       run: |
-        ls
-        pwd
         for dir in modules/* ; do
-          terraform validate -no-color $d
+          terraform validate -no-color $dir
         done
 
 
