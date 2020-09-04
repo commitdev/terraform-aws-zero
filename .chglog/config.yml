@@ -1,0 +1,40 @@
+style: github
+template: CHANGELOG.tpl.md
+info:
+  title: CHANGELOG
+  repository_url: https://github.com/commitdev/terraform-aws-zero
+options:
+  commits:
+    filters:
+      Type:
+        - feat
+        - fix
+        - improvement
+        - docs
+        - refactor
+        - test
+        - ci
+  commit_groups:
+    # title_maps:
+    #   feat: Features
+    #   fix: Bug Fixes
+    #   perf: Performance Improvements
+    #   refactor: Code Refactoring
+  commit_groups:
+    group_by: Type
+    sort_by: Type
+    title_maps:
+      feat: New Features
+      fix: Bug Fixes
+      improvement: Enhancements
+      docs: Documentation
+      refactor: Refactoring
+      ci: CI / Testing
+  header:
+    pattern: "^(\\w*)\\:\\s(.*)$"
+    pattern_maps:
+      - Type
+      - Subject
+  notes:
+    keywords:
+      - BREAKING CHANGE
