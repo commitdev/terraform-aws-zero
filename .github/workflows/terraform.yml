@@ -29,6 +29,8 @@ jobs:
     - name: Terraform Validate
       id: validate
       run: |
+        # Not used, but necessary as some sub-modules reference it.
+        export AWS_REGION=us-east-1
         for dir in modules/* ; do
           terraform validate -no-color $dir
         done
