@@ -6,6 +6,9 @@ on:
     - master
   pull_request:
 
+defaults:
+  run:
+    working-directory: .
 
 jobs:
   terraform:
@@ -23,6 +26,8 @@ jobs:
     - name: Terraform Init
       id: init
       run: |
+        ls
+        pwd
         for dir in modules/* ; do
           terraform init -backend=false $d
         done
@@ -30,6 +35,8 @@ jobs:
     - name: Terraform Validate
       id: validate
       run: |
+        ls
+        pwd
         for dir in modules/* ; do
           terraform validate -no-color $d
         done
@@ -43,8 +50,6 @@ jobs:
           const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
           #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
           #### Terraform Validation 🤖${{ steps.validate.outputs.stdout }}
-
-          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
           github.issues.createComment({
             issue_number: context.issue.number,
