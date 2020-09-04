@@ -32,6 +32,8 @@ Create an RDS database.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| database\_endpoint | The internal hostname used to connect to the database |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

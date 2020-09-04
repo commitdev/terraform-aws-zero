@@ -7,7 +7,9 @@ Create an Elasticsearch cluster using AWS Elasticsearch for storing log data.
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| terraform | >= 0.13 |
 
 ## Providers
 
@@ -33,6 +35,9 @@ No requirements.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| elasticsearch\_endpoint | The internal hostname used to connect to Elasticsearch |
+| kibana\_endpoint | The URL used to connect to kibana (not including the https scheme) |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

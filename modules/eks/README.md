@@ -10,7 +10,6 @@ Create a Kubernetes cluster using EKS.
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| kubernetes | ~> 1.11 |
 
 ## Providers
 
