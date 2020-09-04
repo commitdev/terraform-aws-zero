@@ -3,11 +3,14 @@
 Authenticates your domain with sendgrid, assumes Sendgrid API key is available in secret-manager
 
 ## Notes
+This implementation relies on a bash-script to fetch the CNAMEs required for sendgrid domain authentication, the bashscript must be implemented in an idempotent way where it always returns the same result for terraform state.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
-Api key to be stored in AWS secret manager
-HostedZone to be properly configured as root of domain in Route53
+- jq
+- curl
+- Api key to be stored in AWS secret manager
+- HostedZone to be properly configured as root of domain in Route53
 
 ## Providers
 
