@@ -1,4 +1,12 @@
 
+<a name="v0.0.3"></a>
+## [v0.0.3](https://github.com/commitdev/terraform-aws-zero/compare/v0.0.2...v0.0.3) (2020-09-11)
+
+### New Features
+
+* Add support for signed url downloads ([#4](https://github.com/commitdev/terraform-aws-zero/issues/4))
+
+
 <a name="v0.0.2"></a>
 ## [v0.0.2](https://github.com/commitdev/terraform-aws-zero/compare/v0.0.1...v0.0.2) (2020-09-04)
 
@@ -18,4 +26,3 @@
 
 * Merge pull request [#60](https://github.com/commitdev/terraform-aws-zero/issues/60) from commitdev/terraform013
 * Merge pull request [#50](https://github.com/commitdev/terraform-aws-zero/issues/50) from commitdev/remove-policy-naming-conflicts
-
