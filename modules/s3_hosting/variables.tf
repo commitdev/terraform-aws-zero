@@ -20,3 +20,9 @@ variable "route53_zone_id" {
   description = "ID of the Route53 zone to create a record in"
   type        = string
 }
+
+variable "cf_signed_downloads" {
+  type        = bool
+  description = "Enable Cloudfront signed URLs"
+  default     = false
+}
