@@ -26,8 +26,8 @@ locals {
 # Create users and groups with polcy for AWS resource access
 resource "aws_iam_group" "access_group" {
   count = length(var.roles)
-  name = var.roles[count.index].name
-  path = "/users/"
+  name  = var.roles[count.index].name
+  path  = "/users/"
 }
 
 resource "aws_iam_policy" "access_group" {
