@@ -43,6 +43,7 @@ variable "iam_account_id" {
   description = "Account ID of the current IAM user"
 }
 
-variable "iam_role_arns" {
-  description = "IAM roles with arn"
+variable "iam_role_mapping" {
+  type        = list(map(string))
+  description = "List of mappings of users to roles"
 }
