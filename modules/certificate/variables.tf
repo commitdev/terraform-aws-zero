@@ -1,7 +1,3 @@
-variable "region" {
-  description = "The AWS region"
-}
-
 variable "zone_name" {
   description = "Domains of the Route53 hosted zone"
   type        = string
