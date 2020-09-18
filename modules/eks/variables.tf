@@ -44,6 +44,9 @@ variable "iam_account_id" {
 }
 
 variable "iam_role_mapping" {
-  type        = list(map(string))
+  type = list(object({
+    name = string
+    arn  = string
+  }))
   description = "List of mappings of users to roles"
 }

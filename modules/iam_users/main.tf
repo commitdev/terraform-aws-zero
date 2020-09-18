@@ -1,25 +1,11 @@
 # IAM User via assume role for EKS related service access
 locals {
-  users = [
-    for u in var.iam_users : {
-      name  = u[0]
-      roles = u[1]
-    }
-  ]
-
-  roles = [
-    for r in var.iam_roles : {
-      name   = r[0]
-      policy = r[1]
-    }
-  ]
-
   role_users = [
-    for r in local.roles : {
+    for r in var.iam_roles : {
       name   = r.name
       policy = r.policy
       users = [
-        for u in local.users :
+        for u in var.iam_users :
         u.name if contains(u.roles, r.name)
       ]
     }
@@ -38,11 +24,11 @@ locals {
 
 # Create users
 resource "aws_iam_user" "access_user" {
-  count = length(local.users)
-  name  = "${var.project}-${local.users[count.index].name}"
+  count = length(var.iam_users)
+  name  = "${var.project}-${var.iam_users[count.index].name}"
 
   tags = {
-    roles = join("/", local.users[count.index].roles)
+    roles = join("/", var.iam_users[count.index].roles)
   }
 }
 
