@@ -30,7 +30,7 @@ locals {
       name = r.name
       user_arns = [
         for u in aws_iam_user.access_user :
-          u.arn if contains(r.users, trimprefix(u.name, "${var.project}-"))
+        u.arn if contains(r.users, trimprefix(u.name, "${var.project}-"))
       ]
     }
   ]

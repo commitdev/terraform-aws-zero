@@ -25,6 +25,7 @@ Create a Kubernetes cluster using EKS.
 | cluster\_version | EKS cluster version number to use. Incrementing this will start a cluster upgrade | `any` | n/a | yes |
 | environment | The environment (development/staging/production) | `any` | n/a | yes |
 | iam\_account\_id | Account ID of the current IAM user | `any` | n/a | yes |
+| iam\_role\_arns | IAM roles with arn | `any` | n/a | yes |
 | private\_subnets | VPC subnets for the EKS cluster | `any` | n/a | yes |
 | project | Name of the project | `any` | n/a | yes |
 | vpc\_id | VPC ID for EKS cluster | `any` | n/a | yes |
