@@ -45,13 +45,20 @@ module "eks" {
     },
   ]
 
-  map_roles = [
-    {
+  map_roles = concat(
+    [{
       rolearn  = "arn:aws:iam::${var.iam_account_id}:role/${var.project}-kubernetes-admin-${var.environment}"
-      username = "${var.project}-kubernetes-admin"
+      username = "${var.project}-kubernetes-admin-${var.environment}"
       groups   = ["system:masters"]
-    },
-  ]
+    }],
+    [
+      for r in var.iam_role_arns: {
+        rolearn  = r.arn
+        username = r.name
+        groups   = [r.name]
+      }
+    ]
+  )
   cluster_iam_role_name = "k8s-${var.cluster_name}-cluster"
   workers_role_name     = "k8s-${var.cluster_name}-workers"
 
