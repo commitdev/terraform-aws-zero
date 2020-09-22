@@ -1,20 +1,30 @@
 locals {
-  assets_access_identity = "${var.project}-${var.environment}-client-assets"
+  assets_access_identity = "${var.project}-${var.environment}-client-assets-${var.domain}"
+
+  allDomains = concat([var.domain], var.aliases)
+
+  # Find buckets that are the domain apex. These need to have A ALIAS records.
+  rootDomains = [
+    for domain in local.allDomains :
+    domain if length(regexall("\\.", domain)) == 1
+  ]
+
+  # Find buckets that are subdomains. These can have CNAME records.
+  subDomains = [
+    for domain in local.allDomains :
+    domain if length(regexall("\\.", domain)) > 1
+  ]
 }
 
 resource "aws_s3_bucket" "client_assets" {
-  for_each = var.buckets
-
   // Our bucket's name is going to be the same as our site's domain name.
-  bucket = each.value
+  bucket = var.domain
   acl    = "private" // The contents will be available through cloudfront, they should not be accessible publicly
 }
 
 # Deny public access to this bucket
 resource "aws_s3_bucket_public_access_block" "client_assets" {
-  for_each = var.buckets
-
-  bucket                  = aws_s3_bucket.client_assets[each.value].id
+  bucket                  = aws_s3_bucket.client_assets.id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
@@ -28,11 +38,9 @@ resource "aws_cloudfront_origin_access_identity" "client_assets" {
 
 # Policy to allow CF access to S3
 data "aws_iam_policy_document" "assets_origin" {
-  for_each = var.buckets
-
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.client_assets[each.value].id}/*"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.client_assets.id}/*"]
 
     principals {
       type        = "AWS"
@@ -42,7 +50,7 @@ data "aws_iam_policy_document" "assets_origin" {
 
   statement {
     actions   = ["s3:ListBucket"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.client_assets[each.value].id}"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.client_assets.id}"]
 
     principals {
       type        = "AWS"
@@ -53,19 +61,15 @@ data "aws_iam_policy_document" "assets_origin" {
 
 # Attach the policy to the bucket
 resource "aws_s3_bucket_policy" "client_assets" {
-  for_each = var.buckets
-
-  bucket = aws_s3_bucket.client_assets[each.value].id
-  policy = data.aws_iam_policy_document.assets_origin[each.value].json
+  bucket = aws_s3_bucket.client_assets.id
+  policy = data.aws_iam_policy_document.assets_origin.json
 }
 
 # Create the cloudfront distribution
 resource "aws_cloudfront_distribution" "client_assets_distribution" {
-  for_each = var.buckets
-
   // origin is where CloudFront gets its content from.
   origin {
-    domain_name = aws_s3_bucket.client_assets[each.value].bucket_domain_name
+    domain_name = aws_s3_bucket.client_assets.bucket_domain_name
     origin_id   = local.assets_access_identity
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.client_assets.cloudfront_access_identity_path
@@ -104,9 +108,7 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
     }
   }
 
-  aliases = [
-    each.value,
-  ]
+  aliases = local.allDomains
 
   restrictions {
     geo_restriction {
@@ -116,49 +118,36 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
 
   # Use our cert
   viewer_certificate {
-    acm_certificate_arn      = var.certificate_arns[each.value]
+    acm_certificate_arn      = var.certificate_arn
     minimum_protocol_version = "TLSv1"
     ssl_support_method       = "sni-only"
   }
-}
 
-locals {
-  # Find buckets that are the domain apex. These need to have A ALIAS records.
-  rootDomainBuckets = [
-    for bucket in var.buckets :
-    bucket if length(regexall("\\.", bucket)) == 1
-  ]
-
-  # Find buckets that are subdomains. These can have CNAME records.
-  subDomainBuckets = [
-    for bucket in var.buckets :
-    bucket if length(regexall("\\.", bucket)) > 1
-  ]
-
+  depends_on = [var.certificate_validation]
 }
 
 # Root domains to point at CF
 resource "aws_route53_record" "client_assets_root" {
-  count = length(local.rootDomainBuckets)
+  count = length(local.rootDomains)
 
   zone_id = var.route53_zone_id
-  name    = local.rootDomainBuckets[count.index]
+  name    = local.rootDomains[count.index]
   type    = "A"
 
   alias {
-    name                   = aws_cloudfront_distribution.client_assets_distribution[local.rootDomainBuckets[count.index]].domain_name
-    zone_id                = aws_cloudfront_distribution.client_assets_distribution[local.rootDomainBuckets[count.index]].hosted_zone_id
+    name                   = aws_cloudfront_distribution.client_assets_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.client_assets_distribution.hosted_zone_id
     evaluate_target_health = false
   }
 }
 
 # Subdomains to point at CF
 resource "aws_route53_record" "client_assets_subdomain" {
-  count = length(local.subDomainBuckets)
+  count = length(local.subDomains)
 
   zone_id = var.route53_zone_id
-  name    = local.subDomainBuckets[count.index]
+  name    = local.subDomains[count.index]
   type    = "CNAME"
   ttl     = "120"
-  records = [aws_cloudfront_distribution.client_assets_distribution[local.subDomainBuckets[count.index]].domain_name]
+  records = [aws_cloudfront_distribution.client_assets_distribution.domain_name]
 }

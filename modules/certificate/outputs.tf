@@ -3,12 +3,12 @@ output "route53_zone_id" {
   value       = data.aws_route53_zone.public.zone_id
 }
 
-output "certificate_arns" {
-  description = "The ARNs of the created certificates, keyed by domain name"
-  value       = zipmap(aws_acm_certificate.cert[*].domain_name, aws_acm_certificate.cert[*].arn)
+output "certificate_arn" {
+  description = "The ARN of the created certificate"
+  value       = aws_acm_certificate.cert.arn
 }
 
-output "certificate_validations" {
-  description = "The ids of the certificate validations. Provided as a dependency so dependents can wait until the cert is actually valid"
-  value       = aws_acm_certificate_validation.cert[*].id
+output "certificate_validation" {
+  description = "The id of the certificate validation. Provided as a dependency so dependents can wait until the cert is actually valid"
+  value       = aws_acm_certificate_validation.cert.id
 }
