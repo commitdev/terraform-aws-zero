@@ -4,6 +4,8 @@ Create and validate ACM certificates.
 
 ## Notes
 
+This module requires an aws provider in the **us-east-1** region to be passed in if the certificate is being used for CloudFront.
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
