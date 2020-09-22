@@ -4,6 +4,8 @@ Create and validate ACM certificates.
 
 ## Notes
 
+This module requires an aws provider in the **us-east-1** region to be passed in if the certificate is being used for CloudFront.
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
@@ -16,14 +18,12 @@ Create and validate ACM certificates.
 | Name | Version |
 |------|---------|
 | aws | n/a |
-| aws.custom | n/a |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | domain\_names | Domains to create an ACM Cert for | `list(string)` | n/a | yes |
-| region | The AWS region | `any` | n/a | yes |
 | zone\_name | Domains of the Route53 hosted zone | `string` | n/a | yes |
 
 ## Outputs
