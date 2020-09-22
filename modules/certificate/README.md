@@ -22,7 +22,8 @@ Create and validate ACM certificates.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| domain\_names | Domains to create an ACM Cert for | `list(string)` | n/a | yes |
+| alternative\_names | Alternative names to allow for this certificate | `list(string)` | n/a | yes |
+| domain\_name | Domain to create an ACM Cert for | `string` | n/a | yes |
 | region | The AWS region | `any` | n/a | yes |
 | zone\_name | Domains of the Route53 hosted zone | `string` | n/a | yes |
 

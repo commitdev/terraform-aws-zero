@@ -24,6 +24,10 @@ resource "aws_acm_certificate" "cert" {
 
   domain_name       = var.domain_names[count.index]
   validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # Route53 record to validate the certificate
