@@ -3,17 +3,22 @@ variable "project" {
 }
 
 variable "environment" {
-  description = "The environment (dev/staging/prod)"
+  description = "The environment (dev/stage/prod)"
 }
 
-variable "buckets" {
-  description = "S3 hosting buckets"
-  type        = set(string)
+variable "domain" {
+  description = "Domain to host content for. This will be the name of the bucket"
+  type        = string
 }
 
-variable "certificate_arns" {
-  description = "ARN of the certificate we created for the assets domain, keyed by domain"
-  type        = map
+variable "aliases" {
+  description = "Additional domains that this cloudfront distribution will serve traffic for"
+  type        = list(string)
+}
+
+variable "certificate_arn" {
+  description = "ARN of the certificate to use for this cloudfront distribution"
+  type        = string
 }
 
 variable "route53_zone_id" {
