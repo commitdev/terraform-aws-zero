@@ -1,5 +1,5 @@
 locals {
-  assets_access_identity = "${var.project}-${var.environment}-client-assets"
+  assets_access_identity = "${var.project}-${var.environment}-client-assets-${var.domain}"
 
   allDomains = concat([var.domain], var.aliases)
 
