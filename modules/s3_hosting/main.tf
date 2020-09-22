@@ -108,9 +108,7 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
     }
   }
 
-  aliases = [
-    local.allDomains,
-  ]
+  aliases = local.allDomains
 
   restrictions {
     geo_restriction {
@@ -124,6 +122,8 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
     minimum_protocol_version = "TLSv1"
     ssl_support_method       = "sni-only"
   }
+
+  depends_on = [var.certificate_validation]
 }
 
 # Root domains to point at CF

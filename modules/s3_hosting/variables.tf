@@ -21,6 +21,11 @@ variable "certificate_arn" {
   type        = string
 }
 
+variable "certificate_validation" {
+  description = "Id of the certificate validation record for the provided cert. Used to create a dependency so we don't use the cert before it is ready"
+  type        = string
+}
+
 variable "route53_zone_id" {
   description = "ID of the Route53 zone to create a record in"
   type        = string
