@@ -15,4 +15,5 @@ variable "domain_name" {
 variable "alternative_names" {
   description = "Alternative names to allow for this certificate"
   type        = list(string)
+  default     = []
 }
