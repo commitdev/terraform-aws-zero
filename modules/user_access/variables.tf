@@ -8,10 +8,11 @@ variable "environment" {
 
 variable "roles" {
   type = list(object({
-    name   = string
-    policy = string
+    name         = string
+    aws_policy   = string
+    k8s_policies = list(map(list(string)))
   }))
-  description = "Role list with policy"
+  description = "Role list with policies"
 }
 
 variable "users" {
@@ -19,5 +20,5 @@ variable "users" {
     name  = string
     roles = list(string)
   }))
-  description = "User list with multiple roles granted"
+  description = "User list with roles"
 }
