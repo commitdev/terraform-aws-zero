@@ -61,8 +61,9 @@ data "aws_iam_policy_document" "assets_origin" {
 
 # Attach the policy to the bucket
 resource "aws_s3_bucket_policy" "client_assets" {
-  bucket = aws_s3_bucket.client_assets.id
-  policy = data.aws_iam_policy_document.assets_origin.json
+  depends_on = [aws_cloudfront_distribution.client_assets_distribution]
+  bucket     = aws_s3_bucket.client_assets.id
+  policy     = data.aws_iam_policy_document.assets_origin.json
 }
 
 # Create the cloudfront distribution
