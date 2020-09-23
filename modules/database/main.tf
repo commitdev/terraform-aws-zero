@@ -69,7 +69,7 @@ module "rds_postgres" {
   backup_window      = "03:00-06:00"
 
   # disable backups to create DB faster in non-production environments
-  backup_retention_period = var.environment == "production" ? 30 : 0
+  backup_retention_period = var.environment == "prod" ? 30 : 0
 
   # Subnet is created by the vpc module
   create_db_subnet_group = false
@@ -119,7 +119,7 @@ module "rds_mysql" {
   backup_window      = "03:00-06:00"
 
   # disable backups to create DB faster in non-production environments
-  backup_retention_period = var.environment == "production" ? 30 : 0
+  backup_retention_period = var.environment == "prod" ? 30 : 0
 
   # Subnet is created by the vpc module
   create_db_subnet_group = false
