@@ -19,20 +19,19 @@ resource "aws_acm_certificate" "cert" {
   }
 }
 
-locals {
-  # Change this from a set to a list so we can iterate on it.
-  # for_each was not working properly on initial creation
-  # https://github.com/terraform-providers/terraform-provider-aws/issues/14447
-  validation_records = tolist(aws_acm_certificate.cert.domain_validation_options)
-}
-
-# # Route53 record to validate the certificate
+# Route53 record to validate the certificate
 resource "aws_route53_record" "cert_validation_record" {
-  count = length(local.validation_records)
+  for_each = {
+    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
 
-  name            = local.validation_records[count.index].resource_record_name
-  records         = [local.validation_records[count.index].resource_record_value]
-  type            = local.validation_records[count.index].resource_record_type
+  name            = each.value.name
+  records         = [each.value.record]
+  type            = each.value.type
   allow_overwrite = true
   zone_id         = data.aws_route53_zone.public.zone_id
   ttl             = 300
