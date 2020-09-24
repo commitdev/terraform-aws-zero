@@ -5,6 +5,8 @@
 ### Bug Fixes
 
 * Environment check was looking for the wrong string when enabling backups ([#9](https://github.com/commitdev/terraform-aws-zero/issues/9))
+* Bump external module versions in database and logging modules to allow support for AWS provider version 3
+
 
 ### Enhancements
 
