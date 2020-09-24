@@ -1,6 +1,6 @@
-# eks
+# user_access
 
-Create a Kubernetes cluster using EKS.
+Create IAM Roles/Groups and Kubernetes Cluster Roles for user access
 
 ## Notes
 

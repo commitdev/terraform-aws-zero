@@ -1,5 +1,9 @@
 # User and Roles
 
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+}
+
 # Create group with polcy for AWS resource access
 resource "aws_iam_group" "access_group" {
   count = length(var.roles)
@@ -7,11 +11,26 @@ resource "aws_iam_group" "access_group" {
   path  = "/users/"
 }
 
+data "aws_iam_policy_document" "access_group" {
+  count       = length(var.roles)
+  source_json = var.roles[count.index].aws_policy
+
+  statement {
+    sid    = "AssumeRolePolicy"
+    effect = "Allow"
+    actions = [
+      "iam:ListRoles",
+      "sts:AssumeRole"
+    ]
+    resources = [aws_iam_role.access_assumerole[count.index].arn]
+  }
+}
+
 resource "aws_iam_policy" "access_group" {
   count       = length(var.roles)
   name        = aws_iam_group.access_group[count.index].name
   description = "Group policy"
-  policy      = var.roles[count.index].aws_policy
+  policy      = data.aws_iam_policy_document.access_group[count.index].json
 }
 
 resource "aws_iam_group_policy_attachment" "access_group" {
@@ -42,7 +61,7 @@ data "aws_iam_policy_document" "access_assumerole_root_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = [data.aws_caller_identity.current.account_id]
+      identifiers = [local.account_id]
     }
   }
 }
