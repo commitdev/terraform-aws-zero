@@ -2,7 +2,7 @@
 # After creating the infra, run the manifest in kubernetes/monitoring/ to set up fluentd
 module "elasticsearch" {
   source                  = "cloudposse/elasticsearch/aws"
-  version                 = "0.20.4"
+  version                 = "0.21.0"
   namespace               = var.project
   stage                   = var.environment
   name                    = "logging"

@@ -1,7 +1,7 @@
 
 module "rds_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "3.2.0"
+  version = "3.16.0"
 
   name        = "${var.project}-${var.environment}-rds-sg"
   description = "Security group for RDS DB"
@@ -48,7 +48,7 @@ data "aws_secretsmanager_secret_version" "rds_master_secret" {
 module "rds_postgres" {
   count   = var.database_engine == "postgres" ? 1 : 0
   source  = "terraform-aws-modules/rds/aws"
-  version = "2.17.0"
+  version = "2.18.0"
 
   identifier = "${var.project}-${var.environment}"
 
@@ -98,7 +98,7 @@ module "rds_postgres" {
 module "rds_mysql" {
   count   = var.database_engine == "mysql" ? 1 : 0
   source  = "terraform-aws-modules/rds/aws"
-  version = "2.17.0"
+  version = "2.18.0"
 
   identifier = "${var.project}-${var.environment}"
 
