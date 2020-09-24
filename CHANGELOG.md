@@ -1,22 +1,27 @@
 
+<a name="v0.1.2"></a>
+## [v0.1.2](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.1...v0.1.2) (2020-09-24)
+
+### New Features
+
+* initial commit for module iam_users ([#6](https://github.com/commitdev/terraform-aws-zero/issues/6))
+
+
+<a name="v0.1.1"></a>
+## [v0.1.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.0...v0.1.1) (2020-09-24)
+
+### Bug Fixes
+
+* modules with count to pick index first item ([#11](https://github.com/commitdev/terraform-aws-zero/issues/11))
+* Bump external module versions in database and logging modules to allow support for AWS provider version 3 ([#13](https://github.com/commitdev/terraform-aws-zero/issues/13))
+
+
 <a name="v0.1.0"></a>
-## [v0.1.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.0.3...v0.1.0) (2020-09-22)
+## [v0.1.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.0.3...v0.1.0) (2020-09-23)
 
 ### Bug Fixes
 
 * Environment check was looking for the wrong string when enabling backups ([#9](https://github.com/commitdev/terraform-aws-zero/issues/9))
-* Bump external module versions in database and logging modules to allow support for AWS provider version 3
-
-
-### Enhancements
-
-* Allow adding SubjectAltNames for certificate ([#7](https://github.com/commitdev/terraform-aws-zero/issues/7))
-* Allow adding domain aliases for s3 hosting module ([#7](https://github.com/commitdev/terraform-aws-zero/issues/7))
-
-### BREAKING CHANGES
-
-* The certificate module now only accepts a single domain at a time, since we can iterate over module calls with TF 1.13
-* The s3_hosting module now only accepts a single domain at a time, since we can iterate over module calls with TF 1.13
 
 
 <a name="v0.0.3"></a>
