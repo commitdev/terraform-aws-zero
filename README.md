@@ -1,5 +1,7 @@
 Terraform modules for Zero's AWS EKS Stack
 
+[![Validation Status](https://github.com/commitdev/terraform-aws-zero/workflows/Validate%20Terraform/badge.svg)](https://github.com/commitdev/terraform-aws-zero/actions)
+
 Included from [https://github.com/commitdev/zero-aws-eks-stack](https://github.com/commitdev/zero-aws-eks-stack)
 
 
