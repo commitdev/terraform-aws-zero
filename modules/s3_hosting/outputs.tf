@@ -8,7 +8,7 @@ output "bucket_arn" {
   value       = aws_s3_bucket.client_assets.arn
 }
 
-output "cf_signed_downloads" {
+output "cf_signing_enabled" {
   description = "Does this require signed URL downloads?"
   value       = var.cf_signed_downloads
 }
