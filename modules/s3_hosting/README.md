@@ -35,6 +35,7 @@ Create an S3 bucket and Cloudfront distribution for holding frontend application
 | Name | Description |
 |------|-------------|
 | bucket\_arn | ARN of the created S3 bucket |
+| cf\_signed\_downloads | Does this require signed URL downloads? |
 | cloudfront\_distribution\_id | Identifier of the created cloudfront distribution |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
