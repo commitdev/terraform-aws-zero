@@ -41,7 +41,7 @@ resource "aws_iam_group_policy_attachment" "access_group" {
 
 resource "aws_iam_user_group_membership" "access_user_group" {
   count  = length(var.users)
-  user   = "${var.project}-${var.users[count.index].name}"
+  user   = var.users[count.index].name
   groups = [for r in var.users[count.index].roles : "${var.project}-${r}-${var.environment}"]
 }
 
