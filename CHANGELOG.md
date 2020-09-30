@@ -1,4 +1,12 @@
 
+<a name="v0.1.4"></a>
+## [v0.1.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.3...v0.1.4) (2020-09-29)
+
+### Enhancements
+
+* Expose cf_signed_downloads var for selectively applying access controls
+
+
 <a name="v0.1.3"></a>
 ## [v0.1.3](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.2...v0.1.3) (2020-09-29)
 
