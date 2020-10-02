@@ -99,7 +99,7 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
     min_ttl                = 0
     default_ttl            = 86400
     max_ttl                = 31536000
-    trusted_signers        = var.cf_signed_downloads ? ["self"] : null
+    trusted_signers        = var.cf_signed_downloads ? var.cf_trusted_signers : null
 
     forwarded_values {
       query_string = false
