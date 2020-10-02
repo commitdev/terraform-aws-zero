@@ -36,3 +36,9 @@ variable "cf_signed_downloads" {
   description = "Enable Cloudfront signed URLs"
   default     = false
 }
+
+variable "cf_trusted_signers" {
+  type        = list(string)
+  description = "Only available when cf_signed_downloads is enabled, a list of trusted signers(self/account_id) for Cloudfront, used for signing URLs"
+  default     = ["self"]
+}
