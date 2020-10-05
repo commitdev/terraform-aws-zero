@@ -14,12 +14,31 @@ locals {
     for domain in local.allDomains :
     domain if length(regexall("\\.", domain)) > 1
   ]
+
+  # allows frontend application to upload to pre-signed S3 urls
+  corsRules = length(var.allowed_cors_origins) > 0 ? [{
+    allowed_methods = ["HEAD", "GET", "PUT", "POST"],
+    allowed_origins = var.allowed_cors_origins,
+    max_age_seconds = 3000
+  }] : []
 }
 
 resource "aws_s3_bucket" "client_assets" {
   // Our bucket's name is going to be the same as our site's domain name.
   bucket = var.domain
   acl    = "private" // The contents will be available through cloudfront, they should not be accessible publicly
+
+  dynamic "cors_rule" {
+    for_each = local.corsRules
+    content {
+      allowed_methods = lookup(cors_rule.value, "allowed_methods", ["GET"])
+      allowed_origins = lookup(cors_rule.value, "allowed_origins", [""])
+      allowed_headers = ["*"]
+      expose_headers  = ["ETag"]
+      max_age_seconds = lookup(cors_rule.value, "max_age_seconds", 3000)
+    }
+  }
+
 }
 
 # Deny public access to this bucket

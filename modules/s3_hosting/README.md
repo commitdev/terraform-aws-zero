@@ -22,6 +22,7 @@ Create an S3 bucket and Cloudfront distribution for holding frontend application
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | aliases | Additional domains that this cloudfront distribution will serve traffic for | `list(string)` | n/a | yes |
+| allowed\_cors\_origins | a list of CORS origins domains allowed to access the S3 bucket | `list(string)` | `[]` | no |
 | certificate\_arn | ARN of the certificate to use for this cloudfront distribution | `string` | n/a | yes |
 | certificate\_validation | Id of the certificate validation record for the provided cert. Used to create a dependency so we don't use the cert before it is ready | `string` | n/a | yes |
 | cf\_signed\_downloads | Enable Cloudfront signed URLs | `bool` | `false` | no |
