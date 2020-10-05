@@ -42,3 +42,9 @@ variable "cf_trusted_signers" {
   description = "Only available when cf_signed_downloads is enabled, a list of trusted signers(self/account_id) for Cloudfront, used for signing URLs"
   default     = ["self"]
 }
+
+variable "allowed_cors_origins" {
+  type        = list(string)
+  description = "a list of CORS origins domains allowed to access the S3 bucket"
+  default     = []
+}
