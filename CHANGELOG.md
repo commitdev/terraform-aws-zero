@@ -1,6 +1,30 @@
 
+<a name="v0.1.7"></a>
+## [v0.1.7](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.6...v0.1.7) (2020-10-05)
+
+### New Features
+
+* add CloudTrail support
+
+
+<a name="v0.1.6"></a>
+## [v0.1.6](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.5...v0.1.6) (2020-10-05)
+
+### Enhancements
+
+* s3_hosting config for CORS origin
+
+
+<a name="v0.1.5"></a>
+## [v0.1.5](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.4...v0.1.5) (2020-10-02)
+
+### Enhancements
+
+* allow specifying cf-trusted signers
+
+
 <a name="v0.1.4"></a>
-## [v0.1.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.3...v0.1.4) (2020-09-29)
+## [v0.1.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.3...v0.1.4) (2020-09-30)
 
 ### Enhancements
 
