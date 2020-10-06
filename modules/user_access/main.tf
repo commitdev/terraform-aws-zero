@@ -53,7 +53,8 @@ resource "aws_iam_group_policy_attachment" "access_group" {
 }
 
 resource "aws_iam_user_group_membership" "access_user_group" {
-  for_each = local.users
+  for_each   = local.users
+  depends_on = [aws_iam_group.access_group]
 
   user   = each.key
   groups = [for r in each.value : "${var.project}-${r}-${var.environment}"]
