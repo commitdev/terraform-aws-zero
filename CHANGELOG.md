@@ -1,10 +1,14 @@
 
+<a name="v0.1.8"></a>
+## [v0.1.8](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.7...v0.1.8) (2020-10-06)
+
+### Enhancements
+
+* user_access: use map instead of index for resource creation
+
+
 <a name="v0.1.7"></a>
-## [v0.1.7](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.6...v0.1.7) (2020-10-05)
-
-### New Features
-
-* add CloudTrail support
+## [v0.1.7](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.6...v0.1.7) (2020-10-06)
 
 
 <a name="v0.1.6"></a>
