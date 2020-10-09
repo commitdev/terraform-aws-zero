@@ -16,8 +16,15 @@ resource "aws_s3_bucket" "cloudtrail" {
 
   force_destroy = true
 
-  policy = data.aws_iam_policy_document.cloudtrail.json
+  policy = data.aws_iam_policy_document.cloudtrail_s3.json
 
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "cloudtrail" {
@@ -29,7 +36,7 @@ resource "aws_s3_bucket_public_access_block" "cloudtrail" {
   restrict_public_buckets = true
 }
 
-data "aws_iam_policy_document" "cloudtrail" {
+data "aws_iam_policy_document" "cloudtrail_s3" {
   statement {
     sid       = "AWSCloudTrailAclCheck"
     effect    = "Allow"
