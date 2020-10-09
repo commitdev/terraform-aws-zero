@@ -39,6 +39,13 @@ resource "aws_s3_bucket" "client_assets" {
     }
   }
 
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
 }
 
 # Deny public access to this bucket
