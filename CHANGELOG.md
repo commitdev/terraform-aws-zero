@@ -1,4 +1,12 @@
 
+<a name="v0.1.9"></a>
+## [v0.1.9](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.8...v0.1.9) (2020-10-09)
+
+### Enhancements
+
+* enable S3 encryption for s3_hosting and cloudtrail
+
+
 <a name="v0.1.8"></a>
 ## [v0.1.8](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.7...v0.1.8) (2020-10-06)
 
@@ -9,6 +17,10 @@
 
 <a name="v0.1.7"></a>
 ## [v0.1.7](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.6...v0.1.7) (2020-10-06)
+
+### New Features
+
+* add CloudTrail
 
 
 <a name="v0.1.6"></a>
