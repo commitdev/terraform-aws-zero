@@ -1,13 +1,17 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_cloudtrail" "this" {
-  name                          = "${var.project}-${var.environment}"
+  name                          = var.trail_name
   s3_bucket_name                = aws_s3_bucket.cloudtrail.id
   include_global_service_events = var.include_global_service_events
 }
 
+locals {
+  bucket_name = "${var.trail_name}-cloudtrail"
+}
+
 resource "aws_s3_bucket" "cloudtrail" {
-  bucket = "${var.project}-${var.environment}-cloudtrail"
+  bucket = local.bucket_name
   acl    = "private"
 
   versioning {
@@ -40,7 +44,7 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
   statement {
     sid       = "AWSCloudTrailAclCheck"
     effect    = "Allow"
-    resources = ["arn:aws:s3:::${var.project}-${var.environment}-cloudtrail"]
+    resources = ["arn:aws:s3:::${local.bucket_name}"]
     actions   = ["s3:GetBucketAcl"]
 
     principals {
@@ -52,7 +56,7 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
   statement {
     sid       = "AWSCloudTrailWrite"
     effect    = "Allow"
-    resources = ["arn:aws:s3:::${var.project}-${var.environment}-cloudtrail/AWSLogs/${data.aws_caller_identity.current.account_id}/*"]
+    resources = ["arn:aws:s3:::${local.bucket_name}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"]
     actions   = ["s3:PutObject"]
 
     condition {
