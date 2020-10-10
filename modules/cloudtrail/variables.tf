@@ -1,9 +1,5 @@
-variable "project" {
-  description = "Name of the project"
-}
-
-variable "environment" {
-  description = "The environment (development/staging/production)"
+variable "trail_name" {
+  description = "Name of the trail"
 }
 
 variable "include_global_service_events" {
