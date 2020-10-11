@@ -1,13 +1,15 @@
 data "aws_caller_identity" "current" {}
 
-resource "aws_cloudtrail" "this" {
-  name                          = var.trail_name
-  s3_bucket_name                = aws_s3_bucket.cloudtrail.id
-  include_global_service_events = var.include_global_service_events
+locals {
+  trail_name  = var.trail_name
+  bucket_name = "${var.project}-cloudtrail-${var.trail_name}"
 }
 
-locals {
-  bucket_name = "${var.trail_name}-cloudtrail"
+resource "aws_cloudtrail" "this" {
+  name           = local.trail_name
+  s3_bucket_name = aws_s3_bucket.cloudtrail.id
+
+  include_global_service_events = var.include_global_service_events
 }
 
 resource "aws_s3_bucket" "cloudtrail" {
