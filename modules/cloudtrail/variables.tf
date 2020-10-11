@@ -1,3 +1,7 @@
+variable "project" {
+  description = "Name of the project"
+}
+
 variable "trail_name" {
   description = "Name of the trail"
 }
