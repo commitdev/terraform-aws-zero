@@ -13,11 +13,13 @@ module "vpc" {
   private_subnet_tags = {
     "kubernetes.io/cluster/${var.kubernetes_cluster_name}" = "owned"
     "kubernetes.io/role/internal-elb"                      = "1"
+    "visibility"                                           = "private"
   }
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${var.kubernetes_cluster_name}" = "owned"
     "kubernetes.io/role/elb"                               = "1"
+    "visibility"                                           = "public"
   }
 
   enable_nat_gateway = true
