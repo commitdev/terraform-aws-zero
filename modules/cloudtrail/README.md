@@ -23,7 +23,6 @@ Enable CloudTrail logging for management and service events
 |------|-------------|------|---------|:--------:|
 | include\_global\_service\_events | Specifies whether the trail is publishing events from global services such as IAM to the log files | `any` | n/a | yes |
 | project | Name of the project | `any` | n/a | yes |
-| trail\_name | Name of the trail | `any` | n/a | yes |
 
 ## Outputs
 
