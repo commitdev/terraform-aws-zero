@@ -1,4 +1,12 @@
 
+<a name="v0.1.10"></a>
+## [v0.1.10](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.9...v0.1.10) (2020-10-13)
+
+### Enhancements
+
+* cloudtrail: remove environment as input
+
+
 <a name="v0.1.9"></a>
 ## [v0.1.9](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.8...v0.1.9) (2020-10-09)
 
