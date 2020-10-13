@@ -1,8 +1,8 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  trail_name  = var.trail_name
-  bucket_name = "${var.project}-cloudtrail-${var.trail_name}"
+  trail_name  = var.project
+  bucket_name = "${var.project}-cloudtrail"
 }
 
 resource "aws_cloudtrail" "this" {
