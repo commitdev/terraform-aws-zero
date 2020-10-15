@@ -14,13 +14,6 @@ locals {
 }
 
 # Create group with polcy for AWS resource access
-resource "aws_iam_group" "access_group" {
-  for_each = local.roles
-
-  name = "${var.project}-${each.key}-${var.environment}"
-  path = "/users/"
-}
-
 data "aws_iam_policy_document" "access_group" {
   for_each = local.roles
 
@@ -37,16 +30,23 @@ data "aws_iam_policy_document" "access_group" {
   }
 }
 
+resource "aws_iam_group" "access_group" {
+  for_each = data.aws_iam_policy_document.access_group
+
+  name = "${var.project}-${each.key}-${var.environment}"
+  path = "/users/"
+}
+
 resource "aws_iam_policy" "access_group" {
-  for_each = local.roles
+  for_each = data.aws_iam_policy_document.access_group
 
   name        = aws_iam_group.access_group[each.key].name
   description = "Group policy"
-  policy      = data.aws_iam_policy_document.access_group[each.key].json
+  policy      = each.value.json
 }
 
 resource "aws_iam_group_policy_attachment" "access_group" {
-  for_each = local.roles
+  for_each = data.aws_iam_policy_document.access_group
 
   group      = aws_iam_group.access_group[each.key].name
   policy_arn = aws_iam_policy.access_group[each.key].arn
@@ -100,7 +100,7 @@ resource "kubernetes_cluster_role" "access_role" {
 }
 
 resource "kubernetes_cluster_role_binding" "access_role" {
-  for_each = local.roles
+  for_each = kubernetes_cluster_role.access_role
 
   metadata {
     name = aws_iam_role.access_assumerole[each.key].name
