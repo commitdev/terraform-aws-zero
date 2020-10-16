@@ -7,8 +7,11 @@ locals {
   }
   roles = {
     for r in var.roles : r.name => {
+      name         = "${var.project}-${r.name}-${var.environment}"
       aws_policy   = r.aws_policy
+      k8s_name     = "${var.project}-kubernetes-${r.name}-${var.environment}"
       k8s_policies = r.k8s_policies
+      k8s_groups   = r.k8s_groups
     }
   }
 }
@@ -31,22 +34,22 @@ data "aws_iam_policy_document" "access_group" {
 }
 
 resource "aws_iam_group" "access_group" {
-  for_each = data.aws_iam_policy_document.access_group
+  for_each = local.roles
 
-  name = "${var.project}-${each.key}-${var.environment}"
+  name = each.value.name
   path = "/users/"
 }
 
 resource "aws_iam_policy" "access_group" {
-  for_each = data.aws_iam_policy_document.access_group
+  for_each = local.roles
 
   name        = aws_iam_group.access_group[each.key].name
   description = "Group policy"
-  policy      = each.value.json
+  policy      = data.aws_iam_policy_document.access_group[each.key].json
 }
 
 resource "aws_iam_group_policy_attachment" "access_group" {
-  for_each = data.aws_iam_policy_document.access_group
+  for_each = local.roles
 
   group      = aws_iam_group.access_group[each.key].name
   policy_arn = aws_iam_policy.access_group[each.key].arn
@@ -55,15 +58,16 @@ resource "aws_iam_group_policy_attachment" "access_group" {
 resource "aws_iam_user_group_membership" "access_user_group" {
   for_each = local.users
 
-  user   = each.key
-  groups = [for r in each.value : "${var.project}-${r}-${var.environment}"]
+  user = each.key
+  #groups = [for r in each.value : "${var.project}-${r}-${var.environment}"]
+  groups = [for r in each.value : aws_iam_group.access_group[r].name]
 }
 
 # Create assumeroles with policy for Kubernetes aws-auth
 resource "aws_iam_role" "access_assumerole" {
   for_each = local.roles
 
-  name               = "${var.project}-kubernetes-${each.key}-${var.environment}"
+  name               = each.value.k8s_name
   assume_role_policy = data.aws_iam_policy_document.access_assumerole_root_policy.json
   description        = "Assume role for Kubernetes aws-auth"
 }
