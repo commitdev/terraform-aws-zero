@@ -55,7 +55,7 @@ module "eks" {
       for r in var.iam_role_mapping : {
         rolearn  = r.arn
         username = r.name
-        groups   = [r.name]
+        groups   = r.groups
       }
     ]
   )

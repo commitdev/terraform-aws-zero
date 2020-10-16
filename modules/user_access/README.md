@@ -24,13 +24,13 @@ Create IAM Roles/Groups and Kubernetes Cluster Roles for user access
 |------|-------------|------|---------|:--------:|
 | environment | The environment (development/staging/production) | `any` | n/a | yes |
 | project | Name of the project | `any` | n/a | yes |
-| roles | Role list with policies | <pre>list(object({<br>    name         = string<br>    aws_policy   = string<br>    k8s_policies = list(map(list(string)))<br>  }))</pre> | n/a | yes |
+| roles | Role list with policies | <pre>list(object({<br>    name         = string<br>    aws_policy   = string<br>    k8s_policies = list(map(list(string)))<br>    k8s_groups   = list(string)<br>  }))</pre> | n/a | yes |
 | users | User list with roles | <pre>list(object({<br>    name  = string<br>    roles = list(string)<br>  }))</pre> | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| eks\_iam\_role\_mapping | List of mappings of users to roles |
+| eks\_iam\_role\_mapping | List of mappings of AWS role to Kubernetes user/groups |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
