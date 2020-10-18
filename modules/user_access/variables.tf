@@ -11,7 +11,6 @@ variable "roles" {
     name         = string
     aws_policy   = string
     k8s_policies = list(map(list(string)))
-    k8s_groups   = list(string)
   }))
   description = "Role list with policies"
 }
