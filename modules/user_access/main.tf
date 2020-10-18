@@ -11,7 +11,6 @@ locals {
       aws_policy   = r.aws_policy
       k8s_name     = "${var.project}-kubernetes-${r.name}-${var.environment}"
       k8s_policies = r.k8s_policies
-      k8s_groups   = r.k8s_groups
     }
   }
 }
@@ -59,7 +58,6 @@ resource "aws_iam_user_group_membership" "access_user_group" {
   for_each = local.users
 
   user = each.key
-  #groups = [for r in each.value : "${var.project}-${r}-${var.environment}"]
   groups = [for r in each.value : aws_iam_group.access_group[r].name]
 }
 
