@@ -5,7 +5,7 @@ module "rds_security_group" {
 
   name        = "${var.project}-${var.environment}-rds-sg"
   description = "Security group for RDS DB"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = var.vpc_id
 
   number_of_computed_ingress_with_source_security_group_id = 1
   computed_ingress_with_source_security_group_id = [
@@ -14,20 +14,20 @@ module "rds_security_group" {
       to_port                  = 5432
       protocol                 = "tcp"
       description              = "PostgreSQL from EKS"
-      source_security_group_id = "${var.allowed_security_group_id}"
+      source_security_group_id = var.allowed_security_group_id
       } : {
       from_port                = 3306
       to_port                  = 3306
       protocol                 = "tcp"
       description              = "MYSQL from EKS"
-      source_security_group_id = "${var.allowed_security_group_id}"
+      source_security_group_id = var.allowed_security_group_id
     }
   ]
 
   egress_rules = ["all-all"]
 
   tags = {
-    Env = "${var.environment}"
+    Env = var.environment
   }
 }
 
@@ -58,12 +58,12 @@ module "rds_postgres" {
   allocated_storage = var.storage_gb
   storage_encrypted = true
 
-  name     = "${replace(var.project, "-", "")}"
+  name     = replace(var.project, "-", "")
   username = "master_user"
-  password = "${data.aws_secretsmanager_secret_version.rds_master_secret.secret_string}"
+  password = data.aws_secretsmanager_secret_version.rds_master_secret.secret_string
   port     = "5432"
 
-  vpc_security_group_ids = ["${module.rds_security_group.this_security_group_id}"]
+  vpc_security_group_ids = [module.rds_security_group.this_security_group_id]
 
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
@@ -90,7 +90,7 @@ module "rds_postgres" {
 
   tags = {
     Name = "${var.project}-${var.environment}-rds-postgres"
-    Env  = "${var.environment}"
+    Env  = var.environment
   }
   depends_on = [module.rds_security_group]
 }
@@ -108,12 +108,12 @@ module "rds_mysql" {
   allocated_storage = var.storage_gb
   storage_encrypted = true
 
-  name     = "${replace(var.project, "-", "")}"
+  name     = replace(var.project, "-", "")
   username = "master_user"
-  password = "${data.aws_secretsmanager_secret_version.rds_master_secret.secret_string}"
+  password = data.aws_secretsmanager_secret_version.rds_master_secret.secret_string
   port     = "3306"
 
-  vpc_security_group_ids = ["${module.rds_security_group.this_security_group_id}"]
+  vpc_security_group_ids = [module.rds_security_group.this_security_group_id]
 
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
@@ -147,7 +147,7 @@ module "rds_mysql" {
 
   tags = {
     Name = "${var.project}-${var.environment}-rds-postgres"
-    Env  = "${var.environment}"
+    Env  = var.environment
   }
   depends_on = [module.rds_security_group]
 }
