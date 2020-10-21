@@ -1,3 +1,17 @@
+<a name="v0.1.12"></a>
+## [v0.1.12](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.11...v0.1.12) (2020-10-20)
+
+### Enhancements
+* eks: enhanced to handle k8s_groups for ci-user
+* user_access: enhanced to handle k8s_groups for ci-user
+
+
+<a name="v0.1.11"></a>
+## [v0.1.11](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.10...v0.1.11) (2020-10-13)
+
+### Enhancements
+* vpc: added public/private visibility tags to subnets
+
 
 <a name="v0.1.10"></a>
 ## [v0.1.10](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.9...v0.1.10) (2020-10-13)
