@@ -45,9 +45,9 @@ variable "iam_account_id" {
 
 variable "iam_role_mapping" {
   type = list(object({
-    name   = string
-    arn    = string
-    groups = list(string)
+    iam_role_arn  = string
+    k8s_role_name = string
+    k8s_groups    = list(string)
   }))
-  description = "List of mappings of users to roles"
+  description = "List of mappings of AWS Roles to Kubernetes Groups"
 }

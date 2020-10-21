@@ -53,9 +53,9 @@ module "eks" {
     }],
     [
       for r in var.iam_role_mapping : {
-        rolearn  = r.arn
-        username = r.name
-        groups   = r.groups
+        rolearn  = r.iam_role_arn
+        username = r.k8s_role_name
+        groups   = r.k8s_groups
       }
     ]
   )

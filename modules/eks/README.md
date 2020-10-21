@@ -25,7 +25,7 @@ Create a Kubernetes cluster using EKS.
 | cluster\_version | EKS cluster version number to use. Incrementing this will start a cluster upgrade | `any` | n/a | yes |
 | environment | The environment (development/staging/production) | `any` | n/a | yes |
 | iam\_account\_id | Account ID of the current IAM user | `any` | n/a | yes |
-| iam\_role\_mapping | List of mappings of users to roles | <pre>list(object({<br>    name   = string<br>    arn    = string<br>    groups = list(string)<br>  }))</pre> | n/a | yes |
+| iam\_role\_mapping | List of mappings of AWS Roles to Kubernetes Groups | <pre>list(object({<br>    iam_role_arn  = string<br>    k8s_role_name = string<br>    k8s_groups    = list(string)<br>  }))</pre> | n/a | yes |
 | private\_subnets | VPC subnets for the EKS cluster | `any` | n/a | yes |
 | project | Name of the project | `any` | n/a | yes |
 | vpc\_id | VPC ID for EKS cluster | `any` | n/a | yes |
