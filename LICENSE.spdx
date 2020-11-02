@@ -1,0 +1,6 @@
+SPDXVersion: SPDX-2.1
+DataLicense: CC0-1.0
+PackageName: terraform-aws-zero
+PackageOriginator: Commit
+PackageHomePage: https://github.com/commitdev/terraform-aws-zero/
+PackageLicenseDeclared: MPL-2.0
