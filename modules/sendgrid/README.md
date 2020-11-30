@@ -28,7 +28,7 @@ No requirements.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | sendgrid\_api\_key\_secret\_name | name of the secret in AWS secret manager that contains the sendgrid API key | `any` | n/a | yes |
-| sendgrid\_domain\_prefix | prefix for mailing domain used by sendgrid | `string` | `"mail."` | no |
+| sendgrid\_domain\_prefix | prefix for mailing domain used by sendgrid | `string` | `""` | no |
 | zone\_name | route53 zone for CNAME records to be created | `string` | n/a | yes |
 
 ## Outputs

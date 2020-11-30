@@ -58,7 +58,7 @@ resource "aws_iam_user_group_membership" "access_user_group" {
   for_each   = local.users
   depends_on = [aws_iam_group.access_group]
 
-  user = each.key
+  user   = each.key
   groups = [for r in each.value : aws_iam_group.access_group[r].name]
 }
 
