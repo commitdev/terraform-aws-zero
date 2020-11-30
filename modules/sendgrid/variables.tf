@@ -10,5 +10,5 @@ variable "sendgrid_api_key_secret_name" {
 variable "sendgrid_domain_prefix" {
   description = "prefix for mailing domain used by sendgrid"
   type        = string
-  default     = "mail."
+  default     = ""
 }
