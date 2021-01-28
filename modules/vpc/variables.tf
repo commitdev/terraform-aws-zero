@@ -14,6 +14,11 @@ variable "kubernetes_cluster_name" {
   description = "Kubernetes cluster name used to associate with subnets for auto LB placement"
 }
 
+variable "enable_nat_gateway" {
+  description = "Enable nat-gateway"
+  type        = bool
+}
+
 variable "single_nat_gateway" {
   description = "Use single nat-gateway instead of nat-gateway per subnet"
   type        = bool

@@ -22,8 +22,9 @@ module "vpc" {
     "visibility"                                           = "public"
   }
 
-  enable_nat_gateway = true
+  enable_nat_gateway = var.enable_nat_gateway
   single_nat_gateway = var.single_nat_gateway
+  enable_s3_endpoint = true
 
   enable_vpn_gateway   = false
   enable_dns_hostnames = true
@@ -37,5 +38,29 @@ module "vpc" {
 
   vpc_tags = {
     "kubernetes.io/cluster/${var.kubernetes_cluster_name}" = "shared"
+  }
+}
+
+module "nat_instance" {
+  # create nat instance instead of nat gateway
+  count  = var.enable_nat_gateway ? 0 : 1
+  source = "int128/nat-instance/aws"
+
+  name = "${var.project}-${var.environment}"
+
+  vpc_id                      = module.vpc.vpc_id
+  public_subnet               = module.vpc.public_subnets[0]
+  private_subnets_cidr_blocks = module.vpc.private_subnets_cidr_blocks
+  private_route_table_ids     = module.vpc.private_route_table_ids
+
+  use_spot_instance = false
+}
+
+resource "aws_eip" "nat_instance" {
+  count  = var.enable_nat_gateway ? 0 : 1
+
+  network_interface = module.nat_instance[0].eni_id
+  tags = {
+    "Name" = "${var.project}-${var.environment}-nat-instance"
   }
 }
