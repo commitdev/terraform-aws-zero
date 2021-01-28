@@ -1,3 +1,22 @@
+<a name="v0.1.14"></a>
+## [v0.1.14](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.13...v0.1.14) (2021-01-28)
+
+### Enhancements
+* add NAT instance for VPC module
+
+
+<a name="v0.1.13"></a>
+## [v0.1.13](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.12...v0.1.13) (2020-11-30)
+
+### Enhancements
+
+* remove sendgrid mail. domain prefix
+
+### Bug Fixes
+
+* Dependency was missing between users and groups for group membership, causing membership addition to fail
+
+
 <a name="v0.1.12"></a>
 ## [v0.1.12](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.11...v0.1.12) (2020-10-20)
 
