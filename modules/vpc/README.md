@@ -13,12 +13,15 @@ Create a VPC for a specific environment, all other resources will be created ins
 
 ## Providers
 
-No provider.
+| Name | Version |
+|------|---------|
+| aws | n/a |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| enable\_nat\_gateway | Enable nat-gateway | `bool` | n/a | yes |
 | environment | The environment (development/staging/production) | `any` | n/a | yes |
 | kubernetes\_cluster\_name | Kubernetes cluster name used to associate with subnets for auto LB placement | `any` | n/a | yes |
 | project | The name of the project, mostly for tagging | `any` | n/a | yes |
