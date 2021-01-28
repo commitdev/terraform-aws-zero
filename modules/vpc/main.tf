@@ -57,7 +57,7 @@ module "nat_instance" {
 }
 
 resource "aws_eip" "nat_instance" {
-  count  = var.enable_nat_gateway ? 0 : 1
+  count = var.enable_nat_gateway ? 0 : 1
 
   network_interface = module.nat_instance[0].eni_id
   tags = {
