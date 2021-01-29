@@ -1,5 +1,6 @@
 module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "2.66.0"
 
   name = "${var.project}-${var.environment}-vpc"
   cidr = "10.10.0.0/16"
@@ -43,8 +44,10 @@ module "vpc" {
 
 module "nat_instance" {
   # create nat instance instead of nat gateway
-  count  = var.enable_nat_gateway ? 0 : 1
-  source = "int128/nat-instance/aws"
+  count = var.enable_nat_gateway ? 0 : 1
+
+  source  = "int128/nat-instance/aws"
+  version = "2.0.0"
 
   name = "${var.project}-${var.environment}"
 
@@ -54,6 +57,7 @@ module "nat_instance" {
   private_route_table_ids     = module.vpc.private_route_table_ids
 
   use_spot_instance = false
+  instance_types    = var.nat_instance_types
 }
 
 resource "aws_eip" "nat_instance" {
