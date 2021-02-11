@@ -27,7 +27,7 @@ No requirements.
 | memcached\_engine\_version | Engine version | `string` | `"1.5.16"` | no |
 | project | Name of the project | `any` | n/a | yes |
 | redis\_engine\_version | Engine version | `string` | `"5.0.6"` | no |
-| redis\_family | Redis family | `string` | `"redis6.x"` | no |
+| redis\_family | Redis family | `string` | `"redis5.0"` | no |
 | security\_groups | The ID of the security group created by default on Default VPC creation | `list(string)` | n/a | yes |
 | subnet\_ids | Subnets IDs | `list(string)` | n/a | yes |
 | vpc\_id | VPC ID for EKS cluster | `any` | n/a | yes |

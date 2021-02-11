@@ -63,7 +63,7 @@ variable "memcached_engine_version" {
 
 variable "redis_family" {
   type        = string
-  default     = "redis6.x"
+  default     = "redis5.0"
   description = "Redis family"
 }
 
