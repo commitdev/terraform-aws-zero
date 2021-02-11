@@ -15,7 +15,7 @@ module "redis" {
   stage                = var.environment
   subnets              = var.subnet_ids
   availability_zones   = var.availability_zones
-  replication_group_id = "${var.project}-${var.environment}-cache"
+  replication_group_id = "${var.project}-${var.environment}-redis"
 
   family         = var.redis_family
   engine_version = var.redis_engine_version
@@ -27,6 +27,8 @@ module "redis" {
   zone_id = data.aws_route53_zone.public.zone_id
 
   cloudwatch_metric_alarms_enabled = true
+
+  transit_encryption_enabled = false
 
   parameter = [
     {
