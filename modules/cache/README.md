@@ -11,16 +11,14 @@ No requirements.
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| aws | n/a |
+No provider.
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | availability\_zones | Availability zone IDs | `list(string)` | `[]` | no |
-| cache\_store | Cache store - redis or memcached | `string` | `"memcached"` | no |
+| cache\_store | Cache store - redis or memcached | `string` | n/a | yes |
 | cluster\_size | Number of nodes in cluster | `number` | `1` | no |
 | environment | The environment (development/staging/production) | `any` | n/a | yes |
 | instance\_type | Elastic cache instance type | `string` | `"cache.t2.micro"` | no |
@@ -30,8 +28,8 @@ No requirements.
 | redis\_family | Redis family | `string` | `"redis5.0"` | no |
 | security\_groups | The ID of the security group created by default on Default VPC creation | `list(string)` | n/a | yes |
 | subnet\_ids | Subnets IDs | `list(string)` | n/a | yes |
+| transit\_encryption\_enabled | Enable TLS | `bool` | `true` | no |
 | vpc\_id | VPC ID for EKS cluster | `any` | n/a | yes |
-| zone\_name | route53 zone for CNAME records to be created | `string` | n/a | yes |
 
 ## Outputs
 

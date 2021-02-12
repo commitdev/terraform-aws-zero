@@ -1,7 +1,3 @@
-data "aws_route53_zone" "public" {
-  name = var.zone_name
-}
-
 module "redis" {
   count = var.cache_store == "redis" ? 1 : 0
 
@@ -24,11 +20,9 @@ module "redis" {
 
   allowed_security_groups = var.security_groups
 
-  zone_id = data.aws_route53_zone.public.zone_id
-
   cloudwatch_metric_alarms_enabled = true
 
-  transit_encryption_enabled = false
+  transit_encryption_enabled = var.transit_encryption_enabled
 
   parameter = [
     {
@@ -54,8 +48,6 @@ module "memcached" {
   cluster_size       = var.cluster_size
   subnets            = var.subnet_ids
   availability_zones = var.availability_zones
-
-  zone_id = data.aws_route53_zone.public.zone_id
 
   allowed_security_groups = var.security_groups
 
