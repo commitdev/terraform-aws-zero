@@ -9,7 +9,10 @@ variable "environment" {
 variable "cache_store" {
   description = "Cache store - redis or memcached"
   type        = string
-  default     = "memcached"
+  validation {
+    condition     = contains(["redis", "memcached"], var.cache_store)
+    error_message = "Allowed values for cache_store are \"redis\", \"memcached\"."
+  }
 }
 
 variable "vpc_id" {
@@ -39,31 +42,36 @@ variable "availability_zones" {
   default     = []
 }
 
-variable "zone_name" {
-  description = "route53 zone for CNAME records to be created"
-  type        = string
-}
-
+#variable "zone_name" {
+#  description = "route53 zone for CNAME records to be created"
+#  type        = string
+#}
+#
 variable "security_groups" {
   description = "The ID of the security group created by default on Default VPC creation"
   type        = list(string)
 }
 
 variable "redis_engine_version" {
+  description = "Engine version"
   type        = string
   default     = "5.0.6"
-  description = "Engine version"
 }
 
 variable "memcached_engine_version" {
+  description = "Engine version"
   type        = string
   default     = "1.5.16"
-  description = "Engine version"
 }
 
 variable "redis_family" {
+  description = "Redis family"
   type        = string
   default     = "redis5.0"
-  description = "Redis family"
 }
 
+variable "transit_encryption_enabled" {
+  description = "Enable TLS"
+  type        = bool
+  default     = true
+}
