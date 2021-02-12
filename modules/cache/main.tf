@@ -22,7 +22,7 @@ module "redis" {
 
   cloudwatch_metric_alarms_enabled = true
 
-  transit_encryption_enabled = var.transit_encryption_enabled
+  transit_encryption_enabled = var.redis_transit_encryption_enabled
 
   parameter = [
     {
