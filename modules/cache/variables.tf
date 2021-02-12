@@ -70,8 +70,8 @@ variable "redis_family" {
   default     = "redis5.0"
 }
 
-variable "transit_encryption_enabled" {
-  description = "Enable TLS"
+variable "redis_transit_encryption_enabled" {
+  description = "Enable TLS for redis"
   type        = bool
   default     = true
 }

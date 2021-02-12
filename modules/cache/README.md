@@ -26,9 +26,9 @@ No provider.
 | project | Name of the project | `any` | n/a | yes |
 | redis\_engine\_version | Engine version | `string` | `"5.0.6"` | no |
 | redis\_family | Redis family | `string` | `"redis5.0"` | no |
+| redis\_transit\_encryption\_enabled | Enable TLS for redis | `bool` | `true` | no |
 | security\_groups | The ID of the security group created by default on Default VPC creation | `list(string)` | n/a | yes |
 | subnet\_ids | Subnets IDs | `list(string)` | n/a | yes |
-| transit\_encryption\_enabled | Enable TLS | `bool` | `true` | no |
 | vpc\_id | VPC ID for EKS cluster | `any` | n/a | yes |
 
 ## Outputs
