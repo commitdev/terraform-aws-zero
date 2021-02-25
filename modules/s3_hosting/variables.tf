@@ -55,6 +55,6 @@ variable "cf_lambda_function_associations" {
     lambda_arn   = string
     include_body = bool
   }))
-  description = "a config block that triggers a lambda function with specific actions (maximum 4)"
+  description = "A config block that triggers a lambda function with specific actions (maximum 4)"
   default     = []
 }
