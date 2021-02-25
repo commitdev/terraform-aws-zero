@@ -49,7 +49,7 @@ variable "allowed_cors_origins" {
   default     = []
 }
 
-variable "cf_lambda_function_association" {
+variable "cf_lambda_function_associations" {
   type = list(object({
     event_type   = string
     lambda_arn   = string
