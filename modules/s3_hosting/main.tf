@@ -133,6 +133,15 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
         forward = "none"
       }
     }
+
+    dynamic "lambda_function_association" {
+      for_each = var.cf_lambda_function_association
+      content {
+        event_type   = lambda_function_association.value.event_type
+        lambda_arn   = lambda_function_association.value.lambda_arn
+        include_body = lambda_function_association.value.include_body
+      }
+    }
   }
 
   aliases = local.allDomains

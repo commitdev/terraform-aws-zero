@@ -48,3 +48,13 @@ variable "allowed_cors_origins" {
   description = "a list of CORS origins domains allowed to access the S3 bucket"
   default     = []
 }
+
+variable "cf_lambda_function_association" {
+  type = list(object({
+    event_type   = string
+    lambda_arn   = string
+    include_body = bool
+  }))
+  description = "a config block that triggers a lambda function with specific actions (maximum 4)"
+  default     = []
+}
