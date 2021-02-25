@@ -29,7 +29,7 @@ Create an S3 bucket and Cloudfront distribution for holding frontend application
 | cf\_trusted\_signers | Only available when cf\_signed\_downloads is enabled, a list of trusted signers(self/account\_id) for Cloudfront, used for signing URLs | `list(string)` | <pre>[<br>  "self"<br>]</pre> | no |
 | domain | Domain to host content for. This will be the name of the bucket | `string` | n/a | yes |
 | environment | The environment (dev/stage/prod) | `any` | n/a | yes |
-| cf\_lambda\_function\_association | a config block that triggers a lambda function with specific actions (maximum 4) | <pre>list(object({<br>    event_type   = string<br>    lambda_arn   = string<br>    include_body = bool<br>  }))</pre> | `[]` | no |
+| cf\_lambda\_function\_associations | A config block that triggers a lambda function with specific actions (maximum 4) | <pre>list(object({<br>    event_type   = string<br>    lambda_arn   = string<br>    include_body = bool<br>  }))</pre> | `[]` | no |
 | project | The name of the project, mostly for tagging | `any` | n/a | yes |
 | route53\_zone\_id | ID of the Route53 zone to create a record in | `string` | n/a | yes |
 
