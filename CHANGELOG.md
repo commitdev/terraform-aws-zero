@@ -1,3 +1,19 @@
+<a name="v0.1.17"></a>
+## [v0.1.17](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.16...v0.1.17) (2021-02-25)
+
+### New Features
+
+* accept lambda configuration
+
+
+<a name="v0.1.16"></a>
+## [v0.1.16](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.15...v0.1.16) (2021-02-12)
+
+
+<a name="v0.1.15"></a>
+## [v0.1.15](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.14...v0.1.15) (2021-02-02)
+
+
 <a name="v0.1.14"></a>
 ## [v0.1.14](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.13...v0.1.14) (2021-01-28)
 
