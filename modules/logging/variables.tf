@@ -53,3 +53,9 @@ variable "enable_cluster_logging" {
   type        = bool
   default     = false
 }
+
+variable "kibana_subdomain_name" {
+  description = "The name of the subdomain for Kibana in the DNS zone (_e.g._ `kibana`, `ui`, `ui-es`, `search-ui`, `kibana.elasticsearch`)"
+  type        = string
+  default     = "kibana"
+}

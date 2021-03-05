@@ -2,7 +2,7 @@
 # After creating the infra, run the manifest in kubernetes/monitoring/ to set up fluentd
 module "elasticsearch" {
   source                  = "cloudposse/elasticsearch/aws"
-  version                 = "0.21.0"
+  version                 = "0.30.0"
   namespace               = var.project
   stage                   = var.environment
   name                    = "logging"
@@ -15,6 +15,7 @@ module "elasticsearch" {
   instance_type           = var.instance_type
   instance_count          = var.instance_count
   ebs_volume_size         = var.ebs_volume_size_in_gb
+  kibana_subdomain_name   = var.kibana_subdomain_name
   encrypt_at_rest_enabled = ! can(regex("(?i)^(M3|R3|T2)", var.instance_type)) # These previous-generation instance types can't support encryption at rest
   iam_actions             = ["es:*"]
   iam_role_arns           = ["*"]
