@@ -28,6 +28,7 @@ Create an Elasticsearch cluster using AWS Elasticsearch for storing log data.
 | environment | The environment (dev/staging/prod) | `any` | n/a | yes |
 | instance\_count | Number of nodes in the cluster. Must be a multiple of the number of | `number` | n/a | yes |
 | instance\_type | Instance type for nodes | `any` | n/a | yes |
+| kibana\_subdomain\_name | The name of the subdomain for Kibana in the DNS zone (\_e.g.\_ `kibana`, `ui`, `ui-es`, `search-ui`, `kibana.elasticsearch`) | `string` | `"kibana"` | no |
 | project | The name of the project, mostly for tagging | `any` | n/a | yes |
 | security\_groups | Security groups to allow access from | `list(string)` | n/a | yes |
 | subnet\_ids | IDs of the subnets to put nodes in. The number of subnets here controls the number of nodes in the cluster, which must be a multiple of this number | `list(string)` | n/a | yes |
