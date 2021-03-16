@@ -4,7 +4,7 @@ variable "project" {
 
 variable "create_namespace" {
   description = "Whether to create the auth namespace(defaults to true), otherwise just references the namespace"
-  type        = boolean
+  type        = bool
   default     = true
 }
 
