@@ -2,6 +2,12 @@ variable "project" {
   description = "The name of the project"
 }
 
+variable "create_namespace" {
+  description = "Whether to create the auth namespace(defaults to true), otherwise just references the namespace"
+  type        = boolean
+  default     = true
+}
+
 variable "auth_namespace" {
   description = "Namespace to use for auth resources"
   type        = string
