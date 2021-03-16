@@ -35,6 +35,7 @@ No requirements.
 | auth\_namespace | Namespace to use for auth resources | `string` | `"user-auth"` | no |
 | backend\_service\_domain | Domain of the backend service | `string` | n/a | yes |
 | cookie\_sigining\_secret\_key | Default secret key for signing cookies | `string` | n/a | yes |
+| create\_namespace | Whether to create the auth namespace(defaults to true), otherwise just references the namespace | `boolean` | `true` | no |
 | frontend\_service\_domain | Domain of the frontend | `string` | n/a | yes |
 | jwks\_secret\_name | The name of a secret in the auth namespace containing a JWKS file for Oathkeeper | `string` | n/a | yes |
 | k8s\_local\_exec\_context | Custom resource (Oathkeeper Rules are created using local-exec with kubectl), if not specified it will target your current context from kubeconfig | `string` | `""` | no |

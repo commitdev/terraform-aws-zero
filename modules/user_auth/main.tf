@@ -8,6 +8,7 @@ data "aws_secretsmanager_secret_version" "jwks_content" {
 }
 
 resource "kubernetes_namespace" "user_auth" {
+  count = var.create_namespace ? 1 : 0
   metadata {
     name = var.auth_namespace
   }
@@ -45,7 +46,7 @@ resource "helm_release" "kratos" {
 
   set_sensitive {
     name  = "kratos.config.secrets.default[0]"
-    value = "${var.cookie_sigining_secret_key}"
+    value = var.cookie_sigining_secret_key
   }
 
   set {
