@@ -24,7 +24,7 @@ Create a VPC for a specific environment, all other resources will be created ins
 | enable\_nat\_gateway | Create NAT gateway(s) to allow private subnets to route traffic out to the public internet. If this is set to false, it will create a NAT instance instead. This can be useful in non-production environments to reduce cost, though in some cases it may lead to network instability or lower throughput. | `bool` | n/a | yes |
 | environment | The environment (development/staging/production) | `any` | n/a | yes |
 | kubernetes\_cluster\_name | Kubernetes cluster name used to associate with subnets for auto LB placement | `any` | n/a | yes |
-| nat\_instance\_types | Candidates of instance type for the NAT instance | `list` | <pre>[<br>  "t3.nano",<br>  "t3a.nano"<br>]</pre> | no |
+| nat\_instance\_types | Candidates of instance type for the NAT instance | `list(any)` | <pre>[<br>  "t3.nano",<br>  "t3a.nano"<br>]</pre> | no |
 | project | The name of the project, mostly for tagging | `any` | n/a | yes |
 | region | The AWS region | `any` | n/a | yes |
 | single\_nat\_gateway | Use single nat-gateway instead of nat-gateway per subnet | `bool` | n/a | yes |
