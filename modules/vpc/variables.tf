@@ -26,7 +26,7 @@ variable "single_nat_gateway" {
 
 variable "nat_instance_types" {
   description = "Candidates of instance type for the NAT instance"
-  type        = list
+  type        = list(any)
   default     = ["t3.nano", "t3a.nano"]
 }
 

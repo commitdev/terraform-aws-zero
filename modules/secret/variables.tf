@@ -3,13 +3,13 @@ variable "name" {
   description = "The name of the secret in Secrets Manager (only one of name or name_prefix can be specified)"
 }
 
-variable type {
+variable "type" {
   description = "The type of data to hold in this secret (map, string, random)"
 }
 
 variable "values" {
   description = "A map of keys/values to save as json for the secret if type is map"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
@@ -25,6 +25,6 @@ variable "random_length" {
 
 variable "tags" {
   description = "Tags to include in the secret"
-  type        = map
+  type        = map(any)
   default     = {}
 }
