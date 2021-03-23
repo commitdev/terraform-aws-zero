@@ -23,6 +23,7 @@ Create an Elasticsearch cluster using AWS Elasticsearch for storing log data.
 |------|-------------|------|---------|:--------:|
 | create\_service\_role | Set this to false if you already have an existing Elasticsearch cluster in this AWS account | `bool` | n/a | yes |
 | ebs\_volume\_size\_in\_gb | Size of EBS volume (in GB) to attach to *each* of the nodes in the cluster. The maximum size is limited by the size of the instance | `number` | n/a | yes |
+| elasticsearch\_enforce\_https | Set this to true to disallow unencrypted connections to Elasticsearch on port 80. Disabled by default as we are using kubernetes external services as user-friendly names to allow developers to connect to the cluster through the VPN. This would break if using HTTPS due to certificate issues. | `bool` | `false` | no |
 | elasticsearch\_version | Version of elasticsearch to use | `any` | n/a | yes |
 | enable\_cluster\_logging | If enabled, sends the logs from the elasticsearch cluster to Cloudwatch | `bool` | `false` | no |
 | environment | The environment (dev/staging/prod) | `any` | n/a | yes |
