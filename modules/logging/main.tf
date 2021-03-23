@@ -20,6 +20,8 @@ module "elasticsearch" {
   iam_actions             = ["es:*"]
   iam_role_arns           = ["*"]
 
+  domain_endpoint_options_enforce_https = var.elasticsearch_enforce_https
+
   create_iam_service_linked_role = var.create_service_role
 
   log_publishing_application_enabled = var.enable_cluster_logging
