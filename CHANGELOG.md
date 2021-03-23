@@ -1,3 +1,27 @@
+<a name="v0.1.20"></a>
+## [v0.1.20](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.19...v0.1.20) (2021-03-22)
+
+### Documentation
+
+* logging - Updated docs
+
+### Bug Fixes
+
+* logging - Add an option to change the value for requiring https in elasticsearch, default it to false
+
+
+<a name="v0.1.19"></a>
+## [v0.1.19](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.18...v0.1.19) (2021-03-18)
+
+
+<a name="v0.1.18"></a>
+## [v0.1.18](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.17...v0.1.18) (2021-03-05)
+
+### New Features
+
+* User auth with ORY Oathkeeper and Kratos
+
+
 <a name="v0.1.17"></a>
 ## [v0.1.17](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.16...v0.1.17) (2021-02-25)
 
