@@ -39,7 +39,8 @@ No requirements.
 | frontend\_service\_domain | Domain of the frontend | `string` | n/a | yes |
 | jwks\_secret\_name | The name of a secret in the auth namespace containing a JWKS file for Oathkeeper | `string` | n/a | yes |
 | k8s\_local\_exec\_context | Custom resource (Oathkeeper Rules are created using local-exec with kubectl), if not specified it will target your current context from kubeconfig | `string` | `""` | no |
-| project | The name of the project | `any` | n/a | yes |
+| kratos\_secret\_name | Secret name for kratos to access Database credentials, created from pre-k8s script | `string` | n/a | yes |
+| name | The name to create user-auth components(kratos/oathkeeper), must be unique in the cluster for helm-resources | `string` | n/a | yes |
 | user\_auth\_mail\_from\_address | Mail from the user management system will come from this address | `string` | `""` | no |
 | whitelisted\_return\_urls | URLs that can be redirected to after completing a flow initialized with the return\_to parameter | `list(string)` | `[]` | no |
 
