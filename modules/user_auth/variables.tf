@@ -1,5 +1,6 @@
-variable "project" {
-  description = "The name of the project"
+variable "name" {
+  description = "The name to create user-auth components(kratos/oathkeeper), must be unique in the cluster for helm-resources "
+  type        = string
 }
 
 variable "create_namespace" {
@@ -12,6 +13,11 @@ variable "auth_namespace" {
   description = "Namespace to use for auth resources"
   type        = string
   default     = "user-auth"
+}
+
+variable "kratos_secret_name" {
+  description = "Secret name for kratos to access Database credentials, created from pre-k8s script"
+  type        = string
 }
 
 variable "k8s_local_exec_context" {

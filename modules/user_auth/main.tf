@@ -16,7 +16,7 @@ resource "kubernetes_namespace" "user_auth" {
 
 resource "helm_release" "kratos" {
 
-  name       = "kratos"
+  name       = "kratos-${var.name}"
   repository = "https://k8s.ory.sh/helm/charts"
   chart      = "kratos"
   version    = "0.4.11"
@@ -29,7 +29,7 @@ resource "helm_release" "kratos" {
   # This secret contains db credentials created during the initial zero apply command
   set {
     name  = "secret.nameOverride"
-    value = var.project
+    value = var.kratos_secret_name
   }
 
   # set {
@@ -167,7 +167,7 @@ resource "null_resource" "oathkeeper_kratos_proxy_rules" {
 
 resource "helm_release" "oathkeeper" {
 
-  name       = "oathkeeper"
+  name       = "oathkeeper-${var.name}"
   repository = "https://k8s.ory.sh/helm/charts"
   chart      = "oathkeeper"
   version    = "0.4.11"
