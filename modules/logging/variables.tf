@@ -59,3 +59,9 @@ variable "kibana_subdomain_name" {
   type        = string
   default     = "kibana"
 }
+
+variable "elasticsearch_enforce_https" {
+  description = "Set this to true to disallow unencrypted connections to Elasticsearch on port 80. Disabled by default as we are using kubernetes external services as user-friendly names to allow developers to connect to the cluster through the VPN. This would break if using HTTPS due to certificate issues."
+  type        = bool
+  default     = false
+}
