@@ -20,7 +20,7 @@ No provider.
 | availability\_zones | Availability zone IDs | `list(string)` | `[]` | no |
 | cache\_store | Cache store - redis or memcached | `string` | n/a | yes |
 | cluster\_size | Number of nodes in cluster | `number` | `1` | no |
-| environment | The environment (development/staging/production) | `any` | n/a | yes |
+| environment | The environment (stage/prod) | `any` | n/a | yes |
 | instance\_type | Elastic cache instance type | `string` | `"cache.t2.micro"` | no |
 | memcached\_engine\_version | Engine version | `string` | `"1.5.16"` | no |
 | project | Name of the project | `any` | n/a | yes |
