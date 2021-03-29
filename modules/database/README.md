@@ -23,7 +23,7 @@ Create an RDS database.
 |------|-------------|------|---------|:--------:|
 | allowed\_security\_group\_id | The security group to allow access | `any` | n/a | yes |
 | database\_engine | Which database engine to use, currently supports `postgres` or `mysql` | `any` | n/a | yes |
-| environment | The environment (development/staging/production) | `any` | n/a | yes |
+| environment | The environment (stage/prod) | `any` | n/a | yes |
 | instance\_class | The AWS instance class of the db | `any` | n/a | yes |
 | password\_secret\_suffix | Suffix to add to the secret that will be generated containing the database credentials | `any` | n/a | yes |
 | project | The name of the project, mostly for tagging | `any` | n/a | yes |

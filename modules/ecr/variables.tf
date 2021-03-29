@@ -1,5 +1,5 @@
 variable "environment" {
-  description = "The environment (dev/staging/prod)"
+  description = "The environment (stage/prod)"
 }
 
 variable "ecr_repositories" {

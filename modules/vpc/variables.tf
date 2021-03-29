@@ -3,11 +3,11 @@ variable "project" {
 }
 
 variable "environment" {
-  description = "The environment (development/staging/production)"
+  description = "The environment (stage/prod)"
 }
 
 variable "region" {
-  description = "The AWS region"
+  description = "The AWS region to create resources in"
 }
 
 variable "kubernetes_cluster_name" {

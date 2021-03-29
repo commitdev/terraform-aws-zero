@@ -3,7 +3,7 @@ variable "project" {
 }
 
 variable "environment" {
-  description = "The environment (dev/stage/prod)"
+  description = "The environment (stage/prod)"
 }
 
 variable "domain" {

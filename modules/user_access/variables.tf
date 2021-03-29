@@ -3,7 +3,7 @@ variable "project" {
 }
 
 variable "environment" {
-  description = "The environment (development/staging/production)"
+  description = "The environment (stage/prod)"
 }
 
 variable "roles" {

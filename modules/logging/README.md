@@ -26,7 +26,7 @@ Create an Elasticsearch cluster using AWS Elasticsearch for storing log data.
 | elasticsearch\_enforce\_https | Set this to true to disallow unencrypted connections to Elasticsearch on port 80. Disabled by default as we are using kubernetes external services as user-friendly names to allow developers to connect to the cluster through the VPN. This would break if using HTTPS due to certificate issues. | `bool` | `false` | no |
 | elasticsearch\_version | Version of elasticsearch to use | `any` | n/a | yes |
 | enable\_cluster\_logging | If enabled, sends the logs from the elasticsearch cluster to Cloudwatch | `bool` | `false` | no |
-| environment | The environment (dev/staging/prod) | `any` | n/a | yes |
+| environment | The environment (stage/prod) | `any` | n/a | yes |
 | instance\_count | Number of nodes in the cluster. Must be a multiple of the number of | `number` | n/a | yes |
 | instance\_type | Instance type for nodes | `any` | n/a | yes |
 | kibana\_subdomain\_name | The name of the subdomain for Kibana in the DNS zone (\_e.g.\_ `kibana`, `ui`, `ui-es`, `search-ui`, `kibana.elasticsearch`) | `string` | `"kibana"` | no |
