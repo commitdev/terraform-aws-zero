@@ -79,7 +79,7 @@ EOF
         annotations : {
           "service.beta.kubernetes.io/aws-load-balancer-backend-protocol" : "tcp"
           "service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout" : var.connection_idle_timeout
-          "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : true
+          "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : "true"
           "service.beta.kubernetes.io/aws-load-balancer-type" : var.use_network_load_balancer ? "nlb" : "elb"
         }
       }
