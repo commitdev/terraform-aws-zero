@@ -37,3 +37,9 @@ variable "connection_idle_timeout" {
   type        = number
   default     = 55
 }
+
+variable "apply_pod_anti_affinity" {
+  description = "If true, will instruct k8s to try not to schedule multiple nginx controller pods on the same node if there are other nodes available. This helps redundancy, as it is less likely all your controller pods are on the same node, which could cause problems if that node were terminated unexepectedly."
+  type        = bool
+  default     = true
+}
