@@ -31,6 +31,39 @@ EOF
     "upstream-keepalive-timeout" = var.connection_idle_timeout + 5
   }
 
+  # Anti-affinity rules to apply. Will instruct k8s to try to not schedule 2 pods on the same node if possible.
+  pod_anti_affinity = {
+    podAntiAffinity : {
+      preferredDuringSchedulingIgnoredDuringExecution : [
+        {
+          weight : 100,
+          podAffinityTerm : {
+            labelSelector : {
+              matchExpressions : [
+                {
+                  key : "app.kubernetes.io/name"
+                  operator : "In"
+                  values : ["ingress-nginx"]
+                },
+                {
+                  key : "app.kubernetes.io/instance"
+                  operator : "In"
+                  values : ["ingress-nginx"]
+                },
+                {
+                  key : "app.kubernetes.io/component"
+                  operator : "In"
+                  values : ["controller"]
+                }
+              ]
+            },
+            topologyKey : "kubernetes.io/hostname"
+          }
+        }
+      ]
+    }
+  }
+
   helm_values = {
     controller : {
       config : merge(local.configmap_defaults, var.additional_configmap_options)
@@ -51,6 +84,7 @@ EOF
         }
       }
 
+      affinity : var.apply_pod_anti_affinity ? local.pod_anti_affinity : {}
     }
   }
 }
