@@ -1,3 +1,10 @@
+<a name="v0.2.1"></a>
+## [v0.2.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.2.0...v0.2.1) (2021-03-31)
+
+### Bug Fixes
+
+* Oops, somehow this change got lost. Set ingress traffic policy to local to preserve source ip.
+
 <a name="v0.2.0"></a>
 ## [v0.2.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.21...v0.2.0) (2021-03-30)
 
