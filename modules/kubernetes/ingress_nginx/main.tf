@@ -76,6 +76,8 @@ EOF
         }
       }
       service : {
+        externalTrafficPolicy : "Local"
+
         annotations : {
           "service.beta.kubernetes.io/aws-load-balancer-backend-protocol" : "tcp"
           "service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout" : var.connection_idle_timeout
