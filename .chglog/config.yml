@@ -8,6 +8,7 @@ options:
     filters:
       Type:
         - feat
+        - enhancement
         - fix
         - improvement
         - docs
@@ -27,6 +28,7 @@ options:
       feat: New Features
       fix: Bug Fixes
       improvement: Enhancements
+      enhancement: Enhancements
       docs: Documentation
       refactor: Refactoring
       ci: CI / Testing

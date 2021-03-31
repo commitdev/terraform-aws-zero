@@ -1,3 +1,11 @@
+<a name="v0.2.0"></a>
+## [v0.2.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.21...v0.2.0) (2021-03-30)
+
+### Enhancements
+
+* Added pod anti affinity to nginx ingress
+* Moved nginx ingress creation from aws-eks module and converted to a helm chart. Also switched to using NLB instead of ELB.
+
 <a name="v0.1.20"></a>
 ## [v0.1.20](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.19...v0.1.20) (2021-03-22)
 
