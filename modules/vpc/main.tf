@@ -49,7 +49,7 @@ module "nat_instance" {
   source  = "int128/nat-instance/aws"
   version = "2.0.0"
 
-  name = "${var.project}-${var.environment}"
+  name = "${var.project}-${var.environment}-nat"
 
   vpc_id                      = module.vpc.vpc_id
   public_subnet               = module.vpc.public_subnets[0]
