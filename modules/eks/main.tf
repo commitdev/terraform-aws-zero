@@ -9,7 +9,7 @@ data "aws_eks_cluster_auth" "cluster" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "12.1.0"
+  version = "14.0.0"
 
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
@@ -17,33 +17,30 @@ module "eks" {
   vpc_id          = var.vpc_id
   enable_irsa     = true
 
-  worker_groups = [
-    {
-      instance_type        = var.worker_instance_type
-      asg_min_size         = var.worker_asg_min_size
-      asg_desired_capacity = var.worker_asg_min_size
-      asg_max_size         = var.worker_asg_max_size
-      ami_id               = var.worker_ami
-      tags = [
-        {
-          key                 = "environment"
-          value               = var.environment
-          propagate_at_launch = true
-        },
-        {
-          key                 = "k8s.io/cluster-autoscaler/enabled"
-          propagate_at_launch = "false"
-          value               = "true"
-        },
-        {
-          key                 = "k8s.io/cluster-autoscaler/${var.cluster_name}"
-          propagate_at_launch = "false"
-          value               = "owned"
-        }
-      ]
 
-    },
-  ]
+  node_groups_defaults = {
+    ami_type  = var.worker_ami_type
+    disk_size = 100
+  }
+
+  node_groups = {
+    cluster = {
+      name = "${var.cluster_name}-eks"
+
+      desired_capacity = var.worker_asg_min_size
+      max_capacity     = var.worker_asg_max_size
+      min_capacity     = var.worker_asg_min_size
+
+      instance_types = var.worker_instance_types
+      capacity_type  = var.use_spot_instances ? "SPOT" : "ON_DEMAND"
+      k8s_labels = {
+        Environment = var.environment
+      }
+      additional_tags = {
+        Environment = var.environment
+      }
+    }
+  }
 
   map_roles = concat(
     [{
