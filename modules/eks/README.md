@@ -42,6 +42,6 @@ Create a Kubernetes cluster using EKS.
 | cluster\_id | Identifier of the EKS cluster |
 | worker\_iam\_role\_arn | The ARN of the EKS worker IAM role |
 | worker\_iam\_role\_name | The name of the EKS worker IAM role |
-| worker\_security\_group\_id | The security group of the EKS workers |
+| worker\_security\_group\_id | The security group of the EKS cluster |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
