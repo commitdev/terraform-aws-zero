@@ -1,3 +1,11 @@
+<a name="v0.3.1"></a>
+## [v0.3.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.0...v0.3.1) (2021-04-15)
+
+### Bug Fixes
+
+* Pin the terraform version in the validation gha workflow because of issues with submodules when using TF 0.15
+* Return the EKS primary security group now for us to use in other modules, also connect the primary and additional security groups (only used for migration, as the additional security group won't be used anymore)
+
 <a name="v0.3.0"></a>
 ## [v0.3.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.2.1...v0.3.0) (2021-04-13)
 
