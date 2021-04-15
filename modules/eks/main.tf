@@ -59,6 +59,8 @@ module "eks" {
   cluster_iam_role_name = "k8s-${var.cluster_name}-cluster"
   workers_role_name     = "k8s-${var.cluster_name}-workers"
 
+  worker_create_cluster_primary_security_group_rules = true
+
   # Unfortunately fluentd doesn't yet support oidc auth so we need to grant it to the worker nodes
   workers_additional_policies = ["arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"]
 
