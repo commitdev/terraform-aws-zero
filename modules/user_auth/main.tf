@@ -138,16 +138,12 @@ resource "helm_release" "kratos" {
     name  = "kratos.config.selfservice.flows.error.ui_url"
     value = "https://${var.frontend_service_domain}/auth/errors"
   }
-
-  set {
-    name  = "kratos.config.selfservice.flows."
-    value = "https://${var.frontend_service_domain}/"
-  }
 }
 
 data "template_file" "oathkeeper_kratos_proxy_rules" {
   template = file("${path.module}/files/oathkeeper_kratos_proxy_rules.yaml.tpl")
   vars = {
+    name                      = var.name
     backend_service_domain    = var.backend_service_domain
     public_selfserve_endpoint = "/.ory/kratos/public"
     admin_selfserve_endpoint  = "/.ory/kratos"
@@ -180,6 +176,11 @@ resource "helm_release" "oathkeeper" {
   set {
     name  = "oathkeeper.config.mutators.id_token.config.issuer_url"
     value = "https://${var.backend_service_domain}"
+  }
+
+  set {
+    name  = "oathkeeper.config.cookie_session.config.check_session_url"
+    value = "http://kratos-${var.name}-public/sessions/whoami"
   }
 
   # Clean up and set the JWKS content. This will become a secret mounted into the pod
