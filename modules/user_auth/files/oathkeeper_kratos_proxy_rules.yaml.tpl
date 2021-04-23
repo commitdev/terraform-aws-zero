@@ -5,11 +5,11 @@
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
 metadata:
-  name: kratos-public
+  name: kratos-${name}-public
   namespace: user-auth
 spec:
   upstream:
-    url: http://kratos-public.user-auth
+    url: http://kratos-${name}-public.user-auth
     stripPath: ${public_selfserve_endpoint}
     preserveHost: true
   match:
@@ -35,11 +35,11 @@ spec:
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
 metadata:
-  name: kratos-form-data
+  name: kratos-${name}-form-data
   namespace: user-auth
 spec:
   upstream:
-    url: http://kratos-admin.user-auth
+    url: http://kratos-${name}-admin.user-auth
     stripPath: ${admin_selfserve_endpoint}
     preserveHost: true
   match:

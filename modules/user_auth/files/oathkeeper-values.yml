@@ -117,7 +117,7 @@ oathkeeper:
         enabled: true
 
         config:
-          check_session_url: http://kratos-public/sessions/whoami
+          # check_session_url: http://kratos-public/sessions/whoami #set by user_auth.tf
           preserve_path: true
           extra_from: "@this"
           subject_from: "identity.traits.email"
