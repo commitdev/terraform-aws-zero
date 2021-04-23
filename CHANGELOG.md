@@ -1,3 +1,18 @@
+<a name="v0.3.3"></a>
+## [v0.3.3](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.2...v0.3.3) (2021-04-23)
+
+### Bug Fixes
+
+* Switched back to using ELB instead of NLB due to various issues. Also added the ability to modify proxy protocol and traffic policy settings and return the nginx request id to the front end. ([#45](https://github.com/commitdev/terraform-aws-zero/issues/45))
+
+
+<a name="v0.3.2"></a>
+## [v0.3.2](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.1...v0.3.2) (2021-04-19)
+
+### Bug Fixes
+
+* auth endpoints targeting wrong svc name
+
 <a name="v0.3.1"></a>
 ## [v0.3.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.0...v0.3.1) (2021-04-15)
 
