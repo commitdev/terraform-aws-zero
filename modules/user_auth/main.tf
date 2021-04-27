@@ -179,7 +179,7 @@ resource "helm_release" "oathkeeper" {
   }
 
   set {
-    name  = "oathkeeper.config.cookie_session.config.check_session_url"
+    name  = "oathkeeper.config.authenticators.cookie_session.config.check_session_url"
     value = "http://kratos-${var.name}-public/sessions/whoami"
   }
 
