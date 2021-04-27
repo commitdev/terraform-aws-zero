@@ -24,14 +24,14 @@ EOF
   configmap_defaults = {
     "proxy-real-ip-cidr"         = "0.0.0.0/0"
     "use-forwarded-headers"      = "true"
-    "use-proxy-protocol"         = "false"
+    "use-proxy-protocol"         = tostring(var.use_proxy_protocol)
     "log-format-escape-json"     = "true"
     "log-format-upstream"        = replace(local.log_format, "\n", "")
     "generate-request-id"        = "true"
     "upstream-keepalive-timeout" = var.connection_idle_timeout + 5
   }
 
-  # Anti-affinity rules to apply. Will instruct k8s to try to not schedule 2 pods on the same node if possible.
+  # Anti-affinity rules to apply. Will instruct k8s to try not to schedule 2 pods on the same node if possible.
   pod_anti_affinity = {
     podAntiAffinity : {
       preferredDuringSchedulingIgnoredDuringExecution : [
@@ -75,14 +75,17 @@ EOF
           namespace : "metrics"
         }
       }
+      addHeaders : { "X-Request-Id" : "$request_id" }
+
       service : {
-        externalTrafficPolicy : "Local"
+        externalTrafficPolicy : var.external_traffic_policy
 
         annotations : {
           "service.beta.kubernetes.io/aws-load-balancer-backend-protocol" : "tcp"
           "service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout" : var.connection_idle_timeout
           "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled" : "true"
           "service.beta.kubernetes.io/aws-load-balancer-type" : var.use_network_load_balancer ? "nlb" : "elb"
+          "service.beta.kubernetes.io/aws-load-balancer-proxy-protocol" : var.use_proxy_protocol ? "*" : "false" # "*" is the only value that enables proxy protocol on the LB
         }
       }
 
