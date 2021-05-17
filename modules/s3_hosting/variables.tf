@@ -18,7 +18,7 @@ variable "use_existing_s3_bucket" {
 }
 
 variable "create_s3_bucket_policy" {
-  description = "Useful when multiple CF using the same bucket, then you may want to create the S3 Bucket policy manually to allow mulltiple principals"
+  description = "Useful when multiple CF distributions access the same bucket. You would need to create a bucket policy that allows access from multiple distributions"
   type        = bool
   default     = true
 }
