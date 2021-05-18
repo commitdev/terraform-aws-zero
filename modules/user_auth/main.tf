@@ -9,21 +9,12 @@ locals {
       namespace : var.auth_namespace
     }
     spec : {
-      backendType : "secretsManager"
-      dataFrom : [var.aws_secrets_manager_secret_name]
+      backendType : var.external_secret_backend
+      dataFrom : [var.external_secret_name]
     }
   }
 
 
-}
-
-## Get generated JWKS content from secret
-data "aws_secretsmanager_secret" "jwks_content" {
-  name = var.jwks_secret_name
-}
-data "aws_secretsmanager_secret_version" "jwks_content" {
-
-  secret_id = data.aws_secretsmanager_secret.jwks_content.id
 }
 
 resource "kubernetes_namespace" "user_auth" {
@@ -40,7 +31,7 @@ resource "null_resource" "external_secret_custom_resource" {
   }
 
   provisioner "local-exec" {
-    command = "kubectl apply ${var.kubectl_extra_args} -f - <<EOF\n${jsonencode(local.external_secret_definition)}\nEOF"
+    command = "kubectl apply ${var.kubectl_extra_args} -n ${var.auth_namespace} -f - <<EOF\n${jsonencode(local.external_secret_definition)}\nEOF"
   }
 
   depends_on = [kubernetes_namespace.user_auth]
@@ -60,6 +51,7 @@ resource "helm_release" "kratos" {
   ]
 
   # This secret contains db credentials created during the initial zero apply command
+  # The kubernetes secret will be created automatically by external-secrets based on the content of a secret from the specified secrets source
   set {
     name  = "secret.nameOverride"
     value = var.kratos_secret_name
@@ -220,7 +212,7 @@ resource "helm_release" "oathkeeper" {
   # Clean up and set the JWKS content. This will become a secret mounted into the pod
   set_sensitive {
     name  = "oathkeeper.mutatorIdTokenJWKs"
-    value = replace(jsonencode(jsondecode(data.aws_secretsmanager_secret_version.jwks_content.secret_string)), "/([,\\[\\]{}])/", "\\$1")
+    value = replace(jsonencode(jsondecode(var.jwks_content)), "/([,\\[\\]{}])/", "\\$1")
   }
 
   set {

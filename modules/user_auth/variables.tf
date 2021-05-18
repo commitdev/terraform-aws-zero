@@ -42,9 +42,10 @@ variable "user_auth_mail_from_address" {
   default     = ""
 }
 
-variable "jwks_secret_name" {
-  description = "The name of a secret in the auth namespace containing a JWKS file for Oathkeeper"
+variable "jwks_content" {
+  description = "The content of a JWKS file for Oathkeeper"
   type        = string
+  sensitive   = true
 }
 
 variable "whitelisted_return_urls" {
@@ -64,7 +65,13 @@ variable "kubectl_extra_args" {
   type        = string
 }
 
-variable "aws_secrets_manager_secret_name" {
-  description = "Name of a secret in AWS Secrets Manager that contains the content to pull into a kubernetes secret for Kratos to use"
+variable "external_secret_backend" {
+  description = "The backend external-secrets will pull secret data from to create a corresponding secret in kubernetes"
+  type        = string
+  default     = "secretsManager"
+}
+
+variable "external_secret_name" {
+  description = "Name of a secret in an external secrets backend that contains the content to pull into a kubernetes secret for Kratos to use"
   type        = string
 }
