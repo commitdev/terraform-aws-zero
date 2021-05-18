@@ -11,6 +11,19 @@ variable "domain" {
   type        = string
 }
 
+variable "use_existing_s3_bucket" {
+  description = "Name of existing s3 Bucket to use instead of creating a new one"
+  type        = string
+  default     = ""
+}
+
+variable "create_s3_bucket_policy" {
+  description = "Useful when multiple CF distributions access the same bucket. You would need to create a bucket policy that allows access from multiple distributions"
+  type        = bool
+  default     = true
+}
+
+
 variable "aliases" {
   description = "Additional domains that this cloudfront distribution will serve traffic for"
   type        = list(string)

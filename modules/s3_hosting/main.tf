@@ -1,35 +1,38 @@
 locals {
   assets_access_identity = "${var.project}-${var.environment}-client-assets-${var.domain}"
 
-  allDomains = concat([var.domain], var.aliases)
+  all_domains = concat([var.domain], var.aliases)
 
   # Find buckets that are the domain apex. These need to have A ALIAS records.
-  rootDomains = [
-    for domain in local.allDomains :
+  root_domains = [
+    for domain in local.all_domains :
     domain if length(regexall("\\.", domain)) == 1
   ]
 
   # Find buckets that are subdomains. These can have CNAME records.
-  subDomains = [
-    for domain in local.allDomains :
+  sub_domains = [
+    for domain in local.all_domains :
     domain if length(regexall("\\.", domain)) > 1
   ]
 
   # allows frontend application to upload to pre-signed S3 urls
-  corsRules = length(var.allowed_cors_origins) > 0 ? [{
+  cors_rules = length(var.allowed_cors_origins) > 0 ? [{
     allowed_methods = ["HEAD", "GET", "PUT", "POST"],
     allowed_origins = var.allowed_cors_origins,
     max_age_seconds = 3000
   }] : []
+
+  create_s3_bucket = var.use_existing_s3_bucket == "" ? true : false
 }
 
 resource "aws_s3_bucket" "client_assets" {
+  count = local.create_s3_bucket ? 1 : 0
   // Our bucket's name is going to be the same as our site's domain name.
   bucket = var.domain
   acl    = "private" // The contents will be available through cloudfront, they should not be accessible publicly
 
   dynamic "cors_rule" {
-    for_each = local.corsRules
+    for_each = local.cors_rules
     content {
       allowed_methods = lookup(cors_rule.value, "allowed_methods", ["GET"])
       allowed_origins = lookup(cors_rule.value, "allowed_origins", [""])
@@ -48,14 +51,22 @@ resource "aws_s3_bucket" "client_assets" {
   }
 }
 
+// Use reference of the s3_bucket so the reference can be the same for both scenario
+// whether S3 bucket is existing or created from this module
+data "aws_s3_bucket" "client_assets" {
+  bucket = local.create_s3_bucket ? aws_s3_bucket.client_assets[0].id : var.use_existing_s3_bucket
+}
+
 # Deny public access to this bucket
 resource "aws_s3_bucket_public_access_block" "client_assets" {
-  bucket                  = aws_s3_bucket.client_assets.id
+  count                   = local.create_s3_bucket ? 1 : 0
+  bucket                  = aws_s3_bucket.client_assets[0].id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
 
 # Access identity for CF access to S3
 resource "aws_cloudfront_origin_access_identity" "client_assets" {
@@ -64,9 +75,10 @@ resource "aws_cloudfront_origin_access_identity" "client_assets" {
 
 # Policy to allow CF access to S3
 data "aws_iam_policy_document" "assets_origin" {
+  count = var.create_s3_bucket_policy ? 1 : 0
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.client_assets.id}/*"]
+    resources = ["arn:aws:s3:::${data.aws_s3_bucket.client_assets.id}/*"]
 
     principals {
       type        = "AWS"
@@ -76,7 +88,7 @@ data "aws_iam_policy_document" "assets_origin" {
 
   statement {
     actions   = ["s3:ListBucket"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.client_assets.id}"]
+    resources = ["arn:aws:s3:::${data.aws_s3_bucket.client_assets.id}"]
 
     principals {
       type        = "AWS"
@@ -87,16 +99,17 @@ data "aws_iam_policy_document" "assets_origin" {
 
 # Attach the policy to the bucket
 resource "aws_s3_bucket_policy" "client_assets" {
+  count      = var.create_s3_bucket_policy ? 1 : 0
   depends_on = [aws_cloudfront_distribution.client_assets_distribution]
-  bucket     = aws_s3_bucket.client_assets.id
-  policy     = data.aws_iam_policy_document.assets_origin.json
+  bucket     = data.aws_s3_bucket.client_assets.id
+  policy     = data.aws_iam_policy_document.assets_origin[0].json
 }
 
 # Create the cloudfront distribution
 resource "aws_cloudfront_distribution" "client_assets_distribution" {
   // origin is where CloudFront gets its content from.
   origin {
-    domain_name = aws_s3_bucket.client_assets.bucket_domain_name
+    domain_name = data.aws_s3_bucket.client_assets.bucket_domain_name
     origin_id   = local.assets_access_identity
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.client_assets.cloudfront_access_identity_path
@@ -144,7 +157,7 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
     }
   }
 
-  aliases = local.allDomains
+  aliases = local.all_domains
 
   restrictions {
     geo_restriction {
@@ -164,10 +177,10 @@ resource "aws_cloudfront_distribution" "client_assets_distribution" {
 
 # Root domains to point at CF
 resource "aws_route53_record" "client_assets_root" {
-  count = length(local.rootDomains)
+  count = length(local.root_domains)
 
   zone_id = var.route53_zone_id
-  name    = local.rootDomains[count.index]
+  name    = local.root_domains[count.index]
   type    = "A"
 
   alias {
@@ -177,12 +190,12 @@ resource "aws_route53_record" "client_assets_root" {
   }
 }
 
-# Subdomains to point at CF
+# sub_domains to point at CF
 resource "aws_route53_record" "client_assets_subdomain" {
-  count = length(local.subDomains)
+  count = length(local.sub_domains)
 
   zone_id = var.route53_zone_id
-  name    = local.subDomains[count.index]
+  name    = local.sub_domains[count.index]
   type    = "CNAME"
   ttl     = "120"
   records = [aws_cloudfront_distribution.client_assets_distribution.domain_name]
