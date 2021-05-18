@@ -42,9 +42,10 @@ variable "user_auth_mail_from_address" {
   default     = ""
 }
 
-variable "jwks_secret_name" {
-  description = "The name of a secret in the auth namespace containing a JWKS file for Oathkeeper"
+variable "jwks_content" {
+  description = "The content of a JWKS file for Oathkeeper"
   type        = string
+  sensitive   = true
 }
 
 variable "whitelisted_return_urls" {
@@ -53,8 +54,24 @@ variable "whitelisted_return_urls" {
   default     = []
 }
 
-variable "cookie_sigining_secret_key" {
+variable "cookie_signing_secret_key" {
   description = "Default secret key for signing cookies"
   type        = string
   sensitive   = true
+}
+
+variable "kubectl_extra_args" {
+  description = "Arguments that will be passed to kubectl when using the local executor in cases where the terraform k8s support is not enough"
+  type        = string
+}
+
+variable "external_secret_backend" {
+  description = "The backend external-secrets will pull secret data from to create a corresponding secret in kubernetes. If empty, external-secrets will not be used. You'll need to make sure the secret is created manually."
+  type        = string
+  default     = "secretsManager"
+}
+
+variable "external_secret_name" {
+  description = "Name of a secret in an external secrets backend that contains the content to pull into a kubernetes secret for Kratos to use"
+  type        = string
 }

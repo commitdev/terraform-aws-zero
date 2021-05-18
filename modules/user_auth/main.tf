@@ -1,10 +1,20 @@
-## Get generated JWKS content from secret
-data "aws_secretsmanager_secret" "jwks_content" {
-  name = var.jwks_secret_name
-}
-data "aws_secretsmanager_secret_version" "jwks_content" {
+locals {
+  # Kubernetes manifest to configure a custom resource that tells external-secrets where to pull secret data from
+  external_secret_definition = {
+    apiVersion : "kubernetes-client.io/v1"
+    kind : "ExternalSecret"
 
-  secret_id = data.aws_secretsmanager_secret.jwks_content.id
+    metadata : {
+      name : var.kratos_secret_name
+      namespace : var.auth_namespace
+    }
+    spec : {
+      backendType : var.external_secret_backend
+      dataFrom : [var.external_secret_name]
+    }
+  }
+
+
 }
 
 resource "kubernetes_namespace" "user_auth" {
@@ -14,6 +24,21 @@ resource "kubernetes_namespace" "user_auth" {
   }
 }
 
+# Use local exec here because we are creating a custom resource which is not yet supported by the terraform kubernetes provider
+resource "null_resource" "external_secret_custom_resource" {
+  count = var.external_secret_backend == "" ? 0 : 1
+
+  triggers = {
+    manifest_sha1 = sha1(jsonencode(local.external_secret_definition))
+  }
+
+  provisioner "local-exec" {
+    command = "kubectl apply ${var.kubectl_extra_args} -n ${var.auth_namespace} -f - <<EOF\n${jsonencode(local.external_secret_definition)}\nEOF"
+  }
+
+  depends_on = [kubernetes_namespace.user_auth]
+}
+
 resource "helm_release" "kratos" {
 
   name       = "kratos-${var.name}"
@@ -21,12 +46,14 @@ resource "helm_release" "kratos" {
   chart      = "kratos"
   version    = "0.4.11"
   namespace  = var.auth_namespace
+  depends_on = [kubernetes_namespace.user_auth]
 
   values = [
     file("${path.module}/files/kratos-values.yml"),
   ]
 
   # This secret contains db credentials created during the initial zero apply command
+  # The kubernetes secret will be created automatically by external-secrets based on the content of a secret from the specified secrets source
   set {
     name  = "secret.nameOverride"
     value = var.kratos_secret_name
@@ -46,7 +73,7 @@ resource "helm_release" "kratos" {
 
   set_sensitive {
     name  = "kratos.config.secrets.default[0]"
-    value = var.cookie_sigining_secret_key
+    value = var.cookie_signing_secret_key
   }
 
   set {
@@ -168,6 +195,7 @@ resource "helm_release" "oathkeeper" {
   chart      = "oathkeeper"
   version    = "0.4.11"
   namespace  = var.auth_namespace
+  depends_on = [kubernetes_namespace.user_auth]
 
   values = [
     file("${path.module}/files/oathkeeper-values.yml"),
@@ -186,7 +214,7 @@ resource "helm_release" "oathkeeper" {
   # Clean up and set the JWKS content. This will become a secret mounted into the pod
   set_sensitive {
     name  = "oathkeeper.mutatorIdTokenJWKs"
-    value = replace(jsonencode(jsondecode(data.aws_secretsmanager_secret_version.jwks_content.secret_string)), "/([,\\[\\]{}])/", "\\$1")
+    value = replace(jsonencode(jsondecode(var.jwks_content)), "/([,\\[\\]{}])/", "\\$1")
   }
 
   set {
