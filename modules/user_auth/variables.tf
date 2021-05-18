@@ -53,8 +53,18 @@ variable "whitelisted_return_urls" {
   default     = []
 }
 
-variable "cookie_sigining_secret_key" {
+variable "cookie_signing_secret_key" {
   description = "Default secret key for signing cookies"
   type        = string
   sensitive   = true
+}
+
+variable "kubectl_extra_args" {
+  description = "Arguments that will be passed to kubectl when using the local executor in cases where the terraform k8s support is not enough"
+  type        = string
+}
+
+variable "aws_secrets_manager_secret_name" {
+  description = "Name of a secret in AWS Secrets Manager that contains the content to pull into a kubernetes secret for Kratos to use"
+  type        = string
 }

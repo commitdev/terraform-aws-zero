@@ -1,3 +1,22 @@
+locals {
+  # Kubernetes manifest to configure a custom resource that tells external-secrets where to pull secret data from
+  external_secret_definition = {
+    apiVersion : "kubernetes-client.io/v1"
+    kind : "ExternalSecret"
+
+    metadata : {
+      name : var.kratos_secret_name
+      namespace : var.auth_namespace
+    }
+    spec : {
+      backendType : "secretsManager"
+      dataFrom : [var.aws_secrets_manager_secret_name]
+    }
+  }
+
+
+}
+
 ## Get generated JWKS content from secret
 data "aws_secretsmanager_secret" "jwks_content" {
   name = var.jwks_secret_name
@@ -14,6 +33,19 @@ resource "kubernetes_namespace" "user_auth" {
   }
 }
 
+# Use local exec here because we are creating a custom resource which is not yet supported by the terraform kubernetes provider
+resource "null_resource" "external_secret_custom_resource" {
+  triggers = {
+    manifest_sha1 = sha1(jsonencode(local.external_secret_definition))
+  }
+
+  provisioner "local-exec" {
+    command = "kubectl apply ${var.kubectl_extra_args} -f - <<EOF\n${jsonencode(local.external_secret_definition)}\nEOF"
+  }
+
+  depends_on = [kubernetes_namespace.user_auth]
+}
+
 resource "helm_release" "kratos" {
 
   name       = "kratos-${var.name}"
@@ -21,6 +53,7 @@ resource "helm_release" "kratos" {
   chart      = "kratos"
   version    = "0.4.11"
   namespace  = var.auth_namespace
+  depends_on = [kubernetes_namespace.user_auth]
 
   values = [
     file("${path.module}/files/kratos-values.yml"),
@@ -46,7 +79,7 @@ resource "helm_release" "kratos" {
 
   set_sensitive {
     name  = "kratos.config.secrets.default[0]"
-    value = var.cookie_sigining_secret_key
+    value = var.cookie_signing_secret_key
   }
 
   set {
@@ -168,6 +201,7 @@ resource "helm_release" "oathkeeper" {
   chart      = "oathkeeper"
   version    = "0.4.11"
   namespace  = var.auth_namespace
+  depends_on = [kubernetes_namespace.user_auth]
 
   values = [
     file("${path.module}/files/oathkeeper-values.yml"),
