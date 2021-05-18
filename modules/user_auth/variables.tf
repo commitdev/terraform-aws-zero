@@ -66,7 +66,7 @@ variable "kubectl_extra_args" {
 }
 
 variable "external_secret_backend" {
-  description = "The backend external-secrets will pull secret data from to create a corresponding secret in kubernetes"
+  description = "The backend external-secrets will pull secret data from to create a corresponding secret in kubernetes. If empty, external-secrets will not be used. You'll need to make sure the secret is created manually."
   type        = string
   default     = "secretsManager"
 }

@@ -26,6 +26,7 @@ resource "kubernetes_namespace" "user_auth" {
 
 # Use local exec here because we are creating a custom resource which is not yet supported by the terraform kubernetes provider
 resource "null_resource" "external_secret_custom_resource" {
+  count = (var.external_secret_backend == "") ? 0 : 1
   triggers = {
     manifest_sha1 = sha1(jsonencode(local.external_secret_definition))
   }
