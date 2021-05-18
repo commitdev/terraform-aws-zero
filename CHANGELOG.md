@@ -1,3 +1,28 @@
+
+<a name="v0.3.6"></a>
+## [v0.3.6](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.5...v0.3.6) (2021-05-18)
+
+### New Features
+
+* Added support for using external-secrets with kratos ([#48](https://github.com/commitdev/terraform-aws-zero/issues/48))
+
+
+<a name="v0.3.5"></a>
+## [v0.3.5](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.4...v0.3.5) (2021-05-18)
+
+### New Features
+
+* S3_hosting create CF but use existing bucket ([#47](https://github.com/commitdev/terraform-aws-zero/issues/47))
+
+
+<a name="v0.3.4"></a>
+## [v0.3.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.3...v0.3.4) (2021-04-27)
+
+### Bug Fixes
+
+* auth wrong target for cookie session ([#46](https://github.com/commitdev/terraform-aws-zero/issues/46))
+
+
 <a name="v0.3.3"></a>
 ## [v0.3.3](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.2...v0.3.3) (2021-04-23)
 
@@ -13,6 +38,7 @@
 
 * auth endpoints targeting wrong svc name
 
+
 <a name="v0.3.1"></a>
 ## [v0.3.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.0...v0.3.1) (2021-04-15)
 
@@ -21,12 +47,14 @@
 * Pin the terraform version in the validation gha workflow because of issues with submodules when using TF 0.15
 * Return the EKS primary security group now for us to use in other modules, also connect the primary and additional security groups (only used for migration, as the additional security group won't be used anymore)
 
+
 <a name="v0.3.0"></a>
 ## [v0.3.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.2.1...v0.3.0) (2021-04-13)
 
 ### Breaking
 
 * Switch EKS module to using managed node groups instead of worker groups ([#42](https://github.com/commitdev/terraform-aws-zero/issues/42))
+
 
 <a name="v0.2.1"></a>
 ## [v0.2.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.2.0...v0.2.1) (2021-03-31)
@@ -35,6 +63,7 @@
 
 * Oops, somehow this change got lost. Set ingress traffic policy to local to preserve source ip.
 
+
 <a name="v0.2.0"></a>
 ## [v0.2.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.21...v0.2.0) (2021-03-30)
 
@@ -42,6 +71,15 @@
 
 * Added pod anti affinity to nginx ingress
 * Moved nginx ingress creation from aws-eks module and converted to a helm chart. Also switched to using NLB instead of ELB.
+
+
+<a name="v0.1.21"></a>
+## [v0.1.21](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.20...v0.1.21) (2021-03-23)
+
+### Enhancements
+
+* customizable helm resource name
+
 
 <a name="v0.1.20"></a>
 ## [v0.1.20](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.19...v0.1.20) (2021-03-22)
@@ -57,6 +95,10 @@
 
 <a name="v0.1.19"></a>
 ## [v0.1.19](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.18...v0.1.19) (2021-03-18)
+
+### Enhancements
+
+* optionally create user-auth namespace
 
 
 <a name="v0.1.18"></a>
@@ -84,10 +126,7 @@
 
 
 <a name="v0.1.14"></a>
-## [v0.1.14](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.13...v0.1.14) (2021-01-28)
-
-### Enhancements
-* add NAT instance for VPC module
+## [v0.1.14](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.13...v0.1.14) (2021-01-29)
 
 
 <a name="v0.1.13"></a>
@@ -103,50 +142,27 @@
 
 
 <a name="v0.1.12"></a>
-## [v0.1.12](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.11...v0.1.12) (2020-10-20)
-
-### Enhancements
-* eks: enhanced to handle k8s_groups for ci-user
-* user_access: enhanced to handle k8s_groups for ci-user
+## [v0.1.12](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.11...v0.1.12) (2020-10-21)
 
 
 <a name="v0.1.11"></a>
 ## [v0.1.11](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.10...v0.1.11) (2020-10-13)
 
-### Enhancements
-* vpc: added public/private visibility tags to subnets
-
 
 <a name="v0.1.10"></a>
 ## [v0.1.10](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.9...v0.1.10) (2020-10-13)
-
-### Enhancements
-
-* cloudtrail: remove environment as input
 
 
 <a name="v0.1.9"></a>
 ## [v0.1.9](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.8...v0.1.9) (2020-10-09)
 
-### Enhancements
-
-* enable S3 encryption for s3_hosting and cloudtrail
-
 
 <a name="v0.1.8"></a>
 ## [v0.1.8](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.7...v0.1.8) (2020-10-06)
 
-### Enhancements
-
-* user_access: use map instead of index for resource creation
-
 
 <a name="v0.1.7"></a>
 ## [v0.1.7](https://github.com/commitdev/terraform-aws-zero/compare/v0.1.6...v0.1.7) (2020-10-06)
-
-### New Features
-
-* add CloudTrail
 
 
 <a name="v0.1.6"></a>
@@ -191,7 +207,6 @@
 ### Bug Fixes
 
 * modules with count to pick index first item ([#11](https://github.com/commitdev/terraform-aws-zero/issues/11))
-* Bump external module versions in database and logging modules to allow support for AWS provider version 3 ([#13](https://github.com/commitdev/terraform-aws-zero/issues/13))
 
 
 <a name="v0.1.0"></a>
@@ -199,6 +214,7 @@
 
 ### Bug Fixes
 
+* Bump external module versions in database and logging modules to allow support for AWS provider version 3 ([#13](https://github.com/commitdev/terraform-aws-zero/issues/13))
 * Environment check was looking for the wrong string when enabling backups ([#9](https://github.com/commitdev/terraform-aws-zero/issues/9))
 
 
