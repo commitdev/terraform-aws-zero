@@ -79,7 +79,7 @@ data "aws_iam_policy_document" "access_assumerole_root_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = [local.account_id]
+      identifiers = var.assumerole_account_ids == [] ? [local.account_id] : var.assumerole_account_ids
     }
   }
 }
