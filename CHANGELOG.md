@@ -1,4 +1,16 @@
 
+<a name="v0.3.8"></a>
+## [v0.3.8](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.7...v0.3.8) (2021-05-25)
+
+### Enhancements
+
+* user_access module now supports passing in aws account ids to set up trust policies so users in different accounts can assume the roles we create ([#50](https://github.com/commitdev/terraform-aws-zero/issues/50))
+
+
+<a name="v0.3.7"></a>
+## [v0.3.7](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.6...v0.3.7) (2021-05-19)
+
+
 <a name="v0.3.6"></a>
 ## [v0.3.6](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.5...v0.3.6) (2021-05-18)
 
