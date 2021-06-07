@@ -1,6 +1,14 @@
 
+<a name="v0.3.9"></a>
+## [v0.3.9](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.8...v0.3.9) (2021-06-07)
+
+### Enhancements
+
+* Allow subnet group to be supplied when using the database module ([#51](https://github.com/commitdev/terraform-aws-zero/issues/51))
+
+
 <a name="v0.3.8"></a>
-## [v0.3.8](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.7...v0.3.8) (2021-05-25)
+## [v0.3.8](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.7...v0.3.8) (2021-05-27)
 
 ### Enhancements
 
