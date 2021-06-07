@@ -73,7 +73,7 @@ module "rds_postgres" {
 
   # Subnet is created by the vpc module
   create_db_subnet_group = false
-  db_subnet_group_name   = "${var.project}-${var.environment}-vpc"
+  db_subnet_group_name   = var.db_subnet_group != "" ? var.db_subnet_group : "${var.project}-${var.environment}-vpc"
 
   # DB parameter and option group
   family               = "postgres11"
@@ -123,7 +123,7 @@ module "rds_mysql" {
 
   # Subnet is created by the vpc module
   create_db_subnet_group = false
-  db_subnet_group_name   = "${var.project}-${var.environment}-vpc"
+  db_subnet_group_name   = var.db_subnet_group != "" ? var.db_subnet_group : "${var.project}-${var.environment}-vpc"
 
   # DB parameter and option group
   family               = "mysql5.7"

@@ -19,6 +19,11 @@ variable "allowed_security_group_id" {
   description = "The security group to allow access"
 }
 
+variable "db_subnet_group" {
+  description = "The subnet group to create dbs in. The default is to use the one created by the vpc module"
+  default     = ""
+}
+
 variable "instance_class" {
   description = "The AWS instance class of the db"
 }
