@@ -23,6 +23,7 @@ Create an RDS database.
 |------|-------------|------|---------|:--------:|
 | allowed\_security\_group\_id | The security group to allow access | `any` | n/a | yes |
 | database\_engine | Which database engine to use, currently supports `postgres` or `mysql` | `any` | n/a | yes |
+| db\_subnet\_group | The subnet group to create dbs in. The default is to use the one created by the vpc module | `string` | `""` | no |
 | environment | The environment (stage/prod) | `any` | n/a | yes |
 | instance\_class | The AWS instance class of the db | `any` | n/a | yes |
 | password\_secret\_suffix | Suffix to add to the secret that will be generated containing the database credentials | `any` | n/a | yes |
