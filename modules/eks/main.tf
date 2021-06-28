@@ -7,32 +7,21 @@ data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
 }
 
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "16.1.0"
+locals {
+  # Map this module config to the upstream module config
+  eks_node_group_config = { for n, config in var.eks_node_groups :
+    n => {
+      name = "${var.cluster_name}-${n}"
 
-  cluster_name    = var.cluster_name
-  cluster_version = var.cluster_version
-  subnets         = var.private_subnets
-  vpc_id          = var.vpc_id
-  enable_irsa     = true
+      desired_capacity = config.asg_min_size
+      max_capacity     = config.asg_max_size
+      min_capacity     = config.asg_min_size
 
+      ami_type       = config.ami_type
+      instance_types = config.instance_types
+      capacity_type  = config.use_spot_instances ? "SPOT" : "ON_DEMAND"
+      disk_size      = 100
 
-  node_groups_defaults = {
-    ami_type  = var.worker_ami_type
-    disk_size = 100
-  }
-
-  node_groups = {
-    cluster = {
-      name = "${var.cluster_name}-eks"
-
-      desired_capacity = var.worker_asg_min_size
-      max_capacity     = var.worker_asg_max_size
-      min_capacity     = var.worker_asg_min_size
-
-      instance_types = var.worker_instance_types
-      capacity_type  = var.use_spot_instances ? "SPOT" : "ON_DEMAND"
       k8s_labels = {
         Environment = var.environment
       }
@@ -41,6 +30,19 @@ module "eks" {
       }
     }
   }
+}
+
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "17.1.0"
+
+  cluster_name    = var.cluster_name
+  cluster_version = var.cluster_version
+  subnets         = var.private_subnets
+  vpc_id          = var.vpc_id
+  enable_irsa     = true
+
+  node_groups = local.eks_node_group_config
 
   map_roles = concat(
     [{
