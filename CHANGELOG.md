@@ -1,4 +1,19 @@
 
+<a name="v0.4.0"></a>
+## [v0.4.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.9...v0.4.0) (2021-06-28)
+
+### Enhancements
+
+* Bumped upstream version of eks module and changed variables to support better handling of node group changes, also added missing provider requirements. ([#52](https://github.com/commitdev/terraform-aws-zero/issues/52))
+
+### BREAKING CHANGE
+
+
+The change to the EKS module had its own breaking change that will require a bit of state management, you can read about it here: https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/docs/upgrades.md#upgrade-module-to-v1700-for-managed-node-groups . Also, this change may require some state management since it changes the name of the node group. You should be able to upgrade gracefully by importing the previous group into the state and removing the old one. Feel free to ask in the community channel at slack.getzero.dev if you have any questions.
+
+* fix: Bump validation workflow to tf 1.0
+
+
 <a name="v0.3.9"></a>
 ## [v0.3.9](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.8...v0.3.9) (2021-06-07)
 
