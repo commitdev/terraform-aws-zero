@@ -12,12 +12,13 @@ This module requires an aws provider in the **us-east-1** region to be passed in
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
+| aws | >= 3.37.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | n/a |
+| aws | >= 3.37.0 |
 
 ## Inputs
 
