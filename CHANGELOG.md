@@ -1,4 +1,12 @@
 
+<a name="v0.4.1"></a>
+## [v0.4.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.0...v0.4.1) (2021-06-29)
+
+### Bug Fixes
+
+* Comparison in user_access module was not working correctly ([#53](https://github.com/commitdev/terraform-aws-zero/issues/53))
+
+
 <a name="v0.4.0"></a>
 ## [v0.4.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.3.9...v0.4.0) (2021-06-28)
 
