@@ -1,4 +1,12 @@
 
+<a name="v0.4.2"></a>
+## [v0.4.2](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.1...v0.4.2) (2021-06-29)
+
+### Enhancements
+
+* Bump nginx ingress default version
+
+
 <a name="v0.4.1"></a>
 ## [v0.4.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.0...v0.4.1) (2021-06-29)
 
