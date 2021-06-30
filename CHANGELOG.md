@@ -1,4 +1,12 @@
 
+<a name="v0.4.3"></a>
+## [v0.4.3](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.2...v0.4.3) (2021-06-29)
+
+### Bug Fixes
+
+* Remove unnecessary field in eks module that was causing trouble during upgrade
+
+
 <a name="v0.4.2"></a>
 ## [v0.4.2](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.1...v0.4.2) (2021-06-29)
 
