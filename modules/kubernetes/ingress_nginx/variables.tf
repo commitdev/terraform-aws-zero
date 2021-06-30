@@ -1,7 +1,7 @@
 variable "chart_version" {
   description = "The version of helm chart to use."
   type        = string
-  default     = "3.25.0"
+  default     = "3.34.0"
 }
 
 variable "replica_count" {
