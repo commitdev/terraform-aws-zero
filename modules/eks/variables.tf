@@ -46,3 +46,21 @@ variable "iam_role_mapping" {
   }))
   description = "List of mappings of AWS Roles to Kubernetes Groups"
 }
+
+variable "addon_vpc_cni_version" {
+  description = "Version of the VPC CNI to install. If empty you will need to upgrade the CNI yourself during a cluster version upgrade"
+  type        = string
+  default     = ""
+}
+
+variable "addon_kube_proxy_version" {
+  description = "Version of kube proxy to install. If empty you will need to upgrade kube proxy yourself during a cluster version upgrade"
+  type        = string
+  default     = ""
+}
+
+variable "addon_coredns_version" {
+  description = "Version of CoreDNS to install. If empty you will need to upgrade CoreDNS yourself during a cluster version upgrade"
+  type        = string
+  default     = ""
+}
