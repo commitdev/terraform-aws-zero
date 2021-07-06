@@ -1,4 +1,12 @@
 
+<a name="v0.4.4"></a>
+## [v0.4.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.3...v0.4.4) (2021-07-05)
+
+### New Features
+
+* Add support for eks addons for vpc cni, kube-proxy, coredns ([#54](https://github.com/commitdev/terraform-aws-zero/issues/54))
+
+
 <a name="v0.4.3"></a>
 ## [v0.4.3](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.2...v0.4.3) (2021-06-29)
 
