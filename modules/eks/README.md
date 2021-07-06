@@ -7,9 +7,12 @@ Create a Kubernetes cluster using EKS.
 This module supports using EKS "Addons" to maintain and upgrade core resources in the cluster like the VPC CNI, kube-proxy and Core DNS.
 
 See the necessary versions for each EKS version here:
-[https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html]()
-[https://docs.aws.amazon.com/eks/latest/userguide/managing-coredns.html]()
-[https://docs.aws.amazon.com/eks/latest/userguide/managing-kube-proxy.html]()
+
+[https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html](https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html)
+
+[https://docs.aws.amazon.com/eks/latest/userguide/managing-coredns.html](https://docs.aws.amazon.com/eks/latest/userguide/managing-coredns.html)
+
+[https://docs.aws.amazon.com/eks/latest/userguide/managing-kube-proxy.html](https://docs.aws.amazon.com/eks/latest/userguide/managing-kube-proxy.html)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
