@@ -44,6 +44,8 @@ module "eks" {
 
   node_groups = local.eks_node_group_config
 
+  wait_for_cluster_timeout = 1800 # 30 minutes
+
   map_roles = concat(
     [{
       rolearn  = "arn:aws:iam::${var.iam_account_id}:role/${var.project}-kubernetes-admin-${var.environment}"
@@ -76,7 +78,7 @@ module "eks" {
 resource "aws_eks_addon" "vpc_cni" {
   count = var.addon_vpc_cni_version == "" ? 0 : 1
 
-  cluster_name      = var.cluster_name
+  cluster_name      = module.eks.cluster_id
   addon_name        = "vpc-cni"
   resolve_conflicts = "OVERWRITE"
   addon_version     = var.addon_vpc_cni_version
@@ -85,7 +87,7 @@ resource "aws_eks_addon" "vpc_cni" {
 resource "aws_eks_addon" "kube_proxy" {
   count = var.addon_kube_proxy_version == "" ? 0 : 1
 
-  cluster_name      = var.cluster_name
+  cluster_name      = module.eks.cluster_id
   addon_name        = "kube-proxy"
   resolve_conflicts = "OVERWRITE"
   addon_version     = var.addon_kube_proxy_version
@@ -94,7 +96,7 @@ resource "aws_eks_addon" "kube_proxy" {
 resource "aws_eks_addon" "coredns" {
   count = var.addon_coredns_version == "" ? 0 : 1
 
-  cluster_name      = var.cluster_name
+  cluster_name      = module.eks.cluster_id
   addon_name        = "coredns"
   resolve_conflicts = "OVERWRITE"
   addon_version     = var.addon_coredns_version
