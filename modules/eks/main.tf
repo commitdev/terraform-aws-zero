@@ -44,6 +44,8 @@ module "eks" {
 
   node_groups = local.eks_node_group_config
 
+  wait_for_cluster_timeout = 1800 # 30 minutes
+
   map_roles = concat(
     [{
       rolearn  = "arn:aws:iam::${var.iam_account_id}:role/${var.project}-kubernetes-admin-${var.environment}"
