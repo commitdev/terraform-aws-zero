@@ -14,6 +14,128 @@ locals {
     }
   }
 
+  kratos_values_override = {
+    secret = {
+      nameOverride = var.kratos_secret_name
+    }
+    kratos = {
+      config = {
+        serve = {
+          public = {
+            base_url = "https://${var.backend_service_domain}/.ory/kratos/public"
+          }
+          admin = {
+            base_url = "https://${var.backend_service_domain}/.ory/kratos/"
+          }
+        }
+
+        selfservice = {
+          whitelisted_return_urls    = var.whitelisted_return_urls
+          default_browser_return_url = "https://${var.frontend_service_domain}/"
+          flows = {
+            settings = {
+              ui_url = "https://${var.frontend_service_domain}/auth/settings"
+              after = {
+                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+              }
+            }
+
+            verification = {
+              ui_url = "https://${var.frontend_service_domain}/auth/verify"
+              after = {
+                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+              }
+            }
+
+            recovery = {
+              ui_url = "https://${var.frontend_service_domain}/auth/recovery"
+              after = {
+                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+              }
+            }
+
+            login = {
+              ui_url = "https://${var.frontend_service_domain}/auth/login"
+              after = {
+                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+              }
+            }
+
+            registration = {
+              ui_url = "https://${var.frontend_service_domain}/auth/registration"
+              after = {
+                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                password = {
+                  default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                }
+                oidc = {
+                  default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                }
+              }
+            }
+
+            error = {
+              ui_url = "https://${var.frontend_service_domain}/auth/errors"
+            }
+
+          }
+        }
+        courier = {
+          smtp = {
+            from_address = var.user_auth_mail_from_address
+          }
+        }
+      }
+    }
+  }
+
+  oathkeeper_values_override = {
+    ingress = {
+      proxy = {
+        hosts = [var.backend_service_domain]
+        tls = {
+          // HCL doesnt allow map inside a list, you will get the following error with a list
+          // `<.host>: can't evaluate field host in type interface {}`
+          "0" = {
+            host = [var.backend_service_domain]
+          }
+        }
+
+        annotations = {
+          "nginx.ingress.kubernetes.io/cors-allow-origin" : "https://${var.frontend_service_domain}"
+        }
+      }
+    }
+    oathkeeer = {
+      config = {
+        authenticators = {
+          cookie_session = {
+            config = {
+              check_session_url = "http://kratos-${var.name}-public/sessions/whoami"
+            }
+          }
+        }
+
+        mutators = {
+          id_token = {
+            config = {
+              issuer_url = "https://${var.backend_service_domain}"
+            }
+          }
+        }
+
+        errors = {
+          handlers = {
+            redirect = {
+              config = {
+                to = "https://${var.frontend_service_domain}/auth/login"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 
 }
 
@@ -39,6 +161,15 @@ resource "null_resource" "external_secret_custom_resource" {
   depends_on = [kubernetes_namespace.user_auth]
 }
 
+module "kratos_config" {
+  source                     = "cloudposse/config/yaml"
+  version                    = "0.7.0"
+
+  map_config_local_base_path = "${path.module}/files"
+  map_config_paths           = ["kratos-values.yml"]
+  map_configs                = [local.kratos_values_override, var.kratos_values_override]
+}
+
 resource "helm_release" "kratos" {
 
   name       = "kratos-${var.name}"
@@ -49,14 +180,11 @@ resource "helm_release" "kratos" {
   depends_on = [kubernetes_namespace.user_auth]
 
   values = [
-    file("${path.module}/files/kratos-values.yml"),
+    jsonencode(module.kratos_config.map_configs)
   ]
-
-  # This secret contains db credentials created during the initial zero apply command
-  # The kubernetes secret will be created automatically by external-secrets based on the content of a secret from the specified secrets source
-  set {
-    name  = "secret.nameOverride"
-    value = var.kratos_secret_name
+  set_sensitive {
+    name  = "kratos.config.secrets.default[0]"
+    value = var.cookie_signing_secret_key
   }
 
   # set {
@@ -65,106 +193,6 @@ resource "helm_release" "kratos" {
   #   value = "sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc"
   #   # value = "${local.db_type}://${kubernetes_service.app_db.metadata[0].name}.${kubernetes_service.app_db.metadata[0].namespace}"
   # }
-
-  set {
-    name  = "kratos.config.courier.smtp.from_address"
-    value = var.user_auth_mail_from_address
-  }
-
-  set_sensitive {
-    name  = "kratos.config.secrets.default[0]"
-    value = var.cookie_signing_secret_key
-  }
-
-  set {
-    name  = "kratos.config.serve.public.base_url"
-    value = "https://${var.backend_service_domain}/.ory/kratos/public"
-  }
-
-  set {
-    name  = "kratos.config.serve.admin.base_url"
-    value = "https://${var.backend_service_domain}/.ory/kratos/"
-  }
-
-  # Return urls
-  set {
-    name  = "kratos.config.selfservice.default_browser_return_url"
-    value = "https://${var.frontend_service_domain}/"
-  }
-
-  dynamic "set" {
-    for_each = var.whitelisted_return_urls
-    iterator = whitelist_url
-    content {
-      name  = "kratos.config.selfservice.whitelisted_return_urls[${whitelist_url.key}]"
-      value = whitelist_url.value
-    }
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.settings.ui_url"
-    value = "https://${var.frontend_service_domain}/auth/settings"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.settings.after.default_browser_return_url"
-    value = "https://${var.frontend_service_domain}/dashboard"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.verification.ui_url"
-    value = "https://${var.frontend_service_domain}/auth/verify"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.verification.after.default_browser_return_url"
-    value = "https://${var.frontend_service_domain}/dashboard"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.recovery.ui_url"
-    value = "https://${var.frontend_service_domain}/auth/recovery"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.logout.after.default_browser_return_url"
-    value = "https://${var.frontend_service_domain}/"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.login.ui_url"
-    value = "https://${var.frontend_service_domain}/auth/login"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.login.after.default_browser_return_url"
-    value = "https://${var.frontend_service_domain}/dashboard"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.registration.ui_url"
-    value = "https://${var.frontend_service_domain}/auth/registration"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.registration.after.default_browser_return_url"
-    value = "https://${var.frontend_service_domain}/dashboard"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.registration.after.password.default_browser_return_url"
-    value = "https://${var.frontend_service_domain}/dashboard"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.registration.after.oidc.default_browser_return_url"
-    value = "https://${var.frontend_service_domain}/dashboard"
-  }
-
-  set {
-    name  = "kratos.config.selfservice.flows.error.ui_url"
-    value = "https://${var.frontend_service_domain}/auth/errors"
-  }
 }
 
 data "template_file" "oathkeeper_kratos_proxy_rules" {
@@ -188,6 +216,15 @@ resource "null_resource" "oathkeeper_kratos_proxy_rules" {
   depends_on = [helm_release.oathkeeper]
 }
 
+module "oathkeeper_config" {
+  source                     = "cloudposse/config/yaml"
+  version                    = "0.7.0"
+
+  map_config_local_base_path = "${path.module}/files"
+  map_config_paths           = ["oathkeeper-values.yml"]
+  map_configs                = [local.oathkeeper_values_override, var.oathkeeper_values_override]
+}
+
 resource "helm_release" "oathkeeper" {
 
   name       = "oathkeeper-${var.name}"
@@ -198,42 +235,12 @@ resource "helm_release" "oathkeeper" {
   depends_on = [kubernetes_namespace.user_auth]
 
   values = [
-    file("${path.module}/files/oathkeeper-values.yml"),
+    jsonencode(module.oathkeeper_config.map_configs)
   ]
-
-  set {
-    name  = "oathkeeper.config.mutators.id_token.config.issuer_url"
-    value = "https://${var.backend_service_domain}"
-  }
-
-  set {
-    name  = "oathkeeper.config.authenticators.cookie_session.config.check_session_url"
-    value = "http://kratos-${var.name}-public/sessions/whoami"
-  }
 
   # Clean up and set the JWKS content. This will become a secret mounted into the pod
   set_sensitive {
     name  = "oathkeeper.mutatorIdTokenJWKs"
     value = replace(jsonencode(jsondecode(var.jwks_content)), "/([,\\[\\]{}])/", "\\$1")
-  }
-
-  set {
-    name  = "oathkeeper.config.errors.handlers.redirect.config.to"
-    value = "https://${var.frontend_service_domain}/auth/login"
-  }
-
-  set {
-    name  = "ingress.proxy.hosts[0].host"
-    value = var.backend_service_domain
-  }
-
-  set {
-    name  = "ingress.proxy.annotations.nginx\\.ingress\\.kubernetes\\.io/cors-allow-origin"
-    value = "https://${var.frontend_service_domain}"
-  }
-
-  set {
-    name  = "ingress.proxy.tls[0].hosts[0]"
-    value = var.backend_service_domain
   }
 }
