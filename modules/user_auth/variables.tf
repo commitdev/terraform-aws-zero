@@ -75,3 +75,15 @@ variable "external_secret_name" {
   description = "Name of a secret in an external secrets backend that contains the content to pull into a kubernetes secret for Kratos to use"
   type        = string
 }
+
+variable "kratos_values_override" {
+  description = "a map of parameters to override the kratos-values.yml"
+  type        = map(any)
+  default     = {}
+}
+
+variable "oathkeeper_values_override" {
+  description = "a map of parameters to override the oathkeeper-values.yml"
+  type        = map(any)
+  default     = {}
+}
