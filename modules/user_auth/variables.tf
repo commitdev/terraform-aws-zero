@@ -87,3 +87,9 @@ variable "oathkeeper_values_override" {
   type        = map(any)
   default     = {}
 }
+
+variable "kratos_default_redirect_ui_path" {
+  description = "Setting the default path after self-service flows(login/signup/verify/settings), kratos will redirect you to frontend"
+  type        = string
+  default     = "/dashboard"
+}

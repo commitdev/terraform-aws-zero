@@ -14,6 +14,7 @@ locals {
     }
   }
 
+  default_flow_return_url = "https://${var.frontend_service_domain}${var.kratos_default_redirect_ui_path}"
   kratos_values_override = {
     secret = {
       nameOverride = var.kratos_secret_name
@@ -36,40 +37,40 @@ locals {
             settings = {
               ui_url = "https://${var.frontend_service_domain}/auth/settings"
               after = {
-                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                default_browser_return_url = local.default_flow_return_url
               }
             }
 
             verification = {
               ui_url = "https://${var.frontend_service_domain}/auth/verify"
               after = {
-                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                default_browser_return_url = local.default_flow_return_url
               }
             }
 
             recovery = {
               ui_url = "https://${var.frontend_service_domain}/auth/recovery"
               after = {
-                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                default_browser_return_url = local.default_flow_return_url
               }
             }
 
             login = {
               ui_url = "https://${var.frontend_service_domain}/auth/login"
               after = {
-                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                default_browser_return_url = local.default_flow_return_url
               }
             }
 
             registration = {
               ui_url = "https://${var.frontend_service_domain}/auth/registration"
               after = {
-                default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                default_browser_return_url = local.default_flow_return_url
                 password = {
-                  default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                  default_browser_return_url = local.default_flow_return_url
                 }
                 oidc = {
-                  default_browser_return_url = "https://${var.frontend_service_domain}/dashboard"
+                  default_browser_return_url = local.default_flow_return_url
                 }
               }
             }
@@ -94,8 +95,6 @@ locals {
       proxy = {
         hosts = [var.backend_service_domain]
         tls = {
-          // HCL doesnt allow map inside a list, you will get the following error with a list
-          // `<.host>: can't evaluate field host in type interface {}`
           "0" = {
             host = [var.backend_service_domain]
           }
@@ -162,8 +161,8 @@ resource "null_resource" "external_secret_custom_resource" {
 }
 
 module "kratos_config" {
-  source                     = "cloudposse/config/yaml"
-  version                    = "0.7.0"
+  source  = "cloudposse/config/yaml"
+  version = "0.7.0"
 
   map_config_local_base_path = "${path.module}/files"
   map_config_paths           = ["kratos-values.yml"]
@@ -217,8 +216,8 @@ resource "null_resource" "oathkeeper_kratos_proxy_rules" {
 }
 
 module "oathkeeper_config" {
-  source                     = "cloudposse/config/yaml"
-  version                    = "0.7.0"
+  source  = "cloudposse/config/yaml"
+  version = "0.7.0"
 
   map_config_local_base_path = "${path.module}/files"
   map_config_paths           = ["oathkeeper-values.yml"]
