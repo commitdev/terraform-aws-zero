@@ -92,13 +92,17 @@ locals {
 
   oathkeeper_values_override = {
     ingress = {
+      # https://github.com/ory/k8s/blob/master/helm/charts/oathkeeper/templates/ingress-proxy.yaml
       proxy = {
-        hosts = [var.backend_service_domain]
-        tls = {
-          "0" = {
-            host = [var.backend_service_domain]
-          }
-        }
+        hosts = [{
+          host = var.backend_service_domain
+          paths = ["/"]
+        }]
+
+        tls = [{
+          hosts = [var.backend_service_domain]
+          secretName = "oathkeeper-proxy-tls-secret"
+        }]
 
         annotations = {
           "nginx.ingress.kubernetes.io/cors-allow-origin" : "https://${var.frontend_service_domain}"
