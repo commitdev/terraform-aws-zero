@@ -72,7 +72,7 @@ ingress:
     hosts: # Filled by user_auth.tf
       - paths: ["/"]
     tls: # Filled by user_auth.tf
-      - secretName: oathkeeper-proxy-tls-secret
+      -
 
   api:
     # En-/Disable the api ingress.
