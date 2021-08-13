@@ -8,19 +8,27 @@ data "aws_eks_cluster_auth" "cluster" {
 }
 
 locals {
+  k8s_exec_context = "--context ${data.aws_eks_cluster.cluster.name} --server ${data.aws_eks_cluster.cluster.endpoint}"
+
   # Map this module config to the upstream module config
   eks_node_group_config = { for n, config in var.eks_node_groups :
     n => {
       name = "${var.cluster_name}-${n}"
 
-      desired_capacity = config.asg_min_size
-      max_capacity     = config.asg_max_size
-      min_capacity     = config.asg_min_size
+      desired_capacity = lookup(config, "asg_min_size", 1)
+      max_capacity     = lookup(config, "asg_max_size", 3)
+      min_capacity     = lookup(config, "asg_min_size", 1)
 
-      ami_type       = config.ami_type
-      instance_types = config.instance_types
-      capacity_type  = config.use_spot_instances ? "SPOT" : "ON_DEMAND"
-      disk_size      = 100
+      create_launch_template  = lookup(config, "use_large_ip_range", true)
+      launch_template_version = "1"
+      # Hopefully temporary, as there is an issue with the upstream module that leads to this value being non-deterministic with the default of "$Latest"
+      # See https://github.com/terraform-aws-modules/terraform-aws-eks/pull/1447
+
+      ami_type           = lookup(config, "ami_type", "AL2_x86_64")
+      instance_types     = lookup(config, "instance_types", [])
+      capacity_type      = lookup(config, "use_spot_instances", false) ? "SPOT" : "ON_DEMAND"
+      disk_size          = 100
+      kubelet_extra_args = lookup(config, "use_large_ip_range", true) ? "--max-pods=${lookup(config, "node_ip_limit", 110)}" : ""
 
       k8s_labels = {
         Environment = var.environment
@@ -100,4 +108,20 @@ resource "aws_eks_addon" "coredns" {
   addon_name        = "coredns"
   resolve_conflicts = "OVERWRITE"
   addon_version     = var.addon_coredns_version
+}
+
+# Enable prefix delegation - this will enable many more IPs to be allocated per-node.
+# See https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
+resource "null_resource" "enable_prefix_delegation" {
+  count = var.addon_vpc_cni_version == "" ? 0 : 1
+
+  triggers = {
+    manifest_sha1 = sha1(var.addon_vpc_cni_version)
+  }
+
+  provisioner "local-exec" {
+    command = "kubectl set env daemonset aws-node ${local.k8s_exec_context} -n kube-system ENABLE_PREFIX_DELEGATION=true WARM_PREFIX_TARGET=1"
+  }
+
+  depends_on = [aws_eks_addon.vpc_cni]
 }

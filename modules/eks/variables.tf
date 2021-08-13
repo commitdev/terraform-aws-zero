@@ -24,14 +24,8 @@ variable "vpc_id" {
 }
 
 variable "eks_node_groups" {
-  type = map(object({
-    instance_types     = list(string)
-    asg_min_size       = string
-    asg_max_size       = string
-    use_spot_instances = bool
-    ami_type           = string
-  }))
-  description = "Map of maps of EKS node group config where keys are node group names"
+  type        = any
+  description = "Map of maps of EKS node group config where keys are node group names. See the readme for details."
 }
 
 variable "iam_account_id" {

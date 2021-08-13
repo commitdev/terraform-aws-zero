@@ -14,6 +14,6 @@ output "worker_iam_role_name" {
 }
 
 output "worker_security_group_id" {
-  description = "The security group of the EKS cluster"
-  value       = module.eks.cluster_primary_security_group_id
+  description = "The security group of the EKS workers"
+  value       = module.eks.worker_security_group_id
 }
