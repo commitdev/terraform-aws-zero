@@ -17,7 +17,7 @@ See the necessary versions for each EKS version here:
 *Node group configuration schema:*
 ```
 {
-    node_name: {
+    <group name>: {
         instance_types     = list(string) - List of instance types to use for nodes in the node group. In order of preference. Instance types in a group should be similar in resources.
         asg_min_size       = string (default: "1") - Smallest size of this node group in instances.
         asg_max_size       = string (default: "3") - Largest size of this node group in instances.
@@ -25,6 +25,8 @@ See the necessary versions for each EKS version here:
         ami_type           = string (default: "AL2_x86_64") - The type of AMI to use. Other possibilities are AL2_x86_64_GPU for gpu instances or AL2_ARM_64 for ARM instances
         use_large_ip_range = bool (default: true) - If true, enable the "prefix delegation" feature of EKS. This will create a custom launch template for each node group.
         node_ip_limit      = int  (default: 110)  - If using prefix delegation, the max that can be used per node. 110 is the limit for all but the largest instance types.
+    },
+    ...
 }
 ```
 
