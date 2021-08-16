@@ -1,4 +1,47 @@
 
+<a name="v0.5.0"></a>
+## [v0.5.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.8...v0.5.0) (2021-08-16)
+
+### Enhancements
+
+* Added support for EKS prefix delegation, allowing nodes to have many more IPs (17 -> 110), also change how the eks module accepts node group parameters. ([#59](https://github.com/commitdev/terraform-aws-zero/issues/59))
+
+### breaking change
+
+
+Switched back to using the worker security group instead of the "cluster primary" security group - we were only using it because we weren't creating a custom launch template and with this change we will be. If you are trying to upgrade, this map require tmeporarily adding a security group rule to allow your old node groups to access the db, bringing up new node groups with the new configuration, then removing your old node groups.
+
+* docs: Clarified node group config
+
+
+<a name="v0.4.8"></a>
+## [v0.4.8](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.7...v0.4.8) (2021-08-06)
+
+### Bug Fixes
+
+* user_auth oathkeeper ingress misconfigured ([#58](https://github.com/commitdev/terraform-aws-zero/issues/58))
+
+
+<a name="v0.4.7"></a>
+## [v0.4.7](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.6...v0.4.7) (2021-08-05)
+
+### Enhancements
+
+* user-auth allow customizing UI url ([#57](https://github.com/commitdev/terraform-aws-zero/issues/57))
+
+
+<a name="v0.4.6"></a>
+## [v0.4.6](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.5...v0.4.6) (2021-08-04)
+
+### Enhancements
+
+* allow overriding default config ([#56](https://github.com/commitdev/terraform-aws-zero/issues/56))
+
+
+<a name="v0.4.5"></a>
+## [v0.4.5](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.4...v0.4.5) (2021-07-20)
+
+
 <a name="v0.4.4"></a>
 ## [v0.4.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.3...v0.4.4) (2021-07-05)
 
