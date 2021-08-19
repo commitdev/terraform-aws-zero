@@ -4,6 +4,7 @@
 
 ### Bug Fixes
 
+* eks: Remove unnecessary locals and references
 * Remove prefix delegation env var code from eks module, it will need to be done in the eks stack kubernetes terraform instead
 * Compatibility fix as a band-aid for cases where someone created their cluster before this module made a change to the cluster role name
 
