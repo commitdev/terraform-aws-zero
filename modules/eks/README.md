@@ -29,6 +29,7 @@ See the necessary versions for each EKS version here:
     ...
 }
 ```
+Note: To fully enable prefix delegation, the ENABLE_PREFIX_DELEGATION environment variable must be set to "true" in the aws-node daemonset. Zero will do this automatically when the kubernetes terraform is applied.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -43,7 +44,6 @@ See the necessary versions for each EKS version here:
 | Name | Version |
 |------|---------|
 | aws | >= 3.37.0 |
-| null | n/a |
 
 ## Inputs
 

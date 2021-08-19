@@ -113,19 +113,3 @@ resource "aws_eks_addon" "coredns" {
   resolve_conflicts = "OVERWRITE"
   addon_version     = var.addon_coredns_version
 }
-
-# Enable prefix delegation - this will enable many more IPs to be allocated per-node.
-# See https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
-resource "null_resource" "enable_prefix_delegation" {
-  count = var.addon_vpc_cni_version == "" ? 0 : 1
-
-  triggers = {
-    manifest_sha1 = sha1(var.addon_vpc_cni_version)
-  }
-
-  provisioner "local-exec" {
-    command = "kubectl set env daemonset aws-node ${local.k8s_exec_context} -n kube-system ENABLE_PREFIX_DELEGATION=true WARM_PREFIX_TARGET=1"
-  }
-
-  depends_on = [aws_eks_addon.vpc_cni]
-}
