@@ -69,7 +69,11 @@ module "eks" {
     ]
   )
 
-  workers_role_name = "k8s-${var.cluster_name}-workers"
+  # Compatibility fix - if this value changes on a running cluster there is a super obscure error message when running terraform plan:
+  # Error: Get "http://localhost/apis/rbac.authorization.k8s.io/v1/clusterroles/helix-kubernetes-developer-stage": dial tcp [::1]:80: connect: connection refused
+  # We can leave this option here to allow people to upgrade
+  cluster_iam_role_name = var.force_old_cluster_iam_role_name ? "k8s-${var.cluster_name}-cluster" : ""
+  workers_role_name     = "k8s-${var.cluster_name}-workers"
 
   worker_create_cluster_primary_security_group_rules = true
 

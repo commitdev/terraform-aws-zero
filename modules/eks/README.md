@@ -56,6 +56,7 @@ See the necessary versions for each EKS version here:
 | cluster\_version | EKS cluster version number to use. Incrementing this will start a cluster upgrade | `any` | n/a | yes |
 | eks\_node\_groups | Map of maps of EKS node group config where keys are node group names. See the readme for details. | `any` | n/a | yes |
 | environment | The environment (stage/prod) | `any` | n/a | yes |
+| force\_old\_cluster\_iam\_role\_name | Compatibility fix - If your cluster was created using a version of this module earlier than 0.4.3, this should be set to true. If the wrong value is set, you may see kubernetes connection issues when running terraform | `bool` | `false` | no |
 | iam\_account\_id | Account ID of the current IAM user | `any` | n/a | yes |
 | iam\_role\_mapping | List of mappings of AWS Roles to Kubernetes Groups | <pre>list(object({<br>    iam_role_arn  = string<br>    k8s_role_name = string<br>    k8s_groups    = list(string)<br>  }))</pre> | n/a | yes |
 | private\_subnets | VPC subnets for the EKS cluster | `list(string)` | n/a | yes |

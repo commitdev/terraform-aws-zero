@@ -58,3 +58,9 @@ variable "addon_coredns_version" {
   type        = string
   default     = ""
 }
+
+variable "force_old_cluster_iam_role_name" {
+  description = "Compatibility fix - If your cluster was created using a version of this module earlier than 0.4.3, this should be set to true. If the wrong value is set, you may see kubernetes connection issues when running terraform"
+  type        = bool
+  default     = false
+}
