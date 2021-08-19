@@ -109,7 +109,7 @@ locals {
         }
       }
     }
-    oathkeeer = {
+    oathkeeper = {
       config = {
         authenticators = {
           cookie_session = {
