@@ -1,4 +1,13 @@
 
+<a name="v0.5.1"></a>
+## [v0.5.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.0...v0.5.1) (2021-08-19)
+
+### Bug Fixes
+
+* Remove prefix delegation env var code from eks module, it will need to be done in the eks stack kubernetes terraform instead
+* Compatibility fix as a band-aid for cases where someone created their cluster before this module made a change to the cluster role name
+
+
 <a name="v0.5.0"></a>
 ## [v0.5.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.8...v0.5.0) (2021-08-16)
 
