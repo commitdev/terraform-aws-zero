@@ -1,15 +1,4 @@
-# Set up the terraform provider
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_id
-}
-
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_id
-}
-
 locals {
-  k8s_exec_context = "--context ${data.aws_eks_cluster.cluster.name} --server ${data.aws_eks_cluster.cluster.endpoint}"
-
   # Map this module config to the upstream module config
   eks_node_group_config = { for n, config in var.eks_node_groups :
     n => {
