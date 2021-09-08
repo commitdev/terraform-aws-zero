@@ -35,6 +35,8 @@ No requirements.
 | backend\_service\_domain | Domain of the backend service | `string` | n/a | yes |
 | cookie\_signing\_secret\_key | Default secret key for signing cookies | `string` | n/a | yes |
 | create\_namespace | Whether to create the auth namespace(defaults to true), otherwise just references the namespace | `bool` | `true` | no |
+| disable\_frontend\_https | Whether frontend URLs should be https, unless your developing locally you should leave the default as is. | `bool` | `false` | no |
+| disable\_oathkeeper | To not provision Oathkeeper, this is useful when you want multiple Kratos setup, while only 1 Oathkeeper proxy to route to them, for example sharing Oathkeeper between a Dev and Staging Kratos | `bool` | `false` | no |
 | external\_secret\_backend | The backend external-secrets will pull secret data from to create a corresponding secret in kubernetes. If empty, external-secrets will not be used. You'll need to make sure the secret is created manually. | `string` | `"secretsManager"` | no |
 | external\_secret\_name | Name of a secret in an external secrets backend that contains the content to pull into a kubernetes secret for Kratos to use | `string` | n/a | yes |
 | frontend\_service\_domain | Domain of the frontend | `string` | n/a | yes |
