@@ -14,7 +14,7 @@ locals {
     }
   }
 
-  frontend_scheme         = var.disable_frontend_https ? "http" : "https"
+  frontend_scheme         = var.frontend_use_https ? "https" : "http"
   default_flow_return_url = "${local.frontend_scheme}://${var.frontend_service_domain}${var.kratos_default_redirect_ui_path}"
   kratos_values_override = {
     secret = {

@@ -100,8 +100,8 @@ variable "disable_oathkeeper" {
   default     = false
 }
 
-variable "disable_frontend_https" {
+variable "frontend_use_https" {
   description = "Whether frontend URLs should be https, unless your developing locally you should leave the default as is."
   type        = bool
-  default     = false
+  default     = true
 }
