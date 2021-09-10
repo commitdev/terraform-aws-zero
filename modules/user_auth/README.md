@@ -35,9 +35,11 @@ No requirements.
 | backend\_service\_domain | Domain of the backend service | `string` | n/a | yes |
 | cookie\_signing\_secret\_key | Default secret key for signing cookies | `string` | n/a | yes |
 | create\_namespace | Whether to create the auth namespace(defaults to true), otherwise just references the namespace | `bool` | `true` | no |
+| disable\_oathkeeper | To not provision Oathkeeper, this is useful when you want multiple Kratos setup, while only 1 Oathkeeper proxy to route to them, for example sharing Oathkeeper between a Dev and Staging Kratos | `bool` | `false` | no |
 | external\_secret\_backend | The backend external-secrets will pull secret data from to create a corresponding secret in kubernetes. If empty, external-secrets will not be used. You'll need to make sure the secret is created manually. | `string` | `"secretsManager"` | no |
 | external\_secret\_name | Name of a secret in an external secrets backend that contains the content to pull into a kubernetes secret for Kratos to use | `string` | n/a | yes |
 | frontend\_service\_domain | Domain of the frontend | `string` | n/a | yes |
+| frontend\_use\_https | Whether frontend URLs should be https, unless your developing locally you should leave the default as is. | `bool` | `true` | no |
 | jwks\_content | The content of a JWKS file for Oathkeeper | `string` | n/a | yes |
 | k8s\_local\_exec\_context | Custom resource (Oathkeeper Rules are created using local-exec with kubectl), if not specified it will target your current context from kubeconfig | `string` | `""` | no |
 | kratos\_default\_redirect\_ui\_path | Setting the default path after self-service flows(login/signup/verify/settings), kratos will redirect you to frontend | `string` | `"/dashboard"` | no |

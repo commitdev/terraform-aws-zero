@@ -14,7 +14,8 @@ locals {
     }
   }
 
-  default_flow_return_url = "https://${var.frontend_service_domain}${var.kratos_default_redirect_ui_path}"
+  frontend_scheme         = var.frontend_use_https ? "https" : "http"
+  default_flow_return_url = "${local.frontend_scheme}://${var.frontend_service_domain}${var.kratos_default_redirect_ui_path}"
   kratos_values_override = {
     secret = {
       nameOverride = var.kratos_secret_name
@@ -32,38 +33,38 @@ locals {
 
         selfservice = {
           whitelisted_return_urls    = var.whitelisted_return_urls
-          default_browser_return_url = "https://${var.frontend_service_domain}/"
+          default_browser_return_url = "${local.frontend_scheme}://${var.frontend_service_domain}/"
           flows = {
             settings = {
-              ui_url = "https://${var.frontend_service_domain}/auth/settings"
+              ui_url = "${local.frontend_scheme}://${var.frontend_service_domain}/auth/settings"
               after = {
                 default_browser_return_url = local.default_flow_return_url
               }
             }
 
             verification = {
-              ui_url = "https://${var.frontend_service_domain}/auth/verify"
+              ui_url = "${local.frontend_scheme}://${var.frontend_service_domain}/auth/verify"
               after = {
                 default_browser_return_url = local.default_flow_return_url
               }
             }
 
             recovery = {
-              ui_url = "https://${var.frontend_service_domain}/auth/recovery"
+              ui_url = "${local.frontend_scheme}://${var.frontend_service_domain}/auth/recovery"
               after = {
                 default_browser_return_url = local.default_flow_return_url
               }
             }
 
             login = {
-              ui_url = "https://${var.frontend_service_domain}/auth/login"
+              ui_url = "${local.frontend_scheme}://${var.frontend_service_domain}/auth/login"
               after = {
                 default_browser_return_url = local.default_flow_return_url
               }
             }
 
             registration = {
-              ui_url = "https://${var.frontend_service_domain}/auth/registration"
+              ui_url = "${local.frontend_scheme}://${var.frontend_service_domain}/auth/registration"
               after = {
                 default_browser_return_url = local.default_flow_return_url
                 password = {
@@ -76,7 +77,7 @@ locals {
             }
 
             error = {
-              ui_url = "https://${var.frontend_service_domain}/auth/errors"
+              ui_url = "${local.frontend_scheme}://${var.frontend_service_domain}/auth/errors"
             }
 
           }
@@ -95,17 +96,17 @@ locals {
       # https://github.com/ory/k8s/blob/master/helm/charts/oathkeeper/templates/ingress-proxy.yaml
       proxy = {
         hosts = [{
-          host = var.backend_service_domain
+          host  = var.backend_service_domain
           paths = ["/"]
         }]
 
         tls = [{
-          hosts = [var.backend_service_domain]
+          hosts      = [var.backend_service_domain]
           secretName = "oathkeeper-proxy-tls-secret"
         }]
 
         annotations = {
-          "nginx.ingress.kubernetes.io/cors-allow-origin" : "https://${var.frontend_service_domain}"
+          "nginx.ingress.kubernetes.io/cors-allow-origin" : "${local.frontend_scheme}://${var.frontend_service_domain}"
         }
       }
     }
@@ -131,7 +132,7 @@ locals {
           handlers = {
             redirect = {
               config = {
-                to = "https://${var.frontend_service_domain}/auth/login"
+                to = "${local.frontend_scheme}://${var.frontend_service_domain}/auth/login"
               }
             }
           }
@@ -205,6 +206,7 @@ data "template_file" "oathkeeper_kratos_proxy_rules" {
     backend_service_domain    = var.backend_service_domain
     public_selfserve_endpoint = "/.ory/kratos/public"
     admin_selfserve_endpoint  = "/.ory/kratos"
+    auth_namespace            = var.auth_namespace
   }
 }
 
@@ -220,6 +222,8 @@ resource "null_resource" "oathkeeper_kratos_proxy_rules" {
 }
 
 module "oathkeeper_config" {
+  count = var.disable_oathkeeper ? 0 : 1
+
   source  = "cloudposse/config/yaml"
   version = "0.7.0"
 
@@ -229,6 +233,7 @@ module "oathkeeper_config" {
 }
 
 resource "helm_release" "oathkeeper" {
+  count = var.disable_oathkeeper ? 0 : 1
 
   name       = "oathkeeper-${var.name}"
   repository = "https://k8s.ory.sh/helm/charts"
@@ -238,7 +243,7 @@ resource "helm_release" "oathkeeper" {
   depends_on = [kubernetes_namespace.user_auth]
 
   values = [
-    jsonencode(module.oathkeeper_config.map_configs)
+    jsonencode(module.oathkeeper_config[0].map_configs)
   ]
 
   # Clean up and set the JWKS content. This will become a secret mounted into the pod

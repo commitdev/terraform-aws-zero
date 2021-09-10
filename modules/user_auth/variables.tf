@@ -93,3 +93,15 @@ variable "kratos_default_redirect_ui_path" {
   type        = string
   default     = "/dashboard"
 }
+
+variable "disable_oathkeeper" {
+  description = "To not provision Oathkeeper, this is useful when you want multiple Kratos setup, while only 1 Oathkeeper proxy to route to them, for example sharing Oathkeeper between a Dev and Staging Kratos"
+  type        = bool
+  default     = false
+}
+
+variable "frontend_use_https" {
+  description = "Whether frontend URLs should be https, unless your developing locally you should leave the default as is."
+  type        = bool
+  default     = true
+}
