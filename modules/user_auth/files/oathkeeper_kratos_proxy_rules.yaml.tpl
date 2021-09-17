@@ -43,7 +43,7 @@ spec:
     stripPath: ${admin_selfserve_endpoint}
     preserveHost: true
   match:
-    url: http://${backend_service_domain}${admin_selfserve_endpoint}/self-service/<(login|registration|recovery|settings)>/flows<.*>
+    url: http://${backend_service_domain}${admin_selfserve_endpoint}/self-service/<(login|registration|recovery|settings|verification)>/flows<.*>
     methods:
       - GET
   authenticators:
