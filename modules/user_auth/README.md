@@ -43,10 +43,12 @@ No requirements.
 | jwks\_content | The content of a JWKS file for Oathkeeper | `string` | n/a | yes |
 | k8s\_local\_exec\_context | Custom resource (Oathkeeper Rules are created using local-exec with kubectl), if not specified it will target your current context from kubeconfig | `string` | `""` | no |
 | kratos\_default\_redirect\_ui\_path | Setting the default path after self-service flows(login/signup/verify/settings), kratos will redirect you to frontend | `string` | `"/dashboard"` | no |
+| kratos\_image\_tag | Kratos image to use with user-auth, you can specify the docker hub image from repository: oryd/kratos | `string` | `"v0.5.5-alpha.1-sqlite"` | no |
 | kratos\_secret\_name | Secret name for kratos to access Database credentials, created from pre-k8s script | `string` | n/a | yes |
 | kratos\_values\_override | a map of parameters to override the kratos-values.yml | `map(any)` | `{}` | no |
 | kubectl\_extra\_args | Arguments that will be passed to kubectl when using the local executor in cases where the terraform k8s support is not enough | `string` | n/a | yes |
 | name | The name to create user-auth components(kratos/oathkeeper), must be unique in the cluster for helm-resources | `string` | n/a | yes |
+| oathkeeper\_image\_tag | Oathkeeper image to use with user-auth, you can specify the docker hub image from repository: oryd/oathkeeper | `string` | `"v0.38.4-beta.1"` | no |
 | oathkeeper\_values\_override | a map of parameters to override the oathkeeper-values.yml | `map(any)` | `{}` | no |
 | user\_auth\_mail\_from\_address | Mail from the user management system will come from this address | `string` | `""` | no |
 | whitelisted\_return\_urls | URLs that can be redirected to after completing a flow initialized with the return\_to parameter | `list(string)` | `[]` | no |
