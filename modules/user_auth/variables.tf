@@ -105,3 +105,15 @@ variable "frontend_use_https" {
   type        = bool
   default     = true
 }
+
+variable "kratos_image_tag" {
+  description = "Kratos image to use with user-auth, you can specify the docker hub image from repository: oryd/kratos"
+  type        = string
+  default     = "v0.5.4-alpha.1-sqlite"
+}
+
+variable "oathkeeper_image_tag" {
+  description = "Oathkeeper image to use with user-auth, you can specify the docker hub image from repository: oryd/oathkeeper"
+  type        = string
+  default     = "v0.38.4-beta.1"
+}

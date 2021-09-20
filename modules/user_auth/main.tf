@@ -186,6 +186,12 @@ resource "helm_release" "kratos" {
   values = [
     jsonencode(module.kratos_config.map_configs)
   ]
+
+  set {
+    name  = "image.tag"
+    value = var.kratos_image_tag
+  }
+
   set_sensitive {
     name  = "kratos.config.secrets.default[0]"
     value = var.cookie_signing_secret_key
@@ -245,6 +251,11 @@ resource "helm_release" "oathkeeper" {
   values = [
     jsonencode(module.oathkeeper_config[0].map_configs)
   ]
+
+  set {
+    name  = "image.tag"
+    value = var.oathkeeper_image_tag
+  }
 
   # Clean up and set the JWKS content. This will become a secret mounted into the pod
   set_sensitive {
