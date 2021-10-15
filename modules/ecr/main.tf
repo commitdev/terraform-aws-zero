@@ -5,6 +5,10 @@ resource "aws_ecr_repository" "ecr_repository" {
   tags = {
     environment = var.environment
   }
+  
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }
 
 data "aws_iam_policy_document" "ecr_fullaccess" {
