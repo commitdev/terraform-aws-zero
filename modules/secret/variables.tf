@@ -7,6 +7,12 @@ variable "type" {
   description = "The type of data to hold in this secret (map, string, random)"
 }
 
+variable "description" {
+  description = "The user-friendly description of this secret"
+  tyope       = "string"
+  default     = ""
+}
+
 variable "values" {
   description = "A map of keys/values to save as json for the secret if type is map"
   type        = map(any)

@@ -22,6 +22,7 @@ Create a secret using AWS Secret Manager.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| description | The user-friendly description of this secret | `string` | `""` | no |
 | name | The name of the secret in Secrets Manager (only one of name or name\_prefix can be specified) | `string` | `""` | no |
 | random\_length | The length of the generated string if type is random. Suitable for a db master password for example | `number` | `16` | no |
 | tags | Tags to include in the secret | `map(any)` | `{}` | no |

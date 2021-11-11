@@ -1,7 +1,8 @@
 # Add the keys to AWS secrets manager
 resource "aws_secretsmanager_secret" "secret" {
-  name = var.name
-  tags = var.tags
+  name        = var.name
+  tags        = var.tags
+  description = var.description
 }
 
 resource "aws_secretsmanager_secret_version" "string_secret" {
