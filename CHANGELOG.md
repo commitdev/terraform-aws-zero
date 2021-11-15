@@ -1,4 +1,44 @@
 
+<a name="v0.5.6"></a>
+## [v0.5.6](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.5...v0.5.6) (2021-11-15)
+
+### New Features
+
+* Add support for supplying description when creating secrets ([#68](https://github.com/commitdev/terraform-aws-zero/issues/68))
+
+
+<a name="v0.5.5"></a>
+## [v0.5.5](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.4...v0.5.5) (2021-09-20)
+
+### Enhancements
+
+* user-auth add var for ory images tags ([#65](https://github.com/commitdev/terraform-aws-zero/issues/65))
+
+
+<a name="v0.5.4"></a>
+## [v0.5.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.3...v0.5.4) (2021-09-17)
+
+### Bug Fixes
+
+* add user-auth verification form url ([#64](https://github.com/commitdev/terraform-aws-zero/issues/64))
+
+
+<a name="v0.5.3"></a>
+## [v0.5.3](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.2...v0.5.3) (2021-09-10)
+
+### Enhancements
+
+* support user-auth local dev kratos ([#62](https://github.com/commitdev/terraform-aws-zero/issues/62))
+
+
+<a name="v0.5.2"></a>
+## [v0.5.2](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.1...v0.5.2) (2021-08-23)
+
+### Bug Fixes
+
+* typo in user_auth oathkeeper config ([#61](https://github.com/commitdev/terraform-aws-zero/issues/61))
+
+
 <a name="v0.5.1"></a>
 ## [v0.5.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.0...v0.5.1) (2021-08-19)
 
