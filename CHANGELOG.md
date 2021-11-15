@@ -2,6 +2,10 @@
 <a name="v0.5.6"></a>
 ## [v0.5.6](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.5...v0.5.6) (2021-11-15)
 
+### Bug Fixes
+
+* Fixed quotes in type
+
 ### New Features
 
 * Add support for supplying description when creating secrets ([#68](https://github.com/commitdev/terraform-aws-zero/issues/68))
