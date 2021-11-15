@@ -9,7 +9,7 @@ variable "type" {
 
 variable "description" {
   description = "The user-friendly description of this secret"
-  type       = "string"
+  type        = string
   default     = ""
 }
 
