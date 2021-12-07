@@ -7,11 +7,10 @@ variable "environment" {
 }
 
 variable "roles" {
-  description = "Roles to create with associated aws and k8s policies"
+  description = "Roles to create with associated aws policies"
   type = list(object({
-    name         = string
-    aws_policy   = string
-    k8s_policies = list(map(list(string)))
+    name       = string
+    aws_policy = string
   }))
 }
 
@@ -21,10 +20,4 @@ variable "users" {
     name  = string
     roles = list(string)
   }))
-}
-
-variable "assumerole_account_ids" {
-  description = "AWS account IDs that will be allowed to assume the roles we are creating. If left blank, the AWS account you are using will be used"
-  type        = list(string)
-  default     = []
 }
