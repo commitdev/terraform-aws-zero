@@ -9,7 +9,6 @@ locals {
     for r in var.roles : r.name => {
       name       = "${var.project}-${r.name}-${var.environment}"
       aws_policy = r.aws_policy
-      k8s_name   = "${var.project}-kubernetes-${r.name}-${var.environment}"
     }
   }
 }
