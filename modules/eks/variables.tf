@@ -32,15 +32,6 @@ variable "iam_account_id" {
   description = "Account ID of the current IAM user"
 }
 
-variable "iam_role_mapping" {
-  type = list(object({
-    iam_role_arn  = string
-    k8s_role_name = string
-    k8s_groups    = list(string)
-  }))
-  description = "List of mappings of AWS Roles to Kubernetes Groups"
-}
-
 variable "addon_vpc_cni_version" {
   description = "Version of the VPC CNI to install. If empty you will need to upgrade the CNI yourself during a cluster version upgrade"
   type        = string

@@ -58,7 +58,6 @@ Note: To fully enable prefix delegation, the ENABLE_PREFIX_DELEGATION environmen
 | environment | The environment (stage/prod) | `any` | n/a | yes |
 | force\_old\_cluster\_iam\_role\_name | Compatibility fix - If your cluster was created using a version of this module earlier than 0.4.3, this should be set to true. If the wrong value is set, you may see kubernetes connection issues when running terraform | `bool` | `false` | no |
 | iam\_account\_id | Account ID of the current IAM user | `any` | n/a | yes |
-| iam\_role\_mapping | List of mappings of AWS Roles to Kubernetes Groups | <pre>list(object({<br>    iam_role_arn  = string<br>    k8s_role_name = string<br>    k8s_groups    = list(string)<br>  }))</pre> | n/a | yes |
 | private\_subnets | VPC subnets for the EKS cluster | `list(string)` | n/a | yes |
 | project | Name of the project | `any` | n/a | yes |
 | vpc\_id | VPC ID for EKS cluster | `any` | n/a | yes |

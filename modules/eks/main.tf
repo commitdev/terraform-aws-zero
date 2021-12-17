@@ -43,20 +43,7 @@ module "eks" {
 
   wait_for_cluster_timeout = 1800 # 30 minutes
 
-  map_roles = concat(
-    [{
-      rolearn  = "arn:aws:iam::${var.iam_account_id}:role/${var.project}-kubernetes-admin-${var.environment}"
-      username = "${var.project}-kubernetes-admin-${var.environment}"
-      groups   = ["system:masters"]
-    }],
-    [
-      for r in var.iam_role_mapping : {
-        rolearn  = r.iam_role_arn
-        username = r.k8s_role_name
-        groups   = r.k8s_groups
-      }
-    ]
-  )
+  manage_aws_auth = false # We are creating the aws_auth configmap in the kubernetes terraform
 
   # Compatibility fix - if this value changes on a running cluster there is a super obscure error message when running terraform plan:
   # Error: Get "http://localhost/apis/rbac.authorization.k8s.io/v1/clusterroles/helix-kubernetes-developer-stage": dial tcp [::1]:80: connect: connection refused
