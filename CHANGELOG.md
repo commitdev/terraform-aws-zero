@@ -1,4 +1,17 @@
 
+<a name="v0.6.0"></a>
+## [v0.6.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.6...v0.6.0) (2021-12-16)
+
+### Refactoring
+
+* Move k8s auth out of infra terraform ([#69](https://github.com/commitdev/terraform-aws-zero/issues/69))
+
+### breaking change
+
+
+This change moves away from creating the aws-auth configmap in the same terraform state where we are creating the cluster. All k8s operations have been moved to the kubernetes terraform in the aws-eks-stack repo.
+
+
 <a name="v0.5.6"></a>
 ## [v0.5.6](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.5...v0.5.6) (2021-11-15)
 
