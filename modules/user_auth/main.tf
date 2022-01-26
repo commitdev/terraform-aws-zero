@@ -19,6 +19,7 @@ locals {
   kratos_values_override = {
     secret = {
       nameOverride = var.kratos_secret_name
+      enabled = var.external_secret_backend == ""
     }
     kratos = {
       config = {
