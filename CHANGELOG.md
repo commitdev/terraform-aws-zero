@@ -1,4 +1,20 @@
 
+<a name="v0.6.2"></a>
+## [v0.6.2](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.1...v0.6.2) (2022-05-16)
+
+### New Features
+
+* allow rds parameters to be passed in to the db module
+
+
+<a name="v0.6.1"></a>
+## [v0.6.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.0...v0.6.1) (2022-01-28)
+
+### Bug Fixes
+
+* user-auth when external-secrets enabled ([#70](https://github.com/commitdev/terraform-aws-zero/issues/70))
+
+
 <a name="v0.6.0"></a>
 ## [v0.6.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.5.6...v0.6.0) (2021-12-16)
 
