@@ -79,6 +79,8 @@ module "rds_postgres" {
   family               = "postgres11"
   major_engine_version = "11"
 
+  parameters = var.parameters
+
   final_snapshot_identifier = "final-snapshot"
   deletion_protection       = true
 
@@ -128,6 +130,8 @@ module "rds_mysql" {
   # DB parameter and option group
   family               = "mysql5.7"
   major_engine_version = "5.7"
+
+  parameters = var.parameters
 
   final_snapshot_identifier = "final-snapshot"
   deletion_protection       = true

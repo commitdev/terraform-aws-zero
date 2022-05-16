@@ -35,3 +35,9 @@ variable "storage_gb" {
 variable "database_engine" {
   description = "Which database engine to use, currently supports `postgres` or `mysql`"
 }
+
+variable "parameters" {
+  description = "A list of DB parameters to set in a parameter group, passed directly to the underlying module"
+  type        = list(map(string))
+  default     = []
+}

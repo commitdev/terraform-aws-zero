@@ -26,6 +26,7 @@ Create an RDS database.
 | db\_subnet\_group | The subnet group to create dbs in. The default is to use the one created by the vpc module | `string` | `""` | no |
 | environment | The environment (stage/prod) | `any` | n/a | yes |
 | instance\_class | The AWS instance class of the db | `any` | n/a | yes |
+| parameters | A list of DB parameters to set in a parameter group, passed directly to the underlying module | `list(map(string))` | `[]` | no |
 | password\_secret\_suffix | Suffix to add to the secret that will be generated containing the database credentials | `any` | n/a | yes |
 | project | The name of the project, mostly for tagging | `any` | n/a | yes |
 | storage\_gb | The amount of storage to allocate for the db, in GB | `any` | n/a | yes |

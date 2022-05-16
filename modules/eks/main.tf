@@ -25,6 +25,7 @@ locals {
       additional_tags = {
         Environment = var.environment
       }
+      taints = lookup(config, "taints", {})
     }
   }
 }
