@@ -48,12 +48,12 @@ data "aws_secretsmanager_secret_version" "rds_master_secret" {
 module "rds_postgres" {
   count   = var.database_engine == "postgres" ? 1 : 0
   source  = "terraform-aws-modules/rds/aws"
-  version = "2.22.0"
+  version = "3.5.0"
 
   identifier = "${var.project}-${var.environment}"
 
   engine            = "postgres"
-  engine_version    = "11"
+  engine_version    = var.database_engine_version
   instance_class    = var.instance_class
   allocated_storage = var.storage_gb
   storage_encrypted = true
@@ -76,8 +76,8 @@ module "rds_postgres" {
   db_subnet_group_name   = var.db_subnet_group != "" ? var.db_subnet_group : "${var.project}-${var.environment}-vpc"
 
   # DB parameter and option group
-  family               = "postgres11"
-  major_engine_version = "11"
+  family               = var.parameter_group_family
+  major_engine_version = var.parameter_group_engine_version
 
   parameters = var.parameters
 
@@ -100,12 +100,12 @@ module "rds_postgres" {
 module "rds_mysql" {
   count   = var.database_engine == "mysql" ? 1 : 0
   source  = "terraform-aws-modules/rds/aws"
-  version = "2.22.0"
+  version = "3.5.0"
 
   identifier = "${var.project}-${var.environment}"
 
   engine            = "mysql"
-  engine_version    = "5.7"
+  engine_version    = var.database_engine_version
   instance_class    = var.instance_class
   allocated_storage = var.storage_gb
   storage_encrypted = true
@@ -128,8 +128,8 @@ module "rds_mysql" {
   db_subnet_group_name   = var.db_subnet_group != "" ? var.db_subnet_group : "${var.project}-${var.environment}-vpc"
 
   # DB parameter and option group
-  family               = "mysql5.7"
-  major_engine_version = "5.7"
+  family               = var.parameter_group_family
+  major_engine_version = var.parameter_group_engine_version
 
   parameters = var.parameters
 
