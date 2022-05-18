@@ -36,6 +36,18 @@ variable "database_engine" {
   description = "Which database engine to use, currently supports `postgres` or `mysql`"
 }
 
+variable "database_engine_version" {
+  description = "Which database version to use. See the aws cli describe-db-engine-versions command for a list of valid versions"
+}
+
+variable "parameter_group_family" {
+  description = "Which parameter group family to use. See the aws cli describe-db-engine-versions command for a list of valid versions"
+}
+
+variable "parameter_group_engine_version" {
+  description = "Which parameter group engine version to use. See the aws cli describe-db-engine-versions command for a list of valid versions"
+}
+
 variable "parameters" {
   description = "A list of DB parameters to set in a parameter group, passed directly to the underlying module"
   type        = list(map(string))
