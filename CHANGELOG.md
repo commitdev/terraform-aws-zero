@@ -1,4 +1,12 @@
 
+<a name="v0.6.3"></a>
+## [v0.6.3](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.2...v0.6.3) (2022-05-17)
+
+### New Features
+
+* make db version configurable. Adds some required fields to the module ([#72](https://github.com/commitdev/terraform-aws-zero/issues/72))
+
+
 <a name="v0.6.2"></a>
 ## [v0.6.2](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.1...v0.6.2) (2022-05-16)
 
