@@ -53,3 +53,13 @@ variable "parameters" {
   type        = list(map(string))
   default     = []
 }
+
+variable "replicate_from_db_id" {
+  description = "Set this to the ID of a database to replicate from. If set, the database will be created as a read replica of the specified database"
+  default     = null
+}
+
+variable "additional_identifier" {
+  description = "An additional string to add to the rds identifier. The final string will look like: <project>-<additional_identifier><environment>"
+  default     = ""
+}
