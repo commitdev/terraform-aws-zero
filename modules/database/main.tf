@@ -1,9 +1,14 @@
+locals {
+  subnet_group_name = (var.replicate_from_db_id == null) ? (
+    var.db_subnet_group != "" ? var.db_subnet_group : "${var.project}-${var.environment}-vpc"
+  ) : null
+}
 
 module "rds_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "3.18.0"
 
-  name        = "${var.project}-${var.environment}-rds-sg"
+  name        = "${var.project}-${var.additional_identifier}${var.environment}-rds-sg"
   description = "Security group for RDS DB"
   vpc_id      = var.vpc_id
 
@@ -48,9 +53,9 @@ data "aws_secretsmanager_secret_version" "rds_master_secret" {
 module "rds_postgres" {
   count   = var.database_engine == "postgres" ? 1 : 0
   source  = "terraform-aws-modules/rds/aws"
-  version = "3.5.0"
+  version = "4.3.0"
 
-  identifier = "${var.project}-${var.environment}"
+  identifier = "${var.project}-${var.additional_identifier}${var.environment}"
 
   engine            = "postgres"
   engine_version    = var.database_engine_version
@@ -58,10 +63,12 @@ module "rds_postgres" {
   allocated_storage = var.storage_gb
   storage_encrypted = true
 
-  name     = replace(var.project, "-", "")
-  username = "master_user"
-  password = data.aws_secretsmanager_secret_version.rds_master_secret.secret_string
-  port     = "5432"
+  db_name                = (var.replicate_from_db_id == null) ? replace(var.project, "-", "") : null
+  username               = "master_user"
+  password               = (var.replicate_from_db_id == null) ? data.aws_secretsmanager_secret_version.rds_master_secret.secret_string : null
+  create_random_password = false
+
+  port = "5432"
 
   vpc_security_group_ids = [module.rds_security_group.this_security_group_id]
 
@@ -69,11 +76,12 @@ module "rds_postgres" {
   backup_window      = "03:00-06:00"
 
   # disable backups to create DB faster in non-production environments
-  backup_retention_period = var.environment == "prod" ? 30 : 0
+  # note that read replicas can only replicate from databases with a backup period specified
+  backup_retention_period = (var.environment == "prod" && var.replicate_from_db_id == null) ? 30 : 0
 
   # Subnet is created by the vpc module
   create_db_subnet_group = false
-  db_subnet_group_name   = var.db_subnet_group != "" ? var.db_subnet_group : "${var.project}-${var.environment}-vpc"
+  db_subnet_group_name   = local.subnet_group_name
 
   # DB parameter and option group
   family               = var.parameter_group_family
@@ -81,17 +89,21 @@ module "rds_postgres" {
 
   parameters = var.parameters
 
-  final_snapshot_identifier = "final-snapshot"
-  deletion_protection       = true
+  final_snapshot_identifier_prefix = "final-snapshot"
+  skip_final_snapshot              = (var.replicate_from_db_id != null)
+  deletion_protection              = true
 
   # Enhanced monitoring
-  performance_insights_enabled = true
+  performance_insights_enabled = (var.replicate_from_db_id == null)
   create_monitoring_role       = true
-  monitoring_role_name         = "${var.project}-${var.environment}-rds-postgres-monitoring-role"
+  monitoring_role_name         = "${var.project}-${var.additional_identifier}${var.environment}-rds-postgres-monitoring-role"
   monitoring_interval          = "30"
 
+  # Read replica
+  replicate_source_db = var.replicate_from_db_id
+
   tags = {
-    Name = "${var.project}-${var.environment}-rds-postgres"
+    Name = "${var.project}-${var.additional_identifier}${var.environment}-rds-postgres"
     Env  = var.environment
   }
   depends_on = [module.rds_security_group]
@@ -100,9 +112,9 @@ module "rds_postgres" {
 module "rds_mysql" {
   count   = var.database_engine == "mysql" ? 1 : 0
   source  = "terraform-aws-modules/rds/aws"
-  version = "3.5.0"
+  version = "4.3.0"
 
-  identifier = "${var.project}-${var.environment}"
+  identifier = "${var.project}-${var.additional_identifier}${var.environment}"
 
   engine            = "mysql"
   engine_version    = var.database_engine_version
@@ -110,10 +122,12 @@ module "rds_mysql" {
   allocated_storage = var.storage_gb
   storage_encrypted = true
 
-  name     = replace(var.project, "-", "")
-  username = "master_user"
-  password = data.aws_secretsmanager_secret_version.rds_master_secret.secret_string
-  port     = "3306"
+  db_name                = (var.replicate_from_db_id == null) ? replace(var.project, "-", "") : null
+  username               = "master_user"
+  password               = (var.replicate_from_db_id == null) ? data.aws_secretsmanager_secret_version.rds_master_secret.secret_string : null
+  create_random_password = false
+
+  port = "3306"
 
   vpc_security_group_ids = [module.rds_security_group.this_security_group_id]
 
@@ -121,11 +135,12 @@ module "rds_mysql" {
   backup_window      = "03:00-06:00"
 
   # disable backups to create DB faster in non-production environments
-  backup_retention_period = var.environment == "prod" ? 30 : 0
+  # note that read replicas can only replicate from databases with a backup period specified
+  backup_retention_period = (var.environment == "prod" && var.replicate_from_db_id == null) ? 30 : 0
 
   # Subnet is created by the vpc module
   create_db_subnet_group = false
-  db_subnet_group_name   = var.db_subnet_group != "" ? var.db_subnet_group : "${var.project}-${var.environment}-vpc"
+  db_subnet_group_name   = local.subnet_group_name
 
   # DB parameter and option group
   family               = var.parameter_group_family
@@ -133,8 +148,9 @@ module "rds_mysql" {
 
   parameters = var.parameters
 
-  final_snapshot_identifier = "final-snapshot"
-  deletion_protection       = true
+  final_snapshot_identifier_prefix = "final-snapshot"
+  skip_final_snapshot              = (var.replicate_from_db_id != null)
+  deletion_protection              = true
 
   # Enhanced monitoring
   # Seems like mysql doesnt have performance insight on this instance size
@@ -146,11 +162,14 @@ module "rds_mysql" {
   # all db.m6g instance classes, and all db.r6g instance classes.
   performance_insights_enabled = false
   create_monitoring_role       = true
-  monitoring_role_name         = "${var.project}-${var.environment}-rds-mysql-monitoring-role"
+  monitoring_role_name         = "${var.project}-${var.additional_identifier}${var.environment}-rds-mysql-monitoring-role"
   monitoring_interval          = "30"
 
+  # Read replica
+  replicate_source_db = var.replicate_from_db_id
+
   tags = {
-    Name = "${var.project}-${var.environment}-rds-postgres"
+    Name = "${var.project}-${var.additional_identifier}${var.environment}-rds-mysql"
     Env  = var.environment
   }
   depends_on = [module.rds_security_group]
