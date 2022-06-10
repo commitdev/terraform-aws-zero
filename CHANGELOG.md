@@ -1,4 +1,12 @@
 
+<a name="v0.6.4"></a>
+## [v0.6.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.3...v0.6.4) (2022-06-10)
+
+### New Features
+
+* add support for creating RDS replica DBs. Warning: increases the required AWS provider version to 4.9. Otherwise, should be backwards compatible. ([#73](https://github.com/commitdev/terraform-aws-zero/issues/73))
+
+
 <a name="v0.6.3"></a>
 ## [v0.6.3](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.2...v0.6.3) (2022-05-17)
 
