@@ -44,5 +44,6 @@ Create an RDS database.
 |------|-------------|
 | database\_endpoint | The internal hostname used to connect to the database |
 | database\_id | The instance id of the database |
+| database\_security\_group\_id | The id of the created security group |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
