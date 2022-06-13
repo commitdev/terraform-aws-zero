@@ -1,4 +1,12 @@
 
+<a name="v0.6.5"></a>
+## [v0.6.5](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.4...v0.6.5) (2022-06-13)
+
+### New Features
+
+* output security group id from the database module ([#74](https://github.com/commitdev/terraform-aws-zero/issues/74))
+
+
 <a name="v0.6.4"></a>
 ## [v0.6.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.3...v0.6.4) (2022-06-10)
 
