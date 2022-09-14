@@ -3,12 +3,12 @@ module "vpc" {
   version = "2.70.0"
 
   name = "${var.project}-${var.environment}-vpc"
-  cidr = "10.10.0.0/16"
+  cidr = var.cidr
 
   azs              = ["${var.region}a", "${var.region}b"] # Most regions have 3+ azs
-  private_subnets  = ["10.10.32.0/19", "10.10.64.0/19"]
-  public_subnets   = ["10.10.1.0/24", "10.10.2.0/24"]
-  database_subnets = ["10.10.10.0/24", "10.10.11.0/24"]
+  private_subnets  = [cidrsubnet(var.cidr, 3, 1), cidrsubnet(var.cidr, 3, 2)]
+  public_subnets   = [cidrsubnet(var.cidr, 8, 1), cidrsubnet(var.cidr, 8, 2)]
+  database_subnets = [cidrsubnet(var.cidr, 8, 10), cidrsubnet(var.cidr, 8, 11)]
 
   # Allow kubernetes ALB ingress controller to auto-detect
   private_subnet_tags = {

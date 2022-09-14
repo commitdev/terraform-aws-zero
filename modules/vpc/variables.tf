@@ -30,3 +30,9 @@ variable "nat_instance_types" {
   default     = ["t3.nano", "t3a.nano"]
 }
 
+
+variable "cidr" {
+  description = "The CIDR for the VPC, must be a /16 at least"
+  type        = string
+  default     = "10.10.0.0/16"
+}
