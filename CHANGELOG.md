@@ -1,4 +1,12 @@
 
+<a name="v0.6.6"></a>
+## [v0.6.6](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.5...v0.6.6) (2022-09-15)
+
+### Enhancements
+
+* Allow to create VPC with custom CIDR ([#75](https://github.com/commitdev/terraform-aws-zero/issues/75))
+
+
 <a name="v0.6.5"></a>
 ## [v0.6.5](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.4...v0.6.5) (2022-06-13)
 
