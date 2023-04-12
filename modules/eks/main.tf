@@ -59,6 +59,8 @@ module "eks" {
 
   write_kubeconfig = false
 
+  cluster_enabled_log_types = var.cluster_enabled_log_types
+
   tags = {
     environment = var.environment
   }
