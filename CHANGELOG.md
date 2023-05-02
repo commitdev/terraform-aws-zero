@@ -1,4 +1,12 @@
 
+<a name="v0.6.7"></a>
+## [v0.6.7](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.6...v0.6.7) (2023-05-02)
+
+### Bug Fixes
+
+* add write pr write permission to validate action
+
+
 <a name="v0.6.6"></a>
 ## [v0.6.6](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.5...v0.6.6) (2022-09-15)
 
