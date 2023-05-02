@@ -52,12 +52,14 @@ Note: To fully enable prefix delegation, the ENABLE_PREFIX_DELEGATION environmen
 | addon\_coredns\_version | Version of CoreDNS to install. If empty you will need to upgrade CoreDNS yourself during a cluster version upgrade | `string` | `""` | no |
 | addon\_kube\_proxy\_version | Version of kube proxy to install. If empty you will need to upgrade kube proxy yourself during a cluster version upgrade | `string` | `""` | no |
 | addon\_vpc\_cni\_version | Version of the VPC CNI to install. If empty you will need to upgrade the CNI yourself during a cluster version upgrade | `string` | `""` | no |
+| cluster\_enabled\_log\_types | A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) | `list(string)` | `[]` | no |
 | cluster\_name | Name to be given to the EKS cluster | `any` | n/a | yes |
 | cluster\_version | EKS cluster version number to use. Incrementing this will start a cluster upgrade | `any` | n/a | yes |
 | eks\_node\_groups | Map of maps of EKS node group config where keys are node group names. See the readme for details. | `any` | n/a | yes |
 | environment | The environment (stage/prod) | `any` | n/a | yes |
 | force\_old\_cluster\_iam\_role\_name | Compatibility fix - If your cluster was created using a version of this module earlier than 0.4.3, this should be set to true. If the wrong value is set, you may see kubernetes connection issues when running terraform | `bool` | `false` | no |
 | iam\_account\_id | Account ID of the current IAM user | `any` | n/a | yes |
+| node\_group\_name\_as\_prefix | Use Node Group name as a prefix ? This allow to change instance types. | `bool` | `false` | no |
 | private\_subnets | VPC subnets for the EKS cluster | `list(string)` | n/a | yes |
 | project | Name of the project | `any` | n/a | yes |
 | vpc\_id | VPC ID for EKS cluster | `any` | n/a | yes |

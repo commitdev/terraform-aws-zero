@@ -61,3 +61,9 @@ variable "cluster_enabled_log_types" {
   type        = list(string)
   default     = []
 }
+
+variable "node_group_name_as_prefix" {
+  description = "Use Node Group name as a prefix ? This allow to change instance types."
+  type        = bool
+  default     = false
+}
