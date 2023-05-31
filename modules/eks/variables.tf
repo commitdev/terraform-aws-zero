@@ -62,6 +62,12 @@ variable "cluster_enabled_log_types" {
   default     = []
 }
 
+variable "cluster_log_retention_in_days" {
+  description = "Number of days to retain log events on CloudWatch logs from `cluster_enabled_log_types`"
+  type        = number
+  default     = 90
+}
+
 variable "node_group_name_as_prefix" {
   description = "Use Node Group name as a prefix ? This allow to change instance types."
   type        = bool

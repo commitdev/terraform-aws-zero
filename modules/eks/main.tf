@@ -35,7 +35,7 @@ locals {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "17.1.0"
+  version = "17.24.0"
 
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
@@ -62,7 +62,8 @@ module "eks" {
 
   write_kubeconfig = false
 
-  cluster_enabled_log_types = var.cluster_enabled_log_types
+  cluster_enabled_log_types     = var.cluster_enabled_log_type
+  cluster_log_retention_in_days = var.cluster_log_retention_in_days
 
   tags = {
     environment = var.environment
