@@ -62,7 +62,7 @@ module "eks" {
 
   write_kubeconfig = false
 
-  cluster_enabled_log_types     = var.cluster_enabled_log_type
+  cluster_enabled_log_types     = var.cluster_enabled_log_types
   cluster_log_retention_in_days = var.cluster_log_retention_in_days
 
   tags = {
