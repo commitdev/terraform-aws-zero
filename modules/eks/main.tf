@@ -25,9 +25,10 @@ locals {
         k8s_labels = {
           Environment = var.environment
         }
-        additional_tags = {
-          Environment = var.environment
-        }
+        additional_tags = merge(
+          { Environment = var.environment },
+          lookup(config, "additional_tags", {})
+        )
         taints = lookup(config, "taints", {})
     })
   }
