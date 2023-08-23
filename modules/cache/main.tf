@@ -2,7 +2,7 @@ module "redis" {
   count = var.cache_store == "redis" ? 1 : 0
 
   source  = "cloudposse/elasticache-redis/aws"
-  version = "0.43.0"
+  version = "0.51.1"
 
   name = "redis"
 
