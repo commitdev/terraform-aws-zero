@@ -28,7 +28,9 @@ jobs:
       id: init
       run: |
         for dir in modules/* ; do
+          echo "::group::Module $dir"
           pushd $dir && terraform init -backend=false && popd
+          echo "::endgroup::"
         done
 
     - name: Terraform Validate
@@ -38,7 +40,9 @@ jobs:
         AWS_REGION: 'us-east-1'
       run: |
         for dir in modules/* ; do
+          echo "::group::Module $dir"
           pushd $dir && terraform validate -no-color && popd
+          echo "::endgroup::"
         done
 
 
