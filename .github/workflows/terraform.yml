@@ -27,11 +27,14 @@ jobs:
     - name: Terraform Init
       id: init
       run: |
+        EXIT=0
         for dir in modules/* ; do
           echo "::group::Module $dir"
-          pushd $dir && terraform init -backend=false && popd
+          pushd $dir ; terraform init -backend=false ; E=$?; echo "Exit code: $E";popd
           echo "::endgroup::"
+          EXIT=$((E+EXIT))
         done
+        exit $EXIT
 
     - name: Terraform Validate
       id: validate
@@ -39,11 +42,14 @@ jobs:
         # Not used, but necessary as some sub-modules reference it.
         AWS_REGION: 'us-east-1'
       run: |
+        EXIT=0
         for dir in modules/* ; do
           echo "::group::Module $dir"
-          pushd $dir && terraform validate -no-color && popd
+          pushd $dir; terraform validate -no-color; E=$?; echo "Exit code: $E"; popd
           echo "::endgroup::"
+          EXIT=$((E+EXIT))
         done
+        exit $EXIT
 
 
     - uses: actions/github-script@0.9.0
