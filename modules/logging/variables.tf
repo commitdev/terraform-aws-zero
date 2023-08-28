@@ -28,7 +28,7 @@ variable "instance_type" {
   description = "Instance type for nodes"
 
   validation {
-    condition     = can(regex("^[[:alpha:]][[:digit:]]\\..*\\.elasticsearch$", var.instance_type))
+    condition     = can(regex("^[[:alpha:]][[:digit:]][[:alpha:]]?\\..*\\.elasticsearch$", var.instance_type))
     error_message = "The instance_type variable must contain a valid elasticsearch instance type."
   }
 }
@@ -46,6 +46,17 @@ variable "instance_count" {
 variable "ebs_volume_size_in_gb" {
   description = "Size of EBS volume (in GB) to attach to *each* of the nodes in the cluster. The maximum size is limited by the size of the instance"
   type        = number
+}
+
+variable "ebs_volume_type" {
+  description = "Storage type of EBS volumes for data"
+  type        = string
+  default     = "gp2"
+}
+variable "ebs_iops" {
+  type        = number
+  default     = 3000
+  description = "The baseline input/output (I/O) performance of EBS volumes attached to data nodes. Applicable only for the Provisioned IOPS EBS volume type when not `gp2`"
 }
 
 variable "enable_cluster_logging" {
