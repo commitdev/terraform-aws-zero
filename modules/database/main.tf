@@ -92,6 +92,7 @@ module "rds_postgres" {
   final_snapshot_identifier_prefix = "final-snapshot"
   skip_final_snapshot              = (var.replicate_from_db_id != null)
   deletion_protection              = true
+  multi_az                         = var.multi_az
 
   # Enhanced monitoring
   performance_insights_enabled = (var.replicate_from_db_id == null)
