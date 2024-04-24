@@ -1,4 +1,12 @@
 
+<a name="v0.7.1"></a>
+## [v0.7.1](https://github.com/commitdev/terraform-aws-zero/compare/v0.7.0...v0.7.1) (2024-04-24)
+
+
+<a name="v0.7.0"></a>
+## [v0.7.0](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.7...v0.7.0) (2023-08-28)
+
+
 <a name="v0.6.7"></a>
 ## [v0.6.7](https://github.com/commitdev/terraform-aws-zero/compare/v0.6.6...v0.6.7) (2023-05-02)
 
@@ -162,11 +170,7 @@ Switched back to using the worker security group instead of the "cluster primary
 
 
 <a name="v0.4.5"></a>
-## [v0.4.5](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.4...v0.4.5) (2021-07-20)
-
-
-<a name="v0.4.4"></a>
-## [v0.4.4](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.3...v0.4.4) (2021-07-05)
+## [v0.4.5](https://github.com/commitdev/terraform-aws-zero/compare/v0.4.3...v0.4.5) (2021-07-20)
 
 ### New Features
 
