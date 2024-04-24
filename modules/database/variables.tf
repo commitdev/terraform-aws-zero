@@ -63,3 +63,8 @@ variable "additional_identifier" {
   description = "An additional string to add to the rds identifier. The final string will look like: <project>-<additional_identifier><environment>"
   default     = ""
 }
+
+variable "multi_az" {
+  description = "Specifies if the RDS instance is multi-AZ"
+  default     = false
+}
