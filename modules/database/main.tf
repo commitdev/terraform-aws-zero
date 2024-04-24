@@ -151,6 +151,7 @@ module "rds_mysql" {
   final_snapshot_identifier_prefix = "final-snapshot"
   skip_final_snapshot              = (var.replicate_from_db_id != null)
   deletion_protection              = true
+  multi_az                         = var.multi_az
 
   # Enhanced monitoring
   # Seems like mysql doesnt have performance insight on this instance size
